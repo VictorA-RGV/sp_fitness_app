@@ -3,6 +3,9 @@ import 'package:sp_fitness_app/screens/Authenticate/authenticate.dart';
 import 'package:sp_fitness_app/screens/home/home.dart';
 import 'package:provider/provider.dart';
 import 'package:sp_fitness_app/models/user.dart';
+
+import 'package:sp_fitness_app/screens/get_started.dart';
+
 //depending if the user is logged in or not will be moved to either authenticate or home page
 class Wrapper extends StatelessWidget {
   const Wrapper({super.key});
@@ -12,10 +15,12 @@ class Wrapper extends StatelessWidget {
     // Authenticate page or home, using a stream which detects authentication changes
 
     final user = Provider.of<UserModel?>(context);
-    if(user == null){
-      return const Authenticate();
+    if (user == null) {
+      // return const Authenticate();
 
+      return GetStarted(); // takes us to get started screen
+    } else {
+      return Home();
     }
-    else {return Home();}
   }
 }
