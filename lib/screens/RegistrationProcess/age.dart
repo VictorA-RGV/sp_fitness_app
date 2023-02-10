@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:sp_fitness_app/services/auth.dart';
 import 'package:sp_fitness_app/shared/constants.dart';
 import 'package:sp_fitness_app/screens/RegistrationProcess/gender.dart';
 
 class Age extends StatefulWidget {
-  int userAge = 0;
   @override
   _Age createState() => _Age();
 }
@@ -12,15 +12,16 @@ class Age extends StatefulWidget {
 // landing page for a longed in user
 class _Age extends State<Age> {
   final AuthService _auth = AuthService();
-
+  bool valIsInt = true;
+  int age = 0;
+  String error = "";
   @override
   Widget build(BuildContext context) {
-    int age = 0;
     String error = "";
     return Scaffold(
       backgroundColor: Colors.brown[50],
       appBar: AppBar(
-        title: const Text('HomePage of app'),
+        title: const Text('Age Screen'),
         backgroundColor: Colors.brown[400],
         elevation: 0.0,
       ),
@@ -33,11 +34,20 @@ class _Age extends State<Age> {
                   height: 20.0,
                 ),
                 TextFormField(
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly
+                  ],
                   decoration: textInputDecoration.copyWith(hintText: 'Age'),
-                  validator: (value) => value!.isEmpty ? 'Enter age' : null,
-                  onChanged: (value) {
+                  onChanged: (value) async {
                     setState(() {
-                      age = int.parse(value);
+                      if (value.length > 0) {
+                        age = int.parse(value);
+                        print(age);
+                        valIsInt = true;
+                      } else {
+                        valIsInt = false;
+                      }
                     });
                   },
                 ),
@@ -45,22 +55,20 @@ class _Age extends State<Age> {
                   height: 20.0,
                 ),
                 ElevatedButton(
-                  onPressed: () async {
-                    if (age > 0 && age is int) {
-                      setState(() {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Gender(age)));
-                      });
-
-                      if (age == null || age is double || age <= 0) {
-                        setState(() {
-                          error = 'Not a valid age';
-                        });
-                      }
-                    }
-                  },
+                  onPressed: valIsInt
+                      ? () {
+                          if (age > 0) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Gender(age)));
+                          } else if (age == null || age is double || age <= 0) {
+                            setState(() {
+                              error = 'Not a valid age';
+                            });
+                          }
+                        }
+                      : null,
                   child: const Text('Next'),
                 ),
                 SizedBox(

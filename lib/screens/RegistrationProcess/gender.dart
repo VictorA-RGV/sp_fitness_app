@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sp_fitness_app/services/auth.dart';
 import 'package:sp_fitness_app/shared/constants.dart';
 import 'package:sp_fitness_app/screens/RegistrationProcess/weight.dart';
 
@@ -12,16 +11,14 @@ class Gender extends StatefulWidget {
 
 // landing page for a longed in user
 class _Gender extends State<Gender> {
-  final AuthService _auth = AuthService();
-
+  String gender = "";
+  String error = "";
   @override
   Widget build(BuildContext context) {
-    String gender = "";
-    String error = "";
     return Scaffold(
       backgroundColor: Colors.brown[50],
       appBar: AppBar(
-        title: const Text('HomePage of app'),
+        title: const Text('Gender Screen'),
         backgroundColor: Colors.brown[400],
         elevation: 0.0,
       ),
@@ -36,24 +33,16 @@ class _Gender extends State<Gender> {
                 ElevatedButton(
                   onPressed: () async {
                     gender = "Male";
+                    print("Gender is male now");
                   },
-                  child: const Text('Next'),
+                  child: const Text('Male'),
                 ),
                 ElevatedButton(
                   onPressed: () async {
                     gender = "Female";
+                    print("Gender is female now");
                   },
-                  child: const Text('Next'),
-                ),
-                TextFormField(
-                  decoration: textInputDecoration.copyWith(
-                      hintText: 'Choose your Gender'),
-                  validator: (value) => value!.isEmpty ? 'Enter gender' : null,
-                  onChanged: (value) {
-                    setState(() {
-                      gender = value;
-                    });
-                  },
+                  child: const Text('Female'),
                 ),
                 const SizedBox(
                   height: 20.0,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sp_fitness_app/services/auth.dart';
 import 'package:sp_fitness_app/shared/constants.dart';
 import 'package:sp_fitness_app/shared/loading.dart';
+import 'package:sp_fitness_app/screens/RegistrationProcess/age.dart';
 
 class Register extends StatefulWidget {
   //const Register({super.key});
@@ -29,6 +30,14 @@ class _RegisterState extends State<Register> {
               backgroundColor: Colors.brown[400],
               elevation: 0.0,
               title: const Text('Register for App'),
+              actions: [
+                TextButton.icon(
+                    onPressed: () {
+                      widget.toggleView();
+                    },
+                    icon: const Icon(Icons.person),
+                    label: const Text('sign-in'))
+              ],
             ),
             body: Container(
                 padding: const EdgeInsets.symmetric(
@@ -78,7 +87,14 @@ class _RegisterState extends State<Register> {
                         SizedBox(
                           height: 15.0,
                           child: Text(error),
-                        )
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => Age()));
+                          },
+                          child: const Text('Begin'),
+                        ),
                       ],
                     ))),
           );
