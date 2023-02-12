@@ -1,0 +1,4 @@
+#Mon Jan 30 17:32:12 CST 2023
+base.0=C\:\\Users\\Chopz\\code\\SP_Fitness_App\\fitness_app\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
