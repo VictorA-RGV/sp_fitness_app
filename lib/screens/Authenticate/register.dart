@@ -3,10 +3,24 @@ import 'package:sp_fitness_app/services/auth.dart';
 import 'package:sp_fitness_app/shared/constants.dart';
 import 'package:sp_fitness_app/shared/loading.dart';
 
-
 class Register extends StatefulWidget {
+  // === This would be the variables register would be taking in ===
+  // int age;
+  // String gender;
+  // int weight;
+  // int height;
+  // int selection;
+  // ===============================================================
+
   //const Register({super.key});
   final Function toggleView;
+
+  // === This is how I was thinking of calling the constructor for the Register page ===========
+  //
+  // Register(this.age, this.gender, this.weight, this.height, this.selection, this.toggleView);
+  //
+  // ===========================================================================================
+
   const Register({required this.toggleView});
   @override
   State<Register> createState() => _RegisterState();
@@ -24,6 +38,7 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
+    // print('age: ${widget.age}');
     return loading
         ? const Loading()
         : Scaffold(

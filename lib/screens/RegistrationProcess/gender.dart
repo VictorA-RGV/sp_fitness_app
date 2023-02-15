@@ -4,7 +4,9 @@ import 'package:sp_fitness_app/screens/RegistrationProcess/weight.dart';
 
 class Gender extends StatefulWidget {
   int age;
+
   Gender(this.age);
+
   @override
   _Gender createState() => _Gender();
 }
@@ -52,10 +54,11 @@ class _Gender extends State<Gender> {
                     if (gender == 'Male' || gender == 'Female') {
                       setState(() {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    Weight(widget.age, gender)));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Weight(widget.age, gender),
+                          ),
+                        );
                       });
 
                       if (gender == null || gender == "") {

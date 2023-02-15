@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sp_fitness_app/screens/RegistrationProcess/height.dart';
 import 'package:sp_fitness_app/shared/constants.dart';
 import 'package:sp_fitness_app/screens/Authenticate/register.dart';
 
 class Weight extends StatefulWidget {
   int age;
   String gender;
+
   Weight(this.age, this.gender);
+
   @override
   _Weight createState() => _Weight();
 }
@@ -59,7 +62,14 @@ class _Weight extends State<Weight> {
                   onPressed: () async {
                     if (weight > 0 && weight is int) {
                       setState(() {
-                        // ************* This is quite troublesome. I need help here *****************
+                        // ************* This is quite troublesome. I need help here -- Andrew *****************
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                Height(widget.age, widget.gender, weight),
+                          ),
+                        );
                       });
 
                       if (weight == null || weight <= 0) {
