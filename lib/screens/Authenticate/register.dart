@@ -3,6 +3,7 @@ import 'package:sp_fitness_app/services/auth.dart';
 import 'package:sp_fitness_app/shared/constants.dart';
 import 'package:sp_fitness_app/shared/loading.dart';
 
+
 class Register extends StatefulWidget {
   //const Register({super.key});
   final Function toggleView;
