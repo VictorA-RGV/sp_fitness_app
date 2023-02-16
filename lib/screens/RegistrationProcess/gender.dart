@@ -45,13 +45,19 @@ class _Gender extends State<Gender> {
                     print("Gender is female now");
                   },
                   child: const Text('Female'),
+                ),ElevatedButton(
+                  onPressed: () async {
+                    gender = "Other";
+                    print("Gender is other now");
+                  },
+                  child: const Text('Other'),
                 ),
                 const SizedBox(
                   height: 20.0,
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    if (gender == 'Male' || gender == 'Female') {
+                    if (gender == 'Male' || gender == 'Female' || gender == 'Other') {
                       setState(() {
                         Navigator.push(
                           context,

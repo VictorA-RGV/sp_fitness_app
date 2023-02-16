@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sp_fitness_app/screens/RegistrationProcess/Strength_Level.dart';
 import 'package:sp_fitness_app/screens/Startup/get_started.dart';
 import 'package:sp_fitness_app/screens/Authenticate/register.dart';
 
@@ -38,7 +37,7 @@ class Testscreen extends StatelessWidget {
 
 // make a list of pages to be displayed
 List Names = [
-  // ['strength level', Strength_Level()],
+  
   ['testscreen', Testscreen()],
   ['getstarted', GetStarted()],
 ];

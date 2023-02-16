@@ -1,27 +1,33 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sp_fitness_app/screens/Authenticate/sign_in.dart';
+import 'package:sp_fitness_app/screens/wrapper.dart';
 import 'package:sp_fitness_app/services/auth.dart';
 import 'package:sp_fitness_app/shared/constants.dart';
 import 'package:sp_fitness_app/shared/loading.dart';
 
+import '../../models/user.dart';
+
 class Register extends StatefulWidget {
   // === This would be the variables register would be taking in ===
-  // int age;
-  // String gender;
-  // int weight;
-  // int height;
-  // int selection;
+  int age;
+  String gender;
+  int weight;
+  int height;
+  int selection;
+
   // ===============================================================
 
   //const Register({super.key});
-  final Function toggleView;
 
   // === This is how I was thinking of calling the constructor for the Register page ===========
   //
-  // Register(this.age, this.gender, this.weight, this.height, this.selection, this.toggleView);
+  Register(this.age, this.gender, this.weight, this.height, this.selection);
   //
   // ===========================================================================================
 
-  const Register({required this.toggleView});
+  //const Register({ age, gender, weight, height, selection, strength});
   @override
   State<Register> createState() => _RegisterState();
 }
@@ -36,6 +42,7 @@ class _RegisterState extends State<Register> {
   String confirmPassword = '';
   String error = '';
 
+  CollectionReference user = FirebaseFirestore.instance.collection('Users');
   @override
   Widget build(BuildContext context) {
     // print('age: ${widget.age}');
@@ -50,7 +57,8 @@ class _RegisterState extends State<Register> {
               actions: [
                 TextButton.icon(
                   onPressed: () {
-                    widget.toggleView();
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => SignIn()));
                   },
                   icon: const Icon(Icons.person),
                   label: const Text('sign-in'),
@@ -128,12 +136,26 @@ class _RegisterState extends State<Register> {
                           });
                           dynamic result = await _auth
                               .registerWithEmailAndPassword(email, password);
+// gender, this.weight, this.height, this.selection
+                          user.add({
+                            'uid': result.uid,
+                            'email':email,
+                            'age': widget.age,
+                            'gender': widget.gender,
+                            'weight': widget.weight,
+                            'height': widget.height,
+                            'selection': widget.selection
+                          }).then((value) => print('user added'));
+
                           if (result == null) {
                             setState(() {
                               error = 'please supply a valid email';
                               loading = false;
                             });
-                          }
+                          } else
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) => Wrapper()));
                         }
                       },
                       child: const Text('Register'),

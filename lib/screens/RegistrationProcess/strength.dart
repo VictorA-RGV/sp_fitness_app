@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sp_fitness_app/services/auth.dart';
 import 'package:sp_fitness_app/screens/Authenticate/register.dart';
-import 'package:sp_fitness_app/screens/Authenticate/authenticate.dart';
+
 
 class Strength extends StatefulWidget {
   int age;
@@ -17,6 +17,7 @@ class Strength extends StatefulWidget {
 
 // landing page for a longed in user
 class _Strength extends State<Strength> {
+  
   final AuthService _auth = AuthService();
   bool valIsInt = true;
   int height = 0;
@@ -76,7 +77,7 @@ class _Strength extends State<Strength> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Authenticate(),
+                      builder: (context) => Register(widget.age, widget.gender, widget.weight, widget.height, selection),
                     ),
                   );
                 },
@@ -103,6 +104,14 @@ class _Strength extends State<Strength> {
               child: ElevatedButton(
                 onPressed: () {
                   selection = 2;
+                  print(widget.age); print(widget.gender); print( widget.height); print(widget.weight);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      
+                      builder: (context) => Register(widget.age, widget.gender, widget.weight, widget.height, selection),
+                    ),
+                  );
                 },
                 key: Key('intermediate-button'),
                 child: Text('Intermediate'), //text inside button
@@ -127,6 +136,12 @@ class _Strength extends State<Strength> {
               child: ElevatedButton(
                 onPressed: () {
                   selection = 3;
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Register(widget.age, widget.gender, widget.weight, widget.height, selection),
+                    ),
+                  );
                 },
                 key: Key('advanced-button'),
                 child: Text('Advanced'), //text inside button

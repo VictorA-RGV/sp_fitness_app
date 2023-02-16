@@ -1,7 +1,9 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sp_fitness_app/screens/RegistrationProcess/gender.dart';
+import 'package:sp_fitness_app/screens/Authenticate/sign_in.dart';
 import 'package:sp_fitness_app/screens/RegistrationProcess/age.dart';
 
 class GetStarted extends StatefulWidget {
@@ -77,6 +79,9 @@ class _GetStarted extends State<GetStarted> {
                 children: <TextSpan>[
                   TextSpan(
                     text: 'Sign in',
+                    recognizer: new TapGestureRecognizer()
+                      ..onTap = () => Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => SignIn())),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 12,
