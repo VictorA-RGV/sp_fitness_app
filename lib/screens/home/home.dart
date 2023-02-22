@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sp_fitness_app/screens/Achivements/achivements.dart';
 import 'package:sp_fitness_app/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -8,7 +9,7 @@ class Home extends StatelessWidget {
   //CollectionReference userI = FirebaseFirestore.instance.collection('Users');
   final Stream<QuerySnapshot> userData =
       FirebaseFirestore.instance.collection('Users').snapshots();
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,12 +49,10 @@ class Home extends StatelessWidget {
                   }
                   String uid = _auth.getuid();
                   final data = snapshot.requireData;
-                  
+
                   return ListView.builder(
                     itemCount: data.size,
                     itemBuilder: (context, index) {
-                      
-                    
                       return Text(
                         'email: ${data.docs[index]['email']}  age: ${data.docs[index]['age']}   Weight: ${data.docs[index]['weight']}  gender: ${data.docs[index]['gender']}\n',
                       );
@@ -62,6 +61,16 @@ class Home extends StatelessWidget {
                 },
               ),
             ),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Achivements(),
+                    ),
+                  );
+                },
+                child: const Text('Achivements')),
           ],
         ),
       ),
