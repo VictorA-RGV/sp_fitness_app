@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sp_fitness_app/screens/Authenticate/authenticate.dart';
-import 'package:sp_fitness_app/screens/Startup/Strength_Level.dart';
 import 'package:sp_fitness_app/screens/Startup/testscreen.dart';
 import 'package:sp_fitness_app/screens/home/home.dart';
 import 'package:provider/provider.dart';
@@ -18,9 +16,11 @@ class Wrapper extends StatelessWidget {
 
     final user = Provider.of<UserModel?>(context);
     if (user == null) {
+      
       // return const Authenticate();
 
-      return Testscreen(); // takes us to get started screen
+      // return Testscreen();
+      return GetStarted(); // takes us to get started screen
     } else {
       return Home();
     }

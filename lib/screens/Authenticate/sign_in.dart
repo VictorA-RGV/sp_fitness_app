@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:sp_fitness_app/screens/Startup/get_started.dart';
+import 'package:sp_fitness_app/screens/wrapper.dart';
 import 'package:sp_fitness_app/services/auth.dart';
 import 'package:sp_fitness_app/shared/constants.dart';
 import 'package:sp_fitness_app/shared/loading.dart';
 
+
+
 class SignIn extends StatefulWidget {
-  //const SignIn({super.key});
-  final Function toggleView;
-  const SignIn({required this.toggleView});
   @override
   State<SignIn> createState() => _SignInState();
 }
@@ -31,7 +32,7 @@ class _SignInState extends State<SignIn> {
         actions: [
           TextButton.icon(
               onPressed: () {
-                widget.toggleView();
+                Navigator.push(context, MaterialPageRoute(builder: (context) => GetStarted()));
               },
               icon: const Icon(Icons.person),
               label: const Text('Register'))
@@ -83,13 +84,15 @@ class _SignInState extends State<SignIn> {
                       });
                       dynamic result = await _auth.signInWithEmailAndPassword(
                           email, password);
+                          
 
                       if (result == null) {
                         setState(() {
                           error = 'Could not sign in with those credentials';
                           loading = false;
                         });
-                      }
+                        
+                      } else Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Wrapper()));
                     }
                   },
                   child: const Text('Sign in'),

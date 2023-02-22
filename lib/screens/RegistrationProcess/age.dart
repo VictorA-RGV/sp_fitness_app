@@ -26,58 +26,61 @@ class _Age extends State<Age> {
         elevation: 0.0,
       ),
       body: Container(
-          padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
-          child: Form(
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 20.0,
-                ),
-                TextFormField(
-                  keyboardType: TextInputType.number,
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.digitsOnly
-                  ],
-                  decoration: textInputDecoration.copyWith(hintText: 'Age'),
-                  onChanged: (value) async {
-                    setState(() {
-                      if (value.length > 0) {
-                        age = int.parse(value);
-                        print(age);
-                        valIsInt = true;
-                      } else {
-                        valIsInt = false;
-                      }
-                    });
-                  },
-                ),
-                const SizedBox(
-                  height: 20.0,
-                ),
-                ElevatedButton(
-                  onPressed: valIsInt
-                      ? () {
-                          if (age > 0) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Gender(age)));
-                          } else if (age == null || age is double || age <= 0) {
-                            setState(() {
-                              error = 'Not a valid age';
-                            });
-                          }
+        padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
+        child: Form(
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 20.0,
+              ),
+              TextFormField(
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly
+                ],
+                decoration: textInputDecoration.copyWith(hintText: 'Age'),
+                onChanged: (value) async {
+                  setState(() {
+                    if (value.length > 0) {
+                      age = int.parse(value);
+                      print(age);
+                      valIsInt = true;
+                    } else {
+                      valIsInt = false;
+                    }
+                  });
+                },
+              ),
+              const SizedBox(
+                height: 20.0,
+              ),
+              ElevatedButton(
+                onPressed: valIsInt
+                    ? () {
+                        if (age > 0) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Gender(age),
+                            ),
+                          );
+                        } else if (age == null || age is double || age <= 0) {
+                          setState(() {
+                            error = 'Not a valid age';
+                          });
                         }
-                      : null,
-                  child: const Text('Next'),
-                ),
-                SizedBox(
-                  height: 15.0,
-                  child: Text(error),
-                )
-              ],
-            ),
-          )),
+                      }
+                    : null,
+                child: const Text('Next'),
+              ),
+              SizedBox(
+                height: 15.0,
+                child: Text(error),
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

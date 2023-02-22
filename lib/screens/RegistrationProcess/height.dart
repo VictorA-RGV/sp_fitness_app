@@ -1,30 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sp_fitness_app/screens/RegistrationProcess/height.dart';
+import 'package:sp_fitness_app/services/auth.dart';
 import 'package:sp_fitness_app/shared/constants.dart';
-import 'package:sp_fitness_app/screens/Authenticate/register.dart';
+import 'package:sp_fitness_app/screens/RegistrationProcess/gender.dart';
+import 'package:sp_fitness_app/screens/RegistrationProcess/strength.dart';
 
-class Weight extends StatefulWidget {
+class Height extends StatefulWidget {
   int age;
   String gender;
-
-  Weight(this.age, this.gender);
+  int weight;
+  Height(this.age, this.gender, this.weight);
 
   @override
-  _Weight createState() => _Weight();
+  _Height createState() => _Height();
 }
 
 // landing page for a longed in user
-class _Weight extends State<Weight> {
-  int weight = 0;
+class _Height extends State<Height> {
+  final AuthService _auth = AuthService();
+  bool valIsInt = true;
+  int height = 0;
   String error = "";
-  bool valIsInt = false;
+
   @override
   Widget build(BuildContext context) {
+    String error = "";
     return Scaffold(
       backgroundColor: Colors.brown[50],
       appBar: AppBar(
-        title: const Text('Weight Screen'),
+        title: const Text('Height Screen'),
         backgroundColor: Colors.brown[400],
         elevation: 0.0,
       ),
@@ -37,17 +41,16 @@ class _Weight extends State<Weight> {
                   height: 20.0,
                 ),
                 TextFormField(
-                  decoration: textInputDecoration.copyWith(hintText: 'Weight'),
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.digitsOnly
                   ],
-                  validator: (value) => value!.isEmpty ? 'Enter Weight' : null,
-                  onChanged: (value) {
+                  decoration: textInputDecoration.copyWith(hintText: 'Height'),
+                  onChanged: (value) async {
                     setState(() {
                       if (value.length > 0) {
-                        weight = int.parse(value);
-                        print(weight);
+                        height = int.parse(value);
+                        print(height);
                         valIsInt = true;
                       } else {
                         valIsInt = false;
@@ -59,26 +62,25 @@ class _Weight extends State<Weight> {
                   height: 20.0,
                 ),
                 ElevatedButton(
-                  onPressed: () async {
-                    if (weight > 0 && weight is int) {
-                      setState(() {
-                        // ************* This is quite troublesome. I need help here -- Andrew *****************
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                Height(widget.age, widget.gender, weight),
-                          ),
-                        );
-                      });
-
-                      if (weight == null || weight <= 0) {
-                        setState(() {
-                          error = 'Not a valid weight';
-                        });
-                      }
-                    }
-                  },
+                  onPressed: valIsInt
+                      ? () {
+                          if (height > 0) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Strength(widget.age,
+                                    widget.gender, widget.weight, height),
+                              ),
+                            );
+                          } else if (height == null ||
+                              height is double ||
+                              height <= 0) {
+                            setState(() {
+                              error = 'Not a valid Height';
+                            });
+                          }
+                        }
+                      : null,
                   child: const Text('Next'),
                 ),
                 SizedBox(
