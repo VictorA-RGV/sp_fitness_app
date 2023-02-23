@@ -2,12 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:sp_fitness_app/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "dart:math";
-import 'package:sp_fitness_app/screens/Achivements/achivements.dart';
+import 'package:sp_fitness_app/shared/circularAchievments.dart';
 
 // landing page for a logged in user
-class Achivements extends StatelessWidget {
-  Achivements();
+// ignore: must_be_immutable
+class Achivements extends StatefulWidget {
+  Achivements({super.key});
+
+  @override
+  State<Achivements> createState() => _AchivementsState();
+}
+
+double? progress = 0.0;
+
+class _AchivementsState extends State<Achivements> {
   final AuthService _auth = AuthService();
+  dynamic alpha = AcievementCircs().achivementCircle("images/flexingArm.png", 'Big Muscles!', Colors.red); 
   //CollectionReference userI = FirebaseFirestore.instance.collection('Users');
   final Stream<QuerySnapshot> userData =
       FirebaseFirestore.instance.collection('Users').snapshots();
@@ -15,7 +25,7 @@ class Achivements extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.brown[50],
+      backgroundColor: Colors.white,
       // The bar at top
       appBar: AppBar(
         title: const Text('HomePage of app'),
@@ -33,60 +43,34 @@ class Achivements extends StatelessWidget {
       // The content of the screen
       body: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Column(
-          // Alignment of the content
-          mainAxisAlignment: MainAxisAlignment.center,
-          // Where the content is placed
-          children: <Widget>[
-            AchivementCircle(
-                "images/flexingArm.png", 'Big Muscles!', Colors.red)
-          ],
+        child: Center(
+          child: Column(
+            // Alignment of the content
+            mainAxisAlignment: MainAxisAlignment.center,
+            // Where the content is placed
+            children: [
+              alpha,
+              Row(
+                children: [
+                  AcievementCircs().achivementCircle("images/flexingArm.png", 'Bigger Muscles!',
+                      Colors.blueAccent),
+                  const Padding(padding: EdgeInsets.all(20)),
+                  AcievementCircs().achivementCircle("images/flexingArm.png", 'Massive Muscles!',
+                      Colors.orange),
+                ],
+              ),
+              AcievementCircs().achivementCircle("images/flexingArm.png", 'Maximum Muscles!',
+                  Colors.purple),
+              AcievementCircs().achivementCircle("images/flexingArm.png", 'Muscular Achieved!',
+                  Colors.yellow),
+              FloatingActionButton(onPressed: () {
+                AcievementCircs().achivementCircle("images/flexingArm.png", 'Bigger Muscles!',
+                      Colors.blueAccent);
+              })
+            ],
+          ),
         ),
       ),
     );
   }
 }
-
-Widget AchivementCircle(String image, String name, Color color) {
-  return Container(
-      child: Column(
-    children: [
-      Stack(
-        alignment: Alignment.center,
-        children: [
-          // The progression bar
-          Transform.rotate(
-            angle: 3 * pi / 4,
-            child: CircularProgressIndicator(
-              backgroundColor: Colors.grey[300],
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.yellow),
-              value: .2, // This is how much it is filled. 1 would be full.
-              strokeWidth: 60,
-            ),
-          ),
-          Padding(padding: const EdgeInsets.all(8)),
-          CircleAvatar(backgroundColor: Colors.white, radius: 40),
-          // The picture
-          CircleAvatar(
-              child: Image.asset(
-                name,
-                height: 30,
-              ),
-              radius: 42,
-              backgroundColor: color),
-          // A bit of spacing
-          SizedBox(
-            height: 10,
-          ),
-          // Name of achivement
-          Text(
-            name,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-          )
-        ],
-      )
-    ],
-  ));
-}
-// How to use AchivmentCircle('flexing_man.png', '3', 'Travel', Colors.teal[100])
-// The png, progress, Name of Achivement, Background color
