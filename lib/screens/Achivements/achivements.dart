@@ -17,7 +17,6 @@ double? progress = 0.0;
 
 class _AchivementsState extends State<Achivements> {
   final AuthService _auth = AuthService();
-  dynamic alpha = AcievementCircs().achivementCircle("images/flexingArm.png", 'Big Muscles!', Colors.red); 
   //CollectionReference userI = FirebaseFirestore.instance.collection('Users');
   final Stream<QuerySnapshot> userData =
       FirebaseFirestore.instance.collection('Users').snapshots();
@@ -49,23 +48,25 @@ class _AchivementsState extends State<Achivements> {
             mainAxisAlignment: MainAxisAlignment.center,
             // Where the content is placed
             children: [
-              alpha,
               Row(
                 children: [
-                  AcievementCircs().achivementCircle("images/flexingArm.png", 'Bigger Muscles!',
-                      Colors.blueAccent),
+                  AcievementCircs().achivementCircle(
+                      "images/flexingArm.png",
+                      'Bigger Muscles!',
+                      Colors
+                          .blueAccent), // This one is busted or something. Not sure what's wrong with it.
                   const Padding(padding: EdgeInsets.all(20)),
-                  AcievementCircs().achivementCircle("images/flexingArm.png", 'Massive Muscles!',
-                      Colors.orange),
+                  AcievementCircs().achivementCircle("images/flexingArm.png",
+                      'Massive Muscles!', Colors.orange),
                 ],
               ),
-              AcievementCircs().achivementCircle("images/flexingArm.png", 'Maximum Muscles!',
-                  Colors.purple),
-              AcievementCircs().achivementCircle("images/flexingArm.png", 'Muscular Achieved!',
-                  Colors.yellow),
+              AcievementCircs().achivementCircle(
+                  "images/flexingArm.png", 'Maximum Muscles!', Colors.purple),
+              AcievementCircs().achivementCircle(
+                  "images/flexingArm.png", 'Muscular Achieved!', Colors.yellow),
               FloatingActionButton(onPressed: () {
-                AcievementCircs().achivementCircle("images/flexingArm.png", 'Bigger Muscles!',
-                      Colors.blueAccent);
+                AcievementCircs().achivementCircle("images/flexingArm.png",
+                    'Bigger Muscles!', Colors.blueAccent);
               })
             ],
           ),
