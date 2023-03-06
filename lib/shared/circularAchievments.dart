@@ -47,10 +47,12 @@ class AcievementCircs {
             Stack(
               alignment: Alignment.center,
               children: [
+                // Image used to hold the current level of achivement
                 Image.asset(
                   'images/crown.png',
                   height: 30,
                 ),
+                // Achievement Level
                 Text(
                   '2',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),

@@ -15,13 +15,14 @@ class Wrapper extends StatelessWidget {
     // Authenticate page or home, using a stream which detects authentication changes
 
     final user = Provider.of<UserModel?>(context);
+    // If user is not logged in then brings us to the GetStarted Screen
     if (user == null) {
-      
       // return const Authenticate();
-
       // return Testscreen();
       return GetStarted(); // takes us to get started screen
-    } else {
+    }
+    // If the User is logged in. Brings us to the Home Screen
+    else {
       return Home();
     }
   }
