@@ -23,6 +23,7 @@ class _GetStarted extends State<GetStarted> {
           const SizedBox(height: 50),
           Container(
             padding: EdgeInsets.all(32.0),
+            // Displays a logo at the top
             child: SvgPicture.asset(
               "images/logoipsum.svg",
               height: 50,
@@ -31,25 +32,31 @@ class _GetStarted extends State<GetStarted> {
           ),
           Container(
             padding: EdgeInsets.all(32.0),
+            // Gets the gif from online. Note: Don't search it. It makes no fucking sense
             child: Lottie.network(
                 'https://assets3.lottiefiles.com/private_files/lf30_i5o0xxk6.json'),
           ),
           Expanded(
             child: Container(
               padding: EdgeInsets.all(32.0),
+              // Creates a button to lead to another screen to start the registeration process
               child: ElevatedButton(
                 onPressed: () {
-                  // Add your button action here
+                  // Brings you to the Age Screen
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => Age()),
                   );
                 },
+                // Text of the button
                 child: Text("Get Started"),
+                // Affects the button appearance
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(327, 50),
                   elevation: 0,
+                  // Color of button
                   backgroundColor: Color.fromARGB(255, 255, 93, 81),
+                  // Shape of button
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(
                       Radius.circular(50),
@@ -59,6 +66,7 @@ class _GetStarted extends State<GetStarted> {
               ),
             ),
           ),
+          // ****** Someone with a bigger screen please commentate the portion below ****** //
           Expanded(
               child: GestureDetector(
             onTap: () {
