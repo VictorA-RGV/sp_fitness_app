@@ -13,8 +13,8 @@ class Register extends StatefulWidget {
   // === This would be the variables register would be taking in ===
   int age;
   String gender;
-  int weight;
-  int height;
+  double weight;
+  String height;
   int selection;
 
   // ===============================================================
@@ -49,21 +49,15 @@ class _RegisterState extends State<Register> {
     return loading
         ? const Loading()
         : Scaffold(
-            backgroundColor: Colors.brown[100],
+            // backgroundColor: Colors.brown[100],
             appBar: AppBar(
-              backgroundColor: Colors.brown[400],
+              backgroundColor: Colors.transparent,
+              bottomOpacity: 0.0,
               elevation: 0.0,
-              title: const Text('Register for App'),
-              actions: [
-                TextButton.icon(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => SignIn()));
-                  },
-                  icon: const Icon(Icons.person),
-                  label: const Text('sign-in'),
-                )
-              ],
+              leading: const BackButton(
+                color: Colors.blueGrey,
+                key: Key('Strength-back-button'),
+              ),
             ),
             body: Container(
               padding:
@@ -73,26 +67,46 @@ class _RegisterState extends State<Register> {
                 key: _formKey,
                 child: Column(
                   children: [
+                    const Text(
+                      'Register',
+                      style: TextStyle(
+                        fontFamily: 'Roboto',
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     const SizedBox(
                       height: 20.0,
                     ),
                     TextFormField(
-                      decoration:
-                          textInputDecoration.copyWith(hintText: 'Email'),
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        hintText: 'Email',
+                        hintStyle: TextStyle(color: Colors.grey),
+                      ),
                       validator: (value) =>
                           value!.isEmpty ? 'Enter an email' : null,
                       onChanged: (value) {
-                        setState(() {
-                          email = value;
-                        });
+                        setState(
+                          () {
+                            email = value;
+                          },
+                        );
                       },
                     ),
                     const SizedBox(
                       height: 20.0,
                     ),
                     TextFormField(
-                      decoration:
-                          textInputDecoration.copyWith(hintText: 'Password'),
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        hintText: 'Password',
+                        hintStyle: TextStyle(color: Colors.grey),
+                      ),
                       obscureText: true,
                       validator: (value) => value!.length < 6
                           ? 'Enter a password with 6+ chars long'
@@ -107,8 +121,13 @@ class _RegisterState extends State<Register> {
                       height: 20.0,
                     ),
                     TextFormField(
-                      decoration: textInputDecoration.copyWith(
-                          hintText: 'Confirm Password'),
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        hintText: 'Confirm Password',
+                        hintStyle: TextStyle(color: Colors.grey),
+                      ),
                       obscureText: true,
                       validator: (value) {
                         if (value != password) {
@@ -120,13 +139,19 @@ class _RegisterState extends State<Register> {
                         return null;
                       },
                       onChanged: (value) {
-                        setState(() {
-                          confirmPassword = value;
-                        });
+                        setState(
+                          () {
+                            confirmPassword = value;
+                          },
+                        );
                       },
                     ),
                     const SizedBox(
                       height: 20.0,
+                    ),
+                    Expanded(
+                      child:
+                          Container(), // puts our elevatedButton at the bottom.
                     ),
                     ElevatedButton(
                       onPressed: () async {
@@ -154,11 +179,23 @@ class _RegisterState extends State<Register> {
                             });
                           } else
                             Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                    builder: (context) => Wrapper()));
+                              MaterialPageRoute(
+                                builder: (context) => Wrapper(),
+                              ),
+                            );
                         }
                       },
                       child: const Text('Register'),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(327, 50),
+                        elevation: 0,
+                        backgroundColor: Color.fromARGB(255, 255, 93, 81),
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(50),
+                          ),
+                        ),
+                      ),
                     ),
                     SizedBox(
                       height: 15.0,

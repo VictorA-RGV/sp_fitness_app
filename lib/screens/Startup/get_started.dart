@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sp_fitness_app/screens/RegistrationProcess/gender.dart';
 import 'package:sp_fitness_app/screens/Authenticate/sign_in.dart';
 import 'package:sp_fitness_app/screens/RegistrationProcess/age.dart';
 
@@ -45,11 +44,11 @@ class _GetStarted extends State<GetStarted> {
                   // Brings you to the Age Screen
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Age()),
+                    MaterialPageRoute(
+                      builder: (context) => Age(),
+                    ),
                   );
                 },
-                // Text of the button
-                child: Text("Get Started"),
                 // Affects the button appearance
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(327, 50),
@@ -63,43 +62,55 @@ class _GetStarted extends State<GetStarted> {
                     ),
                   ),
                 ),
+                // Text of the button
+                child: const Text(
+                  "Get Started",
+                  style: TextStyle(fontSize: 15),
+                ),
               ),
             ),
           ),
           // ****** Someone with a bigger screen please commentate the portion below ****** //
           Expanded(
-              child: GestureDetector(
-            onTap: () {
-              // Your sign-in code here
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Age()),
-              );
-            },
-            child: RichText(
-              text: TextSpan(
-                text: 'Already have an account? ',
-                style: DefaultTextStyle.of(context).style.copyWith(
-                    fontSize: 16,
-                    color: Colors.black,
-                    decoration: TextDecoration.none,
-                    fontFamily: 'Roboto'),
-                children: <TextSpan>[
-                  TextSpan(
-                    text: 'Sign in',
-                    recognizer: new TapGestureRecognizer()
-                      ..onTap = () => Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => SignIn())),
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12,
-                      color: Color.fromARGB(255, 255, 93, 81),
-                    ),
+            child: GestureDetector(
+              onTap: () {
+                // Your sign-in code here
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Age(),
                   ),
-                ],
+                );
+              },
+              child: RichText(
+                text: TextSpan(
+                  text: 'Already have an account? ',
+                  style: DefaultTextStyle.of(context).style.copyWith(
+                      fontSize: 16,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                      decoration: TextDecoration.none,
+                      fontFamily: 'Roboto'),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: 'Sign in',
+                      recognizer: new TapGestureRecognizer()
+                        ..onTap = () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SignIn(),
+                              ),
+                            ),
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Color.fromARGB(255, 255, 93, 81),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ))
+          )
         ],
       ),
     );
