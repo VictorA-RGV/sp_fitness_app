@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sp_fitness_app/services/auth.dart';
 import 'package:sp_fitness_app/screens/Authenticate/register.dart';
@@ -18,12 +17,10 @@ class Strength extends StatefulWidget {
 // landing page for a longed in user
 class _Strength extends State<Strength> {
   final AuthService _auth = AuthService();
-  bool valIsInt = true;
-  int height = 0;
-  String error = "";
-
+  // User choice
   int selection = 0;
 
+  // Do we even need this? It's not being used...
   bool showSignIn = true;
   void toggleView() {
     setState(() {
@@ -37,7 +34,9 @@ class _Strength extends State<Strength> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         bottomOpacity: 0.0,
+        // Turns the App Bar invisible
         elevation: 0.0,
+        // Button used to go to the previous screen
         leading: const BackButton(
           color: Colors.blueGrey,
           key: Key('Strength-back-button'),
@@ -55,6 +54,7 @@ class _Strength extends State<Strength> {
               children: [
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 0, 0, 60),
+                  // Text used to inform the user of the purpose of the screen
                   child: Text(
                     "Strength Level",
                     key: Key("Strength-Title"),
@@ -70,18 +70,23 @@ class _Strength extends State<Strength> {
             Container(
               padding: EdgeInsets.all(32.0),
               height: 270,
+              // Displays a gif
               child: Lottie.network(
                   'https://assets10.lottiefiles.com/packages/lf20_oMpCcG.json'),
             ),
             SizedBox(
-              height: 50, //height of button
+              height: 50, // height of button
               width: 250,
               child: ElevatedButton(
                 onPressed: () {
                   selection = 1;
+                  print(widget.age);
+                  print(widget.gender);
+                  print(widget.height);
+                  print(widget.weight);
+                  print(selection);
                   // wanted to bypass Authenticate and go directly register
-                  // we would send age, gender, weight, height, strength (selection) to register screen.
-
+                  // Brings us to Registration Screen with all our data
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -91,7 +96,7 @@ class _Strength extends State<Strength> {
                   );
                 },
                 key: Key('beginner-button'),
-                child: Text('Beginner'), //text inside button
+                child: Text('Beginner'), // text inside button
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(327, 50),
                   elevation: 0,
@@ -117,6 +122,8 @@ class _Strength extends State<Strength> {
                   print(widget.gender);
                   print(widget.height);
                   print(widget.weight);
+                  print(selection);
+                  // Brings us to Registration Screen with all our data
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -126,7 +133,7 @@ class _Strength extends State<Strength> {
                   );
                 },
                 key: Key('intermediate-button'),
-                child: Text('Intermediate'), //text inside button
+                child: Text('Intermediate'), // text inside button
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(327, 50),
                   elevation: 0,
@@ -148,6 +155,12 @@ class _Strength extends State<Strength> {
               child: ElevatedButton(
                 onPressed: () {
                   selection = 3;
+                  print(widget.age);
+                  print(widget.gender);
+                  print(widget.height);
+                  print(widget.weight);
+                  print(selection);
+                  // Brings us to Registration Screen with all our data
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -157,7 +170,7 @@ class _Strength extends State<Strength> {
                   );
                 },
                 key: Key('advanced-button'),
-                child: Text('Advanced'), //text inside button
+                child: Text('Advanced'), // text inside button
 
                 // style: ButtonStyle(
                 //   backgroundColor: MaterialStateProperty.all(Colors.blueGrey),
