@@ -11,8 +11,11 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  // Creates obect to use Firebase Auth Service
   final AuthService _auth = AuthService();
+  // ???
   final _formKey = GlobalKey<FormState>();
+  // Determines if it should display the loading screen or the SignIn screen
   bool loading = false;
 
   //txt field state
