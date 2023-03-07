@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sp_fitness_app/shared/constants.dart';
+import 'package:lottie/lottie.dart';
 import 'package:sp_fitness_app/screens/RegistrationProcess/weight.dart';
+import 'package:sp_fitness_app/shared/custombutton1.dart';
 
 class Gender extends StatefulWidget {
   int age;
@@ -15,74 +17,94 @@ class Gender extends StatefulWidget {
 class _Gender extends State<Gender> {
   String gender = "";
   String error = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.brown[50],
       appBar: AppBar(
-        title: const Text('Gender Screen'),
-        backgroundColor: Colors.brown[400],
+        backgroundColor: Colors.transparent,
         elevation: 0.0,
+        leading: const BackButton(
+          color: Colors.blueGrey,
+          key: Key('Strength-back-button'),
+        ),
       ),
       body: Container(
-          padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
-          child: Form(
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 20.0,
+        alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
+        child: Form(
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 20.0,
+              ),
+              const Text(
+                'Gender',
+                style: TextStyle(
+                  fontFamily: 'Roboto',
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
                 ),
-                ElevatedButton(
-                  onPressed: () async {
-                    gender = "Male";
-                    print("Gender is male now");
-                  },
-                  child: const Text('Male'),
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    gender = "Female";
-                    print("Gender is female now");
-                  },
-                  child: const Text('Female'),
-                ),ElevatedButton(
-                  onPressed: () async {
-                    gender = "Other";
-                    print("Gender is other now");
-                  },
-                  child: const Text('Other'),
-                ),
-                const SizedBox(
-                  height: 20.0,
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    if (gender == 'Male' || gender == 'Female' || gender == 'Other') {
-                      setState(() {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Weight(widget.age, gender),
-                          ),
-                        );
-                      });
-
-                      if (gender == null || gender == "") {
-                        setState(() {
-                          error = 'Pick a gender';
-                        });
-                      }
-                    }
-                  },
-                  child: const Text('Next'),
-                ),
-                SizedBox(
-                  height: 15.0,
-                  child: Text(error),
-                )
-              ],
-            ),
-          )),
+              ),
+              const SizedBox(
+                height: 40.0,
+              ),
+              CustomButton1(
+                text: 'Male',
+                onPressed: () async {
+                  gender = "Male";
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Weight(widget.age, gender),
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(
+                height: 20.0,
+              ),
+              CustomButton1(
+                text: 'Female',
+                onPressed: () async {
+                  gender = "Female";
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Weight(widget.age, gender),
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(
+                height: 20.0,
+              ),
+              CustomButton1(
+                text: 'Other',
+                onPressed: () async {
+                  gender = "Other";
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Weight(widget.age, gender),
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(
+                height: 20.0,
+              ),
+              Expanded(
+                child: Container(), // puts our elevatedButton at the bottom.
+              ),
+              SizedBox(
+                height: 15.0,
+                child: Text(error),
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
