@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sp_fitness_app/screens/Startup/Strength_Level.dart';
+import 'package:sp_fitness_app/shared/ex.dart';
+//import 'package:sp_fitness_app/screens/exercise/ex.dart';
 import 'package:sp_fitness_app/screens/get_started.dart';
+import 'package:sp_fitness_app/screens/home/home.dart';
+import 'package:sp_fitness_app/screens/home/workout_page.dart';
+import 'package:sp_fitness_app/screens/home/second_home';
 
 
 class Testscreen extends StatelessWidget {
@@ -39,4 +44,6 @@ class Testscreen extends StatelessWidget {
   }
 }
 // make a list of pages to be displayed
-List Names = [['strength level',Strength_Level()], ['testscreen',Testscreen()],['getstarted', GetStarted()]];
+List Names = [['strength level',Strength_Level()], ['testscreen',Testscreen()],['getstarted', GetStarted()],[ 'workout', WorkoutPage(workoutName: 'Day 1')],
+['exc', Excercise2()], ['secondhome',HomePage()]
+];

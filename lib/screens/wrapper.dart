@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sp_fitness_app/screens/Authenticate/authenticate.dart';
+import 'package:sp_fitness_app/screens/Authenticate/register.dart';
 import 'package:sp_fitness_app/screens/Startup/Strength_Level.dart';
 import 'package:sp_fitness_app/screens/Startup/testscreen.dart';
 import 'package:sp_fitness_app/screens/home/home.dart';
