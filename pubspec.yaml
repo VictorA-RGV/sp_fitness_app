@@ -32,6 +32,8 @@ dependencies:
     sdk: flutter
   lottie: ^2.2.0
   flutter_svg: ^2.0.0
+  numberpicker: ^2.1.1
+  animated_weight_picker: ^1.0.3
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -70,6 +72,8 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - images/logoipsum.svg
+    - images/flexingArm.png
+    - images/crown.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
