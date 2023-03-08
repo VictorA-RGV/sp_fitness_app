@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sp_fitness_app/screens/Startup/get_started.dart';
 import 'package:sp_fitness_app/screens/wrapper.dart';
 import 'package:sp_fitness_app/services/auth.dart';
 import 'package:sp_fitness_app/shared/constants.dart';
@@ -30,7 +29,9 @@ class _SignInState extends State<SignIn> {
         : Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.transparent,
+              // Turns the App Bar invisible
               elevation: 0.0,
+              // Button used to go to the previous screen
               leading: const BackButton(
                 color: Colors.blueGrey,
                 key: Key('Strength-back-button'),
@@ -40,9 +41,11 @@ class _SignInState extends State<SignIn> {
               padding:
                   const EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
               child: Form(
+                // ???
                 key: _formKey,
                 child: Column(
                   children: [
+                    //  Text that informs user the purpose of the screen
                     const Text(
                       'Sign in',
                       style: TextStyle(
@@ -51,9 +54,11 @@ class _SignInState extends State<SignIn> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    // Padding
                     const SizedBox(
                       height: 20.0,
                     ),
+                    // Textfield for user to input their email
                     TextFormField(
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -62,17 +67,21 @@ class _SignInState extends State<SignIn> {
                         hintText: 'Email',
                         hintStyle: TextStyle(color: Colors.grey),
                       ),
+                      // Makes sure the textfield is not empty.
                       validator: (value) =>
                           value!.isEmpty ? 'Enter an email' : null,
+                      // Changes variable to Textfield input
                       onChanged: (value) {
                         setState(() {
                           email = value;
                         });
                       },
                     ),
+                    // Padding
                     const SizedBox(
                       height: 20.0,
                     ),
+                    // Textfield for user to input their password
                     TextFormField(
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -81,34 +90,41 @@ class _SignInState extends State<SignIn> {
                         hintText: 'Password',
                         hintStyle: TextStyle(color: Colors.grey),
                       ),
+                      // Hides password for user
                       obscureText: true,
+                      // Checks if the password is at least 6 characters long.
                       validator: (value) => value!.length < 6
                           ? 'Enter a password with 6+ chars long'
                           : null,
+                      // Changes variable to Textfield input
                       onChanged: (value) {
                         setState(() {
                           password = value;
                         });
                       },
                     ),
+                    // Padding
                     const SizedBox(
                       height: 20.0,
                     ),
+                    // Button to SignIn
                     ElevatedButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           setState(() {
                             loading = true;
                           });
+                          // Gets the result from Firebase Service SignIn attempt
                           dynamic result = await _auth
                               .signInWithEmailAndPassword(email, password);
-
+                          // If SignIn attempt fails. Display error.
                           if (result == null) {
                             setState(() {
                               error =
                                   'Could not sign in with those credentials';
                               loading = false;
                             });
+                            // If SignIn attempt succeeds. Brings us to Wrapper.
                           } else
                             Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
@@ -117,6 +133,7 @@ class _SignInState extends State<SignIn> {
                             );
                         }
                       },
+                      // Informs user the purpose of the button
                       child: const Text('Sign in'),
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size(327, 50),
@@ -129,6 +146,7 @@ class _SignInState extends State<SignIn> {
                         ),
                       ),
                     ),
+                    // Where the Error will be dispalyed
                     SizedBox(
                       height: 15.0,
                       child: Text(error),

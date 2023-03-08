@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:sp_fitness_app/screens/RegistrationProcess/height.dart';
-import 'package:sp_fitness_app/shared/constants.dart';
-import 'package:sp_fitness_app/screens/Authenticate/register.dart';
 import 'package:animated_weight_picker/animated_weight_picker.dart';
 import 'package:lottie/lottie.dart';
 
@@ -18,17 +15,17 @@ class Weight extends StatefulWidget {
 
 // landing page for a longed in user
 class _Weight extends State<Weight> {
-  String _selectedWeightValue = '100'; // default value for number picker.
-  double weight = 200;
-  String error = "";
-  bool valIsInt = false;
+  // initializes variable
+  double weight = 50; // This will be the default weight. Aka, the min.
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        // Turns the App Bar invisible
         elevation: 0.0,
+        // Button used to go to the previous screen
         leading: const BackButton(
           color: Colors.blueGrey,
           key: Key('Strength-back-button'),
@@ -39,6 +36,7 @@ class _Weight extends State<Weight> {
         child: Form(
           child: Column(
             children: [
+              // Text that tells the user the purpose of the screen
               const Text(
                 'Weight',
                 style: TextStyle(
@@ -54,6 +52,7 @@ class _Weight extends State<Weight> {
                 padding: const EdgeInsets.all(32.0),
                 height: 300,
                 width: 300,
+                // gif that is being used
                 child: Lottie.network(
                     'https://assets6.lottiefiles.com/packages/lf20_ocGoFt.json'),
               ),
@@ -61,16 +60,17 @@ class _Weight extends State<Weight> {
                 height: 20.0,
               ),
               AnimatedWeightPicker(
-                min: 0,
+                // Setting the min/max
+                min: 50,
                 max: 300,
                 suffixText: "lbs",
                 dialColor: Colors.black,
                 division: 0.1,
                 suffixTextColor: const Color.fromARGB(255, 255, 93, 81),
                 selectedValueColor: const Color.fromARGB(255, 255, 93, 81),
+                // Changes variable to the selected digit
                 onChange: (newValue) {
                   setState(() {
-                    // _selectedWeightValue = newValue;
                     weight = double.parse(newValue);
                   });
                 },
@@ -79,25 +79,17 @@ class _Weight extends State<Weight> {
                 child: Container(), // puts our elevatedButton at the bottom.
               ),
               ElevatedButton(
+                // Brings us to the next screen
                 onPressed: () async {
-                  if (weight > 0 && weight is double) {
-                    setState(() {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              Height(widget.age, widget.gender, weight),
-                        ),
-                      );
-                    });
-
-                    if (weight == null || weight <= 0) {
-                      setState(() {
-                        error = 'Not a valid weight';
-                      });
-                    }
-                  }
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          Height(widget.age, widget.gender, weight),
+                    ),
+                  );
                 },
+                // Text to inform user of the purpose of the button
                 child: const Text('Next'),
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(327, 50),
@@ -110,10 +102,6 @@ class _Weight extends State<Weight> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 15.0,
-                child: Text(error),
-              )
             ],
           ),
         ),
