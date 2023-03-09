@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sp_fitness_app/screens/Achivements/achivements.dart';
 import 'package:sp_fitness_app/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:sp_fitness_app/screens/home/second_home';
 
 // landing page for a longed in user
 class Home extends StatelessWidget {
@@ -94,6 +95,18 @@ class Home extends StatelessWidget {
                 },
                 // Text on Button
                 child: const Text('Achivements')),
+            ElevatedButton(
+                onPressed: () {
+                  // Takes us to Achievements Page
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HomePage(),
+                    ),
+                  );
+                },
+                // Text on Button
+                child: const Text('Second Home'))
           ],
         ),
       ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sp_fitness_app/shared/exercise_tile.dart';
-import '../../shared/my_textfield.dart';
-import '../../shared/workoutdata.dart';
+import 'package:sp_fitness_app/shared/my_textfield.dart';
+import 'package:sp_fitness_app/shared/workoutdata.dart';
 
 class WorkoutPage extends StatefulWidget {
   final String workoutName;
