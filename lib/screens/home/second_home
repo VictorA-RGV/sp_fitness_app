@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-
 import 'workout_page.dart';
-import 'package:sp_fitness_app/screens/Startup/Strength_Level.dart';
-import 'package:sp_fitness_app/screens/exercise/ex.dart';
-import 'package:sp_fitness_app/screens/exercise/my_textfield.dart';
-import 'package:sp_fitness_app/screens/get_started.dart';
+// import 'package:sp_fitness_app/screens/Startup/Strength_Level.dart'; Does not exist
+import 'package:sp_fitness_app/shared/ex.dart';
+import 'package:sp_fitness_app/shared/my_textfield.dart';
+import 'package:sp_fitness_app/screens/Startup/get_started.dart';
 import 'package:sp_fitness_app/screens/home/home.dart';
 import 'package:sp_fitness_app/screens/home/workout_page.dart';
 import 'package:sp_fitness_app/screens/home/second_home';
-import 'package:sp_fitness_app/screens/exercise/workoutdata.dart';
-import 'package:sp_fitness_app/lib\shared\workout_tile.dart';
+import 'package:sp_fitness_app/shared/workoutdata.dart';
+import 'package:sp_fitness_app/shared/workout_tile.dart';
 
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
-
   @override
   State<HomePage> createState() => _HomePageState();
 }

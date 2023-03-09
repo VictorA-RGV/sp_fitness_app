@@ -18,10 +18,18 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => WorkoutData(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
+    // Adrian's Code ===============
+    // return ChangeNotifierProvider(
+    //   create: (context) => WorkoutData(),
+    //   child: MaterialApp(
+    //     debugShowCheckedModeBanner: false,
+    // Victor's Code =========================
+    return StreamProvider<UserModel?>.value(
+      initialData: UserModel(uid: ''),
+      value: AuthService().user,
+      child: const MaterialApp(
+        // ==================================
+
         home: Wrapper(),
       ),
     );
