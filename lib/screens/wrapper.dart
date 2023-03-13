@@ -8,7 +8,6 @@ import 'package:sp_fitness_app/screens/Startup/testscreen.dart';
 import 'package:sp_fitness_app/screens/home/home.dart';
 import 'package:provider/provider.dart';
 import 'package:sp_fitness_app/models/user.dart';
-
 import 'package:sp_fitness_app/screens/Startup/get_started.dart';
 
 //depending if the user is logged in or not will be moved to either authenticate or home page

@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:sp_fitness_app/screens/RegistrationProcess/strength.dart';
 import 'package:sp_fitness_app/shared/ex.dart';
-//import 'package:sp_fitness_app/screens/exercise/ex.dart';
 import 'package:sp_fitness_app/screens/home/home.dart';
 import 'package:sp_fitness_app/screens/home/workout_page.dart';
 import 'package:sp_fitness_app/screens/home/second_home.dart';
@@ -23,15 +22,15 @@ class Testscreen extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Text('Testing Screen'),
-            for (var i = 0; i < Names.length; i++)
+            for (var i = 0; i < Names2.length; i++)
               ElevatedButton(
                 //var hi = Names.i;
                 // inspect(Names[i]).toString(),
-                child: Text(Names[i][0].toString()),
+                child: Text(Names2[i][0].toString()),
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Names[i][1]),
+                    MaterialPageRoute(builder: (context) => Names2[i][1]),
                   );
                 },
               ),
@@ -48,3 +47,9 @@ List Names = [ ['testscreen',Testscreen()],[ 'workout', WorkoutPage(workoutName:
 ['exc', Excercise2()]
 
 ];
+// Adrian's Code ======================
+// List Names = [['strength level',Strength_Level()], ['testscreen',Testscreen()],['getstarted', GetStarted()],[ 'workout', WorkoutPage(workoutName: 'Day 1')],
+// ['exc', Excercise2()], ['secondhome',HomePage()]
+// ];
+// *** The import for this does not exist ***
+// =========================
