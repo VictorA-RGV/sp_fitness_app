@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-// import 'package:sp_fitness_app/screens/Authenticate/authenticate.dart'; // Does not exist
+
 import 'package:sp_fitness_app/screens/Authenticate/register.dart';
-// import 'package:sp_fitness_app/screens/Startup/Strength_Level.dart'; // Does not exist
+import 'package:sp_fitness_app/screens/RegistrationProcess/strength.dart';
 
 import 'package:sp_fitness_app/screens/Startup/testscreen.dart';
 import 'package:sp_fitness_app/screens/home/home.dart';
@@ -23,10 +23,14 @@ class Wrapper extends StatelessWidget {
     if (user == null) {
       // return const Authenticate();
       // return Testscreen();
+      print(user);
+      print(' in null');
       return GetStarted(); // takes us to get started screen
     }
     // If the User is logged in. Brings us to the Home Screen
     else {
+      print(user);
+      print('in home');
       return Home();
     }
   }

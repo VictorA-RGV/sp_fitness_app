@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sp_fitness_app/screens/Startup/get_started.dart'; // You can delete this when the import below is recreated or committed properly.
-// import 'package:sp_fitness_app/screens/Startup/Strength_Level.dart'; // This does not exist
-import 'package:sp_fitness_app/shared/ex.dart';
+
+import 'package:sp_fitness_app/screens/RegistrationProcess/strength.dart';
 import 'package:sp_fitness_app/shared/ex.dart';
 import 'package:sp_fitness_app/screens/home/home.dart';
 import 'package:sp_fitness_app/screens/home/workout_page.dart';
-import 'package:sp_fitness_app/screens/home/second_home';
+import 'package:sp_fitness_app/screens/home/second_home.dart';
 import 'package:sp_fitness_app/screens/Authenticate/register.dart';
+
 
 class Testscreen extends StatelessWidget {
   @override
@@ -42,10 +42,10 @@ class Testscreen extends StatelessWidget {
 }
 
 // make a list of pages to be displayed
-// Victor's Code ==============================
-List Names2 = [
-  ['testscreen', Testscreen()],
-  ['getstarted', GetStarted()],
+
+List Names2 = [ ['testscreen',Testscreen()],[ 'workout', WorkoutPage(workoutName: 'Day 1')],
+['exc', Excercise2()]
+
 ];
 // Adrian's Code ======================
 // List Names = [['strength level',Strength_Level()], ['testscreen',Testscreen()],['getstarted', GetStarted()],[ 'workout', WorkoutPage(workoutName: 'Day 1')],

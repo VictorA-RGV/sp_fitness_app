@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:sp_fitness_app/screens/Achivements/achivements.dart';
+import 'package:sp_fitness_app/screens/home/second_home.dart';
 import 'package:sp_fitness_app/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:sp_fitness_app/screens/home/second_home';
+import 'package:sp_fitness_app/screens/home/second_home.dart';
 
 // landing page for a longed in user
 class Home extends StatelessWidget {
   // Setting up object to use the Auth Service of Firebase. (Mainly to Sign Out or transmit data to database)
   final AuthService _auth = AuthService();
   //CollectionReference userI = FirebaseFirestore.instance.collection('Users');
-  final Stream<QuerySnapshot> userData =
-      FirebaseFirestore.instance.collection('Users').snapshots();
+  final Stream<QuerySnapshot> userData = FirebaseFirestore.instance.collection('Users').snapshots();
 
   @override
   Widget build(BuildContext context) {
@@ -95,18 +95,18 @@ class Home extends StatelessWidget {
                 },
                 // Text on Button
                 child: const Text('Achivements')),
-            ElevatedButton(
+                ElevatedButton(
                 onPressed: () {
                   // Takes us to Achievements Page
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => HomePage(),
+                      builder: (context) => SecondHomePage(),
                     ),
                   );
                 },
                 // Text on Button
-                child: const Text('Second Home'))
+                child: const Text('workout')),
           ],
         ),
       ),
