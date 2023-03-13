@@ -43,7 +43,7 @@ class Testscreen extends StatelessWidget {
 
 // make a list of pages to be displayed
 
-List Names = [ ['testscreen',Testscreen()],[ 'workout', WorkoutPage(workoutName: 'Day 1')],
+List Names2 = [ ['testscreen',Testscreen()],[ 'workout', WorkoutPage(workoutName: 'Day 1')],
 ['exc', Excercise2()]
 
 ];

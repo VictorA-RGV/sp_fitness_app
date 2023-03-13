@@ -3,7 +3,7 @@ import 'package:sp_fitness_app/screens/Achivements/achivements.dart';
 import 'package:sp_fitness_app/screens/home/second_home.dart';
 import 'package:sp_fitness_app/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:sp_fitness_app/screens/home/second_home';
+import 'package:sp_fitness_app/screens/home/second_home.dart';
 
 // landing page for a longed in user
 class Home extends StatelessWidget {
