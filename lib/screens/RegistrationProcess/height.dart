@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:sp_fitness_app/services/auth.dart';
 import 'package:numberpicker/numberpicker.dart';
-import 'package:sp_fitness_app/shared/constants.dart';
-import 'package:sp_fitness_app/screens/RegistrationProcess/gender.dart';
 import 'package:sp_fitness_app/screens/RegistrationProcess/strength.dart';
 
 class Height extends StatefulWidget {
@@ -18,10 +14,7 @@ class Height extends StatefulWidget {
 
 // landing page for a longed in user
 class _Height extends State<Height> {
-  final AuthService _auth = AuthService();
-  bool valIsString = true;
   String height = "";
-  String error = "";
 
   int _currentFeet = 5;
   int _currentInches = 8;
@@ -32,7 +25,9 @@ class _Height extends State<Height> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        // Turns the App Bar invisible
         elevation: 0.0,
+        // Button used to go to the previous screen
         leading: const BackButton(
           color: Colors.blueGrey,
           key: Key('Strength-back-button'),
@@ -43,6 +38,7 @@ class _Height extends State<Height> {
         child: Form(
           child: Column(
             children: [
+              // Text to inform the user of the purpse of the Screen
               const Text(
                 'Height',
                 style: TextStyle(
@@ -51,17 +47,17 @@ class _Height extends State<Height> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              // Padding
               const SizedBox(
-                height: 20.0,
-              ),
-              const SizedBox(
-                height: 20.0,
+                height: 40.0,
               ),
               Row(
+                // Sets the alignment of the widgets
                 mainAxisAlignment: MainAxisAlignment.center,
                 // crossAxisAlignment: CrossAxisAlignment.center,
 
                 children: [
+                  // Creates a widget for user to select their height in feet (Adds inches later)
                   NumberPicker(
                     selectedTextStyle: const TextStyle(
                       color: Color.fromARGB(255, 255, 93, 81),
@@ -72,21 +68,26 @@ class _Height extends State<Height> {
                       fontSize: 16,
                       // fontWeight: FontWeight.bold
                     ),
-                    minValue: 0,
+                    // Sets the min and max feet of height possible
+                    minValue: 3,
                     maxValue: 9,
+                    // Sets the default feet
                     value: _currentFeet,
+                    // Changes variable to the selected digit
                     onChanged: (value) async {
                       setState(() {
                         _currentFeet = value;
                       });
                     },
                   ),
+                  // Informs user that this widget is for the feet in their height
                   const Text(
                     'ft',
                     style: TextStyle(
                       fontSize: 16,
                     ),
                   ),
+                  // The inches portion
                   NumberPicker(
                     selectedTextStyle: const TextStyle(
                       color: Color.fromARGB(255, 255, 93, 81),
@@ -97,15 +98,19 @@ class _Height extends State<Height> {
                       fontSize: 16,
                       // fontWeight: FontWeight.bold
                     ),
+                    // Sets the min and max number of inches
                     minValue: 0,
                     maxValue: 11,
+                    // Sets the default inches
                     value: _currentInches,
+                    // Changes variable to the selected digit
                     onChanged: (value) async {
                       setState(() {
                         _currentInches = value;
                       });
                     },
                   ),
+                  // Informs user that this widget is for the inches in their height
                   const Text(
                     'in',
                     style: TextStyle(
@@ -118,40 +123,19 @@ class _Height extends State<Height> {
                 child: Container(), // puts our elevatedButton at the bottom.
               ),
               ElevatedButton(
-                onPressed: valIsString
-                    ? () {
-                        height = '$_currentFeet ft $_currentInches in';
-                        print(height);
-                        // if (height > 0) {
-                        //   Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => Strength(widget.age,
-                        //           widget.gender, widget.weight, height),
-                        //     ),
-                        //   );
-                        // } else if (height == null ||
-                        //     height is double ||
-                        //     height <= 0) {
-                        //   setState(() {
-                        //     error = 'Not a valid Height';
-                        //   });
-                        // }
-                        if (height is String) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Strength(widget.age,
-                                  widget.gender, widget.weight, height),
-                            ),
-                          );
-                        } else {
-                          setState(() {
-                            error = 'Not a valid Height';
-                          });
-                        }
-                      }
-                    : null,
+                onPressed: () {
+                  // Changes variable to hold data of user's height
+                  height = '$_currentFeet ft $_currentInches in';
+                  // Brings us to the enxt screen
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Strength(
+                          widget.age, widget.gender, widget.weight, height),
+                    ),
+                  );
+                },
+                // Text to inform user the purpose of the button
                 child: const Text('Next'),
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(327, 50),
@@ -164,10 +148,6 @@ class _Height extends State<Height> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 15.0,
-                child: Text(error),
-              )
             ],
           ),
         ),

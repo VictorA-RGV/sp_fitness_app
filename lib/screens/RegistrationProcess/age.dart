@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:sp_fitness_app/shared/custombutton1.dart';
 import 'package:sp_fitness_app/services/auth.dart';
-import 'package:sp_fitness_app/shared/constants.dart';
 import 'package:sp_fitness_app/screens/RegistrationProcess/gender.dart';
 
 class Age extends StatefulWidget {
@@ -13,20 +11,20 @@ class Age extends StatefulWidget {
 
 // landing page for a longed in user
 class _Age extends State<Age> {
+  // Creating an object to use firebase Auth Service
   final AuthService _auth = AuthService();
-
+  // Initializing variables
   int _currentValue = 30; // default value for number picker.
-  bool valIsInt = true;
   int age = 0;
-  String error = "";
 
   @override
   Widget build(BuildContext context) {
-    String error = "";
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        // Turns the App Bar invisible
         elevation: 0.0,
+        // Button used to go to the previous screen
         leading: const BackButton(
           color: Colors.blueGrey,
           key: Key('Strength-back-button'),
@@ -40,6 +38,7 @@ class _Age extends State<Age> {
               const SizedBox(
                 height: 20.0,
               ),
+              // Text used to inform user of the screen's purpose
               const Text(
                 'Age',
                 style: TextStyle(
@@ -51,6 +50,7 @@ class _Age extends State<Age> {
               const SizedBox(
                 height: 40.0,
               ),
+              // Widget used to select age value
               NumberPicker(
                 selectedTextStyle: const TextStyle(
                   color: Color.fromARGB(255, 255, 93, 81),
@@ -61,9 +61,12 @@ class _Age extends State<Age> {
                   fontSize: 16,
                   // fontWeight: FontWeight.bold
                 ),
-                minValue: 0,
+                // Sets the min and max age.
+                minValue: 10,
                 maxValue: 120,
+                // Sets the default age
                 value: _currentValue,
+                // Changes variable to the selected digit
                 onChanged: (value) async {
                   setState(
                     () {
@@ -78,29 +81,27 @@ class _Age extends State<Age> {
               Expanded(
                 child: Container(), // puts our elevatedButton at the bottom.
               ),
+              // Creation of button to go to next screen
               ElevatedButton(
-                onPressed: valIsInt
-                    ? () {
-                        if (_currentValue > 0) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Gender(_currentValue),
-                            ),
-                          );
-                        } else if (age == null || age is double || age <= 0) {
-                          setState(
-                            () {
-                              error = 'Not a valid age';
-                            },
-                          );
-                        }
-                      }
-                    : null,
+                // Checks if the value entered is an integer
+                onPressed: () {
+                  if (_currentValue >= 0) {
+                    // Brings us to the Gender Selection Screen while passing our data
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Gender(_currentValue),
+                      ),
+                    );
+                    // If age is invalid then we give an error
+                  }
+                },
+                // Text of button
                 child: const Text(
                   'Next',
                   style: TextStyle(fontSize: 15),
                 ),
+                // Changes the apperance of the button
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(327, 50),
                   elevation: 0,
@@ -112,11 +113,7 @@ class _Age extends State<Age> {
                   ),
                 ),
               ),
-              // CustomButton1(text: 'hi', onPressed: ), // not quire sure how to pass the callback function onto our custom widget.
-              SizedBox(
-                height: 15.0,
-                child: Text(error),
-              )
+              // CustomButton1(text: 'hi', onPressed: ), // not sure how to pass the callback function onto our custom widget.
             ],
           ),
         ),
