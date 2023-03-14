@@ -1,10 +1,29 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
-class AcievementCircs {
-  double? progress = 0;
+class AchievementCircs extends StatefulWidget {
+  final String image;
+  final String name;
+  final Color color;
+  final double progress;
+  final void Function() onIncrease;
 
-  Widget achivementCircle(String image, String name, Color color) {
+  const AchievementCircs({
+    required this.image,
+    required this.name,
+    required this.color,
+    required this.progress,
+    required this.onIncrease,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  _AchievementCircsState createState() => _AchievementCircsState();
+}
+
+class _AchievementCircsState extends State<AchievementCircs> {
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: [
         Stack(
@@ -21,7 +40,7 @@ class AcievementCircs {
                     valueColor:
                         const AlwaysStoppedAnimation<Color>(Colors.yellow),
                     value:
-                        progress, // This is how much it is filled. 1 would be full.
+                        widget.progress, // This is how much it is filled. 1 would be full.
                     strokeWidth: 60, // Width of the bar.
                   ),
                 ),
@@ -30,9 +49,9 @@ class AcievementCircs {
                 // The picture
                 CircleAvatar(
                   radius: 40, // Size of the inner portion color.
-                  backgroundColor: color,
+                  backgroundColor: widget.color,
                   child: Image.asset(
-                    image, // Note, the image should not have a background. Otherwise, it will look weird... unless it has a circular background.
+                    widget.image, // Note, the image should not have a background. Otherwise, it will look weird... unless it has a circular background.
                     height: 50,
                   ),
                 ),
@@ -64,7 +83,7 @@ class AcievementCircs {
 
         // Name of achivement - Should remain here
         Text(
-          name,
+          widget.name,
           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
         ),
         const Padding(padding: EdgeInsets.all(25)), // Super important spacing.
@@ -74,8 +93,7 @@ class AcievementCircs {
       ],
     );
   }
-
-  void increaseVal() {
-    progress = progress! + .25;
-  }
 }
+
+
+
