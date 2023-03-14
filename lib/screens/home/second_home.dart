@@ -1,22 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-
 import 'workout_page.dart';
+<<<<<<< HEAD:lib/screens/home/second_home.dart
 
 
+=======
+// import 'package:sp_fitness_app/screens/Startup/Strength_Level.dart'; Does not exist
+import 'package:sp_fitness_app/shared/ex.dart';
+>>>>>>> 384028aac05b595dcf8302aceb8786d1fcdb16fe:lib/screens/home/second_home
 import 'package:sp_fitness_app/shared/my_textfield.dart';
 import 'package:sp_fitness_app/screens/Startup/get_started.dart';
 import 'package:sp_fitness_app/screens/home/home.dart';
 import 'package:sp_fitness_app/screens/home/workout_page.dart';
+<<<<<<< HEAD:lib/screens/home/second_home.dart
 import 'package:sp_fitness_app/screens/home/second_home.dart';
+=======
+import 'package:sp_fitness_app/screens/home/second_home';
+>>>>>>> 384028aac05b595dcf8302aceb8786d1fcdb16fe:lib/screens/home/second_home
 import 'package:sp_fitness_app/shared/workoutdata.dart';
 import 'package:sp_fitness_app/shared/workout_tile.dart';
 
 
+<<<<<<< HEAD:lib/screens/home/second_home.dart
 class SecondHomePage extends StatefulWidget {
   const SecondHomePage({super.key});
 
+=======
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+>>>>>>> 384028aac05b595dcf8302aceb8786d1fcdb16fe:lib/screens/home/second_home
   @override
   State<SecondHomePage> createState() => _SecondHomePage();
 }

@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 
+<<<<<<< HEAD
 
 import 'package:sp_fitness_app/screens/Authenticate/register.dart';
 import 'package:sp_fitness_app/screens/RegistrationProcess/strength.dart';
+=======
+// import 'package:sp_fitness_app/screens/Authenticate/authenticate.dart'; // Does not exist
+import 'package:sp_fitness_app/screens/Authenticate/register.dart';
+// import 'package:sp_fitness_app/screens/Startup/Strength_Level.dart'; // Does not exist
+>>>>>>> 384028aac05b595dcf8302aceb8786d1fcdb16fe
 
 import 'package:sp_fitness_app/screens/Startup/testscreen.dart';
 import 'package:sp_fitness_app/screens/home/home.dart';
 import 'package:provider/provider.dart';
 import 'package:sp_fitness_app/models/user.dart';
-
 import 'package:sp_fitness_app/screens/Startup/get_started.dart';
 
 //depending if the user is logged in or not will be moved to either authenticate or home page

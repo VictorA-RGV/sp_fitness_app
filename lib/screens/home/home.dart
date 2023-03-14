@@ -3,6 +3,7 @@ import 'package:sp_fitness_app/screens/Achivements/achivements.dart';
 import 'package:sp_fitness_app/screens/home/second_home.dart';
 import 'package:sp_fitness_app/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:sp_fitness_app/screens/home/second_home';
 
 // landing page for a longed in user
 class Home extends StatelessWidget {
@@ -94,18 +95,30 @@ class Home extends StatelessWidget {
                 },
                 // Text on Button
                 child: const Text('Achivements')),
+<<<<<<< HEAD
                 ElevatedButton(
+=======
+            ElevatedButton(
+>>>>>>> 384028aac05b595dcf8302aceb8786d1fcdb16fe
                 onPressed: () {
                   // Takes us to Achievements Page
                   Navigator.push(
                     context,
                     MaterialPageRoute(
+<<<<<<< HEAD
                       builder: (context) => SecondHomePage(),
+=======
+                      builder: (context) => HomePage(),
+>>>>>>> 384028aac05b595dcf8302aceb8786d1fcdb16fe
                     ),
                   );
                 },
                 // Text on Button
+<<<<<<< HEAD
                 child: const Text('workout')),
+=======
+                child: const Text('Second Home'))
+>>>>>>> 384028aac05b595dcf8302aceb8786d1fcdb16fe
           ],
         ),
       ),
