@@ -10,7 +10,8 @@ class Home extends StatelessWidget {
   // Setting up object to use the Auth Service of Firebase. (Mainly to Sign Out or transmit data to database)
   final AuthService _auth = AuthService();
   //CollectionReference userI = FirebaseFirestore.instance.collection('Users');
-  final Stream<QuerySnapshot> userData = FirebaseFirestore.instance.collection('Users').snapshots();
+  final Stream<QuerySnapshot> userData =
+      FirebaseFirestore.instance.collection('Users').snapshots();
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +96,7 @@ class Home extends StatelessWidget {
                 },
                 // Text on Button
                 child: const Text('Achivements')),
-                ElevatedButton(
+            ElevatedButton(
                 onPressed: () {
                   // Takes us to Achievements Page
                   Navigator.push(

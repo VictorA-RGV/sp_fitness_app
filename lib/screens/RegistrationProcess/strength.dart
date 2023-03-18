@@ -39,7 +39,7 @@ class _Strength extends State<Strength> {
         // Button used to go to the previous screen
         leading: const BackButton(
           color: Colors.blueGrey,
-          key: Key('Strength-back-button'),
+          key: Key('strength-back-button'),
         ),
       ),
       body: Center(

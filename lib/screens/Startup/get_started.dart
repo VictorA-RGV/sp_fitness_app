@@ -35,46 +35,14 @@ class _GetStarted extends State<GetStarted> {
             child: Lottie.network(
                 'https://assets3.lottiefiles.com/private_files/lf30_i5o0xxk6.json'),
           ),
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.all(32.0),
-              // Creates a button to lead to another screen to start the registeration process
-              child: ElevatedButton(
-                onPressed: () {
-                  // Brings you to the Age Screen
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Age(),
-                    ),
-                  );
-                },
-                // Affects the button appearance
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(327, 50),
-                  elevation: 0,
-                  // Color of button
-                  backgroundColor: Color.fromARGB(255, 255, 93, 81),
-                  // Shape of button
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(50),
-                    ),
-                  ),
-                ),
-                // Text of the button
-                child: const Text(
-                  "Get Started",
-                  style: TextStyle(fontSize: 15),
-                ),
-              ),
-            ),
-          ),
-          // ****** Someone with a bigger screen please commentate the portion below ****** //
-          Expanded(
-            child: GestureDetector(
-              onTap: () {
-                // Your sign-in code here
+          // Expanded(
+          Container(
+            padding: EdgeInsets.all(32.0),
+            // Creates a button to lead to another screen to start the registeration process
+            child: ElevatedButton(
+              key: Key('get-started'),
+              onPressed: () {
+                // Brings you to the Age Screen
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -82,35 +50,95 @@ class _GetStarted extends State<GetStarted> {
                   ),
                 );
               },
-              child: RichText(
-                text: TextSpan(
-                  text: 'Already have an account? ',
-                  style: DefaultTextStyle.of(context).style.copyWith(
+              // Affects the button appearance
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(327, 50),
+                elevation: 0,
+                // Color of button
+                backgroundColor: Color.fromARGB(255, 255, 93, 81),
+                // Shape of button
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(50),
+                  ),
+                ),
+              ),
+              // Text of the button
+              child: const Text(
+                "Get Started",
+                style: TextStyle(fontSize: 15),
+              ),
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 80),
+            child: Row(
+              children: [
+                const Text(
+                  'Already have an account? ',
+                  style: TextStyle(
                       fontSize: 16,
                       color: Colors.black,
                       fontWeight: FontWeight.w600,
                       decoration: TextDecoration.none,
                       fontFamily: 'Roboto'),
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: 'Sign in',
-                      recognizer: new TapGestureRecognizer()
-                        ..onTap = () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SignIn(),
-                              ),
-                            ),
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 255, 93, 81),
-                      ),
-                    ),
-                  ],
                 ),
-              ),
+                GestureDetector(
+                  onTap: () {
+                    //handle tap
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SignIn(),
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    'Sign in',
+                    key: Key('sign-in'),
+                    style: TextStyle(
+                        fontSize: 14,
+                        color: Color.fromARGB(255, 255, 93, 81),
+                        fontWeight: FontWeight.w600,
+                        decoration: TextDecoration.none,
+                        fontFamily: 'Roboto'),
+                  ),
+                ),
+              ],
             ),
-          )
+          ),
+
+          // ****** Someone with a bigger screen please commentate the portion below ****** //
+          // Expanded(
+          //   child: RichText(
+          //     key: const Key('rich-text'),
+          //     text: TextSpan(
+          //       text: 'Already have an account? ',
+          //       style: DefaultTextStyle.of(context).style.copyWith(
+          //           fontSize: 16,
+          //           color: Colors.black,
+          //           fontWeight: FontWeight.w600,
+          //           decoration: TextDecoration.none,
+          //           fontFamily: 'Roboto'),
+          //       children: <TextSpan>[
+          //         TextSpan(
+          //           text: 'Sign in',
+          //           recognizer: TapGestureRecognizer()
+          //             ..onTap = () => Navigator.push(
+          //                   context,
+          //                   MaterialPageRoute(
+          //                     builder: (context) => SignIn(),
+          //                   ),
+          //                 ),
+          //           style: const TextStyle(
+          //             fontSize: 12,
+          //             color: Color.fromARGB(255, 255, 93, 81),
+          //           ),
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
