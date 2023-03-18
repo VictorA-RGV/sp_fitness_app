@@ -28,7 +28,7 @@ class _Weight extends State<Weight> {
         // Button used to go to the previous screen
         leading: const BackButton(
           color: Colors.blueGrey,
-          key: Key('Strength-back-button'),
+          key: Key('weight-back-button'),
         ),
       ),
       body: Container(
@@ -80,6 +80,7 @@ class _Weight extends State<Weight> {
               ),
               ElevatedButton(
                 // Brings us to the next screen
+                key: Key('weight-next'),
                 onPressed: () async {
                   Navigator.push(
                     context,

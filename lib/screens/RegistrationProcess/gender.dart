@@ -26,7 +26,7 @@ class _Gender extends State<Gender> {
         // Button used to go to the previous screen
         leading: const BackButton(
           color: Colors.blueGrey,
-          key: Key('Strength-back-button'),
+          key: Key('gender-back-button'),
         ),
       ),
       body: Container(
@@ -53,6 +53,7 @@ class _Gender extends State<Gender> {
               ),
               // Creates a Button to select
               CustomButton1(
+                keyValue: Key('male'),
                 // Displays the choice
                 text: 'Male',
                 // Upon tapping the button. Transfer choice to variable and move to the next screen.
@@ -71,6 +72,7 @@ class _Gender extends State<Gender> {
                 height: 20.0,
               ),
               CustomButton1(
+                keyValue: Key('female'),
                 // Displays the choice
                 text: 'Female',
                 // Upon tapping the button. Transfer choice to variable and move to the next screen.
@@ -90,6 +92,7 @@ class _Gender extends State<Gender> {
               ),
               CustomButton1(
                 // Displays the choice
+                keyValue: Key('other'),
                 text: 'Other',
                 // Upon tapping the button. Transfer choice to variable and move to the next screen.
                 onPressed: () async {
