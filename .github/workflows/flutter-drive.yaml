@@ -1,5 +1,6 @@
+# Pulled this file from SE2
 # Name of the workflow
-name: Unit and Integration tests
+name: Integration tests # commented out the Unit tests for now
 # This work flow is triggered when pull requests are opened or updated
 on: [ pull_request ]
 # A workflow run is made up of one or more jobs.
