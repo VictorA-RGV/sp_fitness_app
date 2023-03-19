@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 import 'package:sp_fitness_app/screens/Authenticate/register.dart';
 import 'package:sp_fitness_app/screens/RegistrationProcess/strength.dart';
 
@@ -29,7 +28,7 @@ class Wrapper extends StatelessWidget {
     }
     // If the User is logged in. Brings us to the Home Screen
     else {
-      print(user);
+      print(user.uid);
       print('in home');
       return Home();
     }

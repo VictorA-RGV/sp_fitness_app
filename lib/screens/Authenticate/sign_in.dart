@@ -117,6 +117,7 @@ class _SignInState extends State<SignIn> {
                           // Gets the result from Firebase Service SignIn attempt
                           dynamic result = await _auth
                               .signInWithEmailAndPassword(email, password);
+
                           // If SignIn attempt fails. Display error.
                           if (result == null) {
                             setState(() {
@@ -125,12 +126,13 @@ class _SignInState extends State<SignIn> {
                               loading = false;
                             });
                             // If SignIn attempt succeeds. Brings us to Wrapper.
-                          } else
+                          } else {
                             Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
                                 builder: (context) => Wrapper(),
                               ),
                             );
+                          }
                         }
                       },
                       // Informs user the purpose of the button

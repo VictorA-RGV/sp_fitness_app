@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-
 import 'workout_page.dart';
-
-
+import 'package:sp_fitness_app/services/auth.dart';
 import 'package:sp_fitness_app/shared/my_textfield.dart';
 import 'package:sp_fitness_app/screens/Startup/get_started.dart';
 import 'package:sp_fitness_app/screens/home/home.dart';
@@ -12,7 +9,6 @@ import 'package:sp_fitness_app/screens/home/workout_page.dart';
 import 'package:sp_fitness_app/screens/home/second_home.dart';
 import 'package:sp_fitness_app/shared/workoutdata.dart';
 import 'package:sp_fitness_app/shared/workout_tile.dart';
-
 
 class SecondHomePage extends StatefulWidget {
   const SecondHomePage({super.key});
@@ -25,7 +21,6 @@ class _SecondHomePage extends State<SecondHomePage> {
   @override
   void initState() {
     super.initState();
-
     // initalize workout list
     Provider.of<WorkoutData>(context, listen: false).initializeWorkoutList();
   }
@@ -151,8 +146,23 @@ class _SecondHomePage extends State<SecondHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final AuthService _auth = AuthService();
     return Consumer<WorkoutData>(
       builder: (context, value, child) => Scaffold(
+        appBar: AppBar(
+          title: const Text('Workout Screen'),
+          backgroundColor: Colors.brown[400],
+          elevation: 0.0,
+          actions: <Widget>[
+            TextButton.icon(
+              onPressed: () async {
+                await _auth.signOut();
+              },
+              icon: const Icon(Icons.person),
+              label: const Text('logout'),
+            )
+          ],
+        ),
         backgroundColor: Colors.grey[300],
         floatingActionButton: FloatingActionButton(
           onPressed: createNewWorkout,
@@ -162,7 +172,6 @@ class _SecondHomePage extends State<SecondHomePage> {
         body: ListView(
           children: [
             // HEAT MAP
-            
 
             // WORKOUT LIST
             value.getWorkoutList().isEmpty
