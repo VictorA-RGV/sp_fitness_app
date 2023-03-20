@@ -45,26 +45,48 @@ on: [ pull_request ]
 #     - name: "Run Flutter Driver tests"
 #       run: "flutter drive --target=test_driver/app.dart"
 
+# jobs:
+#   build_and_test:
+#     runs-on: ubuntu-latest
+#     steps:
+#     - name: Checkout code
+#       uses: actions/checkout@v2
+    
+#     - name: Setup Flutter
+#       uses: subosito/flutter-action@v2
+#       with:
+#         channel: 'stable'
+    
+#     - name: Get dependencies
+#       run: flutter pub get
+    
+#     - name: Start emulator
+#       run: |
+#         echo "no" | avdmanager create avd -n test -k "system-images;android-30;google_apis;x86"
+#         $ANDROID_HOME/emulator/emulator -avd test -no-window -no-audio -no-snapshot -wipe-data -no-boot-anim &
+#         android-wait-for-emulator
+    
+#     - name: Run Flutter driver tests
+#       run: flutter drive --target=test_driver/app.dart --flavor dev --no-sound-null-safety --device-id emulator-5554
+
 jobs:
   build_and_test:
     runs-on: ubuntu-latest
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-    
-    - name: Setup Flutter
-      uses: subosito/flutter-action@v2
+
+    - name: Set up Java
+      uses: actions/setup-java@v2
       with:
-        channel: 'stable'
-    
-    - name: Get dependencies
+        java-version: '12.x'
+
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v1.2.0
+
+    - name: Install dependencies
       run: flutter pub get
-    
-    - name: Start emulator
-      run: |
-        echo "no" | avdmanager create avd -n test -k "system-images;android-30;google_apis;x86"
-        $ANDROID_HOME/emulator/emulator -avd test -no-window -no-audio -no-snapshot -wipe-data -no-boot-anim &
-        android-wait-for-emulator
-    
-    - name: Run Flutter driver tests
-      run: flutter drive --target=test_driver/app.dart --flavor dev --no-sound-null-safety --device-id emulator-5554
+
+    - name: Run tests on Android
+      run: flutter drive --target=test_driver/app.dart -d emulator-5554
