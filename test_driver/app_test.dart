@@ -78,7 +78,7 @@ void main() {
           // we should expect to be back in the get started screen.
           // doing this by seeing if the sign in text is present.
           final signInFinder = find.byValueKey('sign-in');
-          expect(await driver.getText(signInFinder), "Sign iiiin");
+          expect(await driver.getText(signInFinder), "Sign in");
         });
       });
 
