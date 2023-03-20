@@ -88,5 +88,22 @@ jobs:
     - name: Install dependencies
       run: flutter pub get
 
+    - name: Install emulator
+      uses: android-actions/setup-android-emulator@v2
+      with:
+        api-level: 30
+        target: default
+        tag: google_apis
+        arch: x86_64
+        profile: default
+        emulator-version: 30.7.5
+        force: true
+
+    - name: Start emulator
+      uses: android-actions/start-android-emulator@v2
+
+    - name: Wait for emulator
+      run: adb wait-for-device      
+
     - name: Run tests on Android
       run: flutter drive --target=test_driver/app.dart -d emulator-5554
