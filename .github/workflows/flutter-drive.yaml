@@ -48,62 +48,69 @@ on: [ pull_request ]
 # jobs:
 #   build_and_test:
 #     runs-on: ubuntu-latest
+
 #     steps:
 #     - name: Checkout code
 #       uses: actions/checkout@v2
-    
-#     - name: Setup Flutter
+
+#     # - name: Set up Java
+#     #   uses: actions/setup-java@v2
+#     #   with:
+#     #     java-version: '12.x'
+
+#     - name: Set up Flutter
 #       uses: subosito/flutter-action@v2
-#       with:
-#         channel: 'stable'
-    
-#     - name: Get dependencies
+
+#     - name: Install dependencies
 #       run: flutter pub get
-    
-#     - name: Start emulator
-#       run: |
-#         echo "no" | avdmanager create avd -n test -k "system-images;android-30;google_apis;x86"
-#         $ANDROID_HOME/emulator/emulator -avd test -no-window -no-audio -no-snapshot -wipe-data -no-boot-anim &
-#         android-wait-for-emulator
-    
-#     - name: Run Flutter driver tests
-#       run: flutter drive --target=test_driver/app.dart --flavor dev --no-sound-null-safety --device-id emulator-5554
+
+#     - name: Install emulator
+#       uses: android-actions/setup-android-emulator@v2
+#       with:
+#         api-level: 30
+#         target: default
+#         tag: google_apis
+#         arch: x86_64
+#         profile: default
+#         emulator-version: 30.7.5
+#         force: true
+
+#     # - name: Start emulator
+#     #   uses: android-actions/start-android-emulator@v2
+
+#     # - name: Wait for emulator
+#     #   run: adb wait-for-device      
+
+#     - name: Run tests on Android
+#       run: flutter drive --target=test_driver/app.dart -d emulator-5554
 
 jobs:
-  build_and_test:
+  flutter_test:
+    name: Run flutter 
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    # - name: Set up Java
-    #   uses: actions/setup-java@v2
-    #   with:
-    #     java-version: '12.x'
-
-    - name: Set up Flutter
-      uses: subosito/flutter-action@v2
-
-    - name: Install dependencies
-      run: flutter pub get
-
-    - name: Install emulator
-      uses: android-actions/setup-android-emulator@v2
+    - uses: actions/checkout@v2
+    - uses: actions/setup-java@v1
       with:
-        api-level: 30
-        target: default
-        tag: google_apis
-        arch: x86_64
-        profile: default
-        emulator-version: 30.7.5
-        force: true
+        java-version: "12.x"
+    - uses: subosito/flutter-action@v2
+      with:
+        channel: "stable"
+    - run: flutter pub get
 
-    - name: Start emulator
-      uses: android-actions/start-android-emulator@v2
-
-    - name: Wait for emulator
-      run: adb wait-for-device      
-
-    - name: Run tests on Android
-      run: flutter drive --target=test_driver/app.dart -d emulator-5554
+  build_appbundle:
+    name: Build Flutter (Android)
+    needs: [flutter_test]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-java@v1
+      with:
+        java-version: "12.x"
+    - uses: subosito/flutter-action@v2
+      with:
+        channel: "stable"
+    - run: flutter pub get
+    - run: flutter clean
+    - run: flutter build appbundle
+    - run: "flutter drive --target=test_driver/app.dart"
