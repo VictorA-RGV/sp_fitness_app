@@ -26,6 +26,7 @@ class _AchievementCircsState extends State<AchievementCircs> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        Padding(padding: EdgeInsets.all(5)),
         Stack(
           alignment: Alignment.bottomRight,
           children: [
@@ -34,13 +35,13 @@ class _AchievementCircsState extends State<AchievementCircs> {
               children: [
                 // The progression bar
                 Transform.rotate(
-                  angle: 3 * pi / 4,
+                  angle: 0 * pi / 4,
                   child: CircularProgressIndicator(
                     backgroundColor: Colors.grey[300],
-                    valueColor:
-                        const AlwaysStoppedAnimation<Color>(Colors.yellow),
-                    value:
-                        widget.progress, // This is how much it is filled. 1 would be full.
+                    valueColor: const AlwaysStoppedAnimation<Color>(
+                        Color.fromARGB(255, 255, 93, 81)),
+                    value: widget
+                        .progress, // This is how much it is filled. 1 would be full.
                     strokeWidth: 60, // Width of the bar.
                   ),
                 ),
@@ -48,10 +49,11 @@ class _AchievementCircsState extends State<AchievementCircs> {
                 const CircleAvatar(backgroundColor: Colors.white, radius: 40),
                 // The picture
                 CircleAvatar(
-                  radius: 40, // Size of the inner portion color.
+                  radius: 35, // Size of the inner portion color.
                   backgroundColor: widget.color,
                   child: Image.asset(
-                    widget.image, // Note, the image should not have a background. Otherwise, it will look weird... unless it has a circular background.
+                    widget
+                        .image, // Note, the image should not have a background. Otherwise, it will look weird... unless it has a circular background.
                     height: 50,
                   ),
                 ),
@@ -73,27 +75,24 @@ class _AchievementCircsState extends State<AchievementCircs> {
                 ),
                 // Achievement Level
                 Text(
-                  '2',
+                  '',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 )
               ],
             ),
           ],
         ),
-
+        Padding(padding: EdgeInsets.all(5)),
         // Name of achivement - Should remain here
         Text(
           widget.name,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
         ),
-        const Padding(padding: EdgeInsets.all(25)), // Super important spacing.
+        const Padding(padding: EdgeInsets.all(27)), // Super important spacing.
         const Padding(
-            padding: EdgeInsets.fromLTRB(100, 0, 55,
+            padding: EdgeInsets.fromLTRB(30, 0, 55,
                 0)), // Spacing for when there are 2 achievements in a row
       ],
     );
   }
 }
-
-
-
