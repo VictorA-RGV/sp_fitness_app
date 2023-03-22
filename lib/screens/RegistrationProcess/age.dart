@@ -27,7 +27,7 @@ class _Age extends State<Age> {
         // Button used to go to the previous screen
         leading: const BackButton(
           color: Colors.blueGrey,
-          key: Key('Strength-back-button'),
+          key: Key('age-back-button'),
         ),
       ),
       body: Container(
@@ -83,6 +83,7 @@ class _Age extends State<Age> {
               ),
               // Creation of button to go to next screen
               ElevatedButton(
+                key: Key('age-next'),
                 // Checks if the value entered is an integer
                 onPressed: () {
                   if (_currentValue >= 0) {

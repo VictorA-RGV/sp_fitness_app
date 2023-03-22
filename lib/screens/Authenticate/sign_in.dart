@@ -60,6 +60,7 @@ class _SignInState extends State<SignIn> {
                     ),
                     // Textfield for user to input their email
                     TextFormField(
+                      key: Key('email'),
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
@@ -83,6 +84,7 @@ class _SignInState extends State<SignIn> {
                     ),
                     // Textfield for user to input their password
                     TextFormField(
+                      key: Key('password'),
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
@@ -109,6 +111,7 @@ class _SignInState extends State<SignIn> {
                     ),
                     // Button to SignIn
                     ElevatedButton(
+                      key: Key('sign-in-btn'),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           setState(() {
