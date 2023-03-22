@@ -11,7 +11,7 @@ class Home extends StatelessWidget {
   // Setting up object to use the Auth Service of Firebase. (Mainly to Sign Out or transmit data to database)
   final AuthService _auth = AuthService();
   final FirebaseAuth auth = FirebaseAuth.instance;
-  FirebaseFirestore firestore = FirebaseFirestore.instance;=
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   //CollectionReference userI = FirebaseFirestore.instance.collection('Users');
   final Stream<QuerySnapshot> userData =
