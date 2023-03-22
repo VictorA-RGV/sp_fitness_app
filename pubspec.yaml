@@ -74,6 +74,8 @@ flutter:
     - images/logoipsum.svg
     - images/flexingArm.png
     - images/crown.png
+    - images/Trophy.png
+    - images/gym.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
