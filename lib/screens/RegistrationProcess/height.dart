@@ -30,7 +30,7 @@ class _Height extends State<Height> {
         // Button used to go to the previous screen
         leading: const BackButton(
           color: Colors.blueGrey,
-          key: Key('Strength-back-button'),
+          key: Key('height-back-button'),
         ),
       ),
       body: Container(
@@ -123,6 +123,7 @@ class _Height extends State<Height> {
                 child: Container(), // puts our elevatedButton at the bottom.
               ),
               ElevatedButton(
+                key: Key('height-next'),
                 onPressed: () {
                   // Changes variable to hold data of user's height
                   height = '$_currentFeet ft $_currentInches in';

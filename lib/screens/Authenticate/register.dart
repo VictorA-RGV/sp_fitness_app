@@ -56,7 +56,7 @@ class _RegisterState extends State<Register> {
               elevation: 0.0,
               leading: const BackButton(
                 color: Colors.blueGrey,
-                key: Key('Strength-back-button'),
+                key: Key('register-back-button'),
               ),
             ),
             body: Container(
@@ -69,6 +69,7 @@ class _RegisterState extends State<Register> {
                   children: [
                     const Text(
                       'Register',
+                      key: Key('register-screen'),
                       style: TextStyle(
                         fontFamily: 'Roboto',
                         fontSize: 30,
