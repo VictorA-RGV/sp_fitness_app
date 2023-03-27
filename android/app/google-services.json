@@ -29,6 +29,13 @@
             {
               "client_id": "1030184824169-p2gaaii7bbfea44uajuqtkan8mck9rac.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "1030184824169-jjmrmvul8rhk4c5rqouuhfmrj9fhukri.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "senior-fitness-app-ios"
+              }
             }
           ]
         }
