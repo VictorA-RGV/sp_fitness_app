@@ -5,10 +5,12 @@ packages:
     dependency: transitive
     description:
       name: _fe_analyzer_shared
+
       sha256: a36ec4843dc30ea6bf652bf25e3448db6c5e8bcf4aa55f063a5d1dad216d8214
       url: "https://pub.dev"
     source: hosted
     version: "58.0.0"
+
   _flutterfire_internals:
     dependency: transitive
     description:
@@ -16,15 +18,19 @@ packages:
       sha256: "330d7fcbb72624f5b6d374af8b059b0ef4ba96ba5b8987f874964a1287eb617d"
       url: "https://pub.dev"
     source: hosted
+
     version: "1.0.18"
+
   analyzer:
     dependency: transitive
     description:
       name: analyzer
+
       sha256: cc4242565347e98424ce9945c819c192ec0838cb9d1f6aa4a97cc96becbc5b27
       url: "https://pub.dev"
     source: hosted
     version: "5.10.0"
+
   animated_weight_picker:
     dependency: "direct main"
     description:
