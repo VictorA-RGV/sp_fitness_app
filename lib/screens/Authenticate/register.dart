@@ -1,10 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:sp_fitness_app/screens/Authenticate/sign_in.dart';
 import 'package:sp_fitness_app/screens/wrapper.dart';
 import 'package:sp_fitness_app/services/auth.dart';
-import 'package:sp_fitness_app/shared/constants.dart';
 import 'package:sp_fitness_app/shared/loading.dart';
 
 class Register extends StatefulWidget {
