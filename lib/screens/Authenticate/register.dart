@@ -7,8 +7,6 @@ import 'package:sp_fitness_app/services/auth.dart';
 import 'package:sp_fitness_app/shared/constants.dart';
 import 'package:sp_fitness_app/shared/loading.dart';
 
-import '../../models/user.dart';
-
 class Register extends StatefulWidget {
   // === This would be the variables register would be taking in ===
   int age;
@@ -162,6 +160,7 @@ class _RegisterState extends State<Register> {
                           });
                           dynamic result = await _auth
                               .registerWithEmailAndPassword(email, password);
+                          
 // gender, this.weight, this.height, this.selection
                           user.add({
                             'uid': result.uid,
