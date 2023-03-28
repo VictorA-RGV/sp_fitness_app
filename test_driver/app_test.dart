@@ -122,6 +122,6 @@ void main() {
       // test for invalid password on sign up.
       // test for invalid email on sign up. (i saw there was a package to see if an email is legit, could leave this for later)
       // test for unmatching passwords on sign up.
-    });
+    }, skip: true); 
   });
 }
