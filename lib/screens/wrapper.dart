@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sp_fitness_app/screens/home/home.dart';
 import 'package:sp_fitness_app/screens/Startup/get_started.dart';
 
+//Fake comment for git
 //depending if the user is logged in or not will be moved to either authenticate or home page
 class Wrapper extends StatelessWidget {
   const Wrapper({super.key});

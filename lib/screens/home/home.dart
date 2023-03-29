@@ -8,6 +8,7 @@ import 'package:sp_fitness_app/shared/custombutton1.dart';
 
 // landing page for a longed in user
 class Home extends StatelessWidget {
+  // Fake comment for git
   // Setting up object to use the Auth Service of Firebase. (Mainly to Sign Out or transmit data to database)
   final AuthService _auth = AuthService();
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -27,20 +28,23 @@ class Home extends StatelessWidget {
         // Maybe the color of the screen???
         backgroundColor: Colors.brown[50],
         appBar: AppBar(
-        title: const Text('', style: TextStyle(color: Colors.blueGrey),),
-        
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        actions: <Widget>[
-          TextButton.icon(
-            onPressed: () async {
-              await _auth.signOut();
-            },
-            icon: const Icon(Icons.person, color: Colors.blueGrey ),
-            label: const Text('logout',style: TextStyle(color: Colors.blueGrey)),
-          )
-        ],
-      ),
+          title: const Text(
+            '',
+            style: TextStyle(color: Colors.blueGrey),
+          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          actions: <Widget>[
+            TextButton.icon(
+              onPressed: () async {
+                await _auth.signOut();
+              },
+              icon: const Icon(Icons.person, color: Colors.blueGrey),
+              label: const Text('logout',
+                  style: TextStyle(color: Colors.blueGrey)),
+            )
+          ],
+        ),
         body: Padding(
           padding: const EdgeInsets.all(0.0),
           child: Column(
@@ -162,11 +166,13 @@ class Home extends StatelessWidget {
                         children: const [
                           SizedBox(
                             height: 20,
-                          ),Padding(padding: EdgeInsets.all(5)),
+                          ),
+                          Padding(padding: EdgeInsets.all(5)),
                           Text("0",
                               style: TextStyle(
                                   fontSize: 30, fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.center),Padding(padding: EdgeInsets.all(4)),
+                              textAlign: TextAlign.center),
+                          Padding(padding: EdgeInsets.all(4)),
                           Text("Workouts Completed",
                               style: TextStyle(fontSize: 16),
                               textAlign: TextAlign.center)
@@ -180,7 +186,7 @@ class Home extends StatelessWidget {
                           const Text("Workouts In-Progress",
                               style: TextStyle(fontSize: 16),
                               textAlign: TextAlign.center),
-                              Padding(padding: EdgeInsets.all(5)),
+                          Padding(padding: EdgeInsets.all(5)),
                           Row(
                             children: const [
                               Text("0",
@@ -318,7 +324,9 @@ class Home extends StatelessWidget {
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.home,),
+              icon: Icon(
+                Icons.home,
+              ),
               label: 'Home',
             ),
             BottomNavigationBarItem(

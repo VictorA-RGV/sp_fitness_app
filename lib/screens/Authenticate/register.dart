@@ -12,6 +12,8 @@ class Register extends StatefulWidget {
   String height;
   int selection;
 
+  // Fake comment to trigger git
+
   // ===============================================================
 
   //const Register({super.key});
@@ -157,7 +159,7 @@ class _RegisterState extends State<Register> {
                           });
                           dynamic result = await _auth
                               .registerWithEmailAndPassword(email, password);
-                          
+
 // gender, this.weight, this.height, this.selection
                           user.add({
                             'uid': result.uid,

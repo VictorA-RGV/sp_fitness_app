@@ -7,6 +7,7 @@ void main() {
     late FlutterDriver
         driver; // added late to fix some issue (need to look more into it)
 
+    // fake comment for Git
     // Connect to the Flutter driver before running any tests.
     setUpAll(() async {
       driver = await FlutterDriver.connect();
@@ -122,6 +123,6 @@ void main() {
       // test for invalid password on sign up.
       // test for invalid email on sign up. (i saw there was a package to see if an email is legit, could leave this for later)
       // test for unmatching passwords on sign up.
-    }); 
+    });
   });
 }
