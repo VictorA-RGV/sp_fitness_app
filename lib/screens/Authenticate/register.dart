@@ -1,13 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:sp_fitness_app/screens/Authenticate/sign_in.dart';
 import 'package:sp_fitness_app/screens/wrapper.dart';
 import 'package:sp_fitness_app/services/auth.dart';
-import 'package:sp_fitness_app/shared/constants.dart';
 import 'package:sp_fitness_app/shared/loading.dart';
-
-import '../../models/user.dart';
 
 class Register extends StatefulWidget {
   // === This would be the variables register would be taking in ===
@@ -16,6 +11,8 @@ class Register extends StatefulWidget {
   double weight;
   String height;
   int selection;
+
+  // Fake comment to trigger git
 
   // ===============================================================
 
@@ -162,6 +159,7 @@ class _RegisterState extends State<Register> {
                           });
                           dynamic result = await _auth
                               .registerWithEmailAndPassword(email, password);
+
 // gender, this.weight, this.height, this.selection
                           user.add({
                             'uid': result.uid,

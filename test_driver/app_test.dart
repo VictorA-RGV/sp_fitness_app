@@ -7,6 +7,7 @@ void main() {
     late FlutterDriver
         driver; // added late to fix some issue (need to look more into it)
 
+    // fake comment for Git
     // Connect to the Flutter driver before running any tests.
     setUpAll(() async {
       driver = await FlutterDriver.connect();

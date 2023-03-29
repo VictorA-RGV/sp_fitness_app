@@ -71,7 +71,7 @@ class _GetStarted extends State<GetStarted> {
             ),
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 80),
+            padding: EdgeInsets.symmetric(horizontal: 79),
             child: Row(
               children: [
                 const Text(
