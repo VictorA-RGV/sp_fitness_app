@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sp_fitness_app/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sp_fitness_app/shared/circularAchievments.dart';
-import 'dart:math';
+// import 'dart:math';
 
 class Achivements extends StatefulWidget {
   Achivements({Key? key}) : super(key: key);
@@ -18,32 +18,32 @@ class _AchivementsState extends State<Achivements> {
   List<double> progress = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
   final List<Map<String, dynamic>> achievementData = [
     {
-      'image': 'images/flexingArm.png',
+      'image': 'images/flexingArm1.png',
       'name': 'Big Muscles!',
       'color': Color(0xffeae2b7),
     },
     {
-      'image': 'images/flexingArm.png',
+      'image': 'images/flexingArm1.png',
       'name': 'Bigger Muscles!',
       'color': Color(0xffFCBF49),
     },
     {
-      'image': 'images/flexingArm.png',
+      'image': 'images/flexingArm1.png',
       'name': 'Massive Muscles!',
       'color': Color(0xffF77F00),
     },
     {
-      'image': 'images/flexingArm.png',
+      'image': 'images/flexingArm1.png',
       'name': 'Maximum Muscles! 1 ',
       'color': Color(0xffD62828),
     },
     {
-      'image': 'images/flexingArm.png',
+      'image': 'images/flexingArm1.png',
       'name': 'Maximum Muscles! 2 ',
       'color': Color(0xff003049),
     },
     {
-      'image': 'images/flexingArm.png',
+      'image': 'images/flexingArm1.png',
       'name': 'Maximum Muscles! 3 ',
       'color': Color(0xff3d348b),
     },

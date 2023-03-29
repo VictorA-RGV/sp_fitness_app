@@ -76,10 +76,10 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - images/logoipsum.svg
-    - images/flexingArm.png
+    - images/flexingArm1.png
     - images/crown.png
-    - images/Trophy.png
-    - images/gym.png
+    - images/Trophy1.png
+    - images/gym1.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

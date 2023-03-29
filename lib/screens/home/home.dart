@@ -243,7 +243,7 @@ class Home extends StatelessWidget {
                                   ),
                                 );
                               },
-                              icon: Image.asset('images/Trophy.png'),
+                              icon: Image.asset('images/Trophy1.png'),
                               iconSize: 150,
                             ),
                             const Padding(padding: EdgeInsets.only(bottom: 150))
@@ -294,7 +294,7 @@ class Home extends StatelessWidget {
                                   ),
                                 );
                               },
-                              icon: Image.asset('images/gym.png'),
+                              icon: Image.asset('images/gym1.png'),
                               iconSize: 100,
                             ),
                             const Padding(
