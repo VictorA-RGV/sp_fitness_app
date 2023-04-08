@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sp_fitness_app/screens/Achivements/achivements.dart';
 import 'package:sp_fitness_app/screens/home/second_home.dart';
-import 'package:sp_fitness_app/screens/home/thirdhome.dart';
+
 import 'package:sp_fitness_app/screens/home/workout_page.dart';
 import 'package:sp_fitness_app/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
