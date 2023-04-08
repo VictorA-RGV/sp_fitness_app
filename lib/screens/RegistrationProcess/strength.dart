@@ -8,7 +8,10 @@ class Strength extends StatefulWidget {
   String gender;
   double weight;
   String height;
-  Strength(this.age, this.gender, this.weight, this.height);
+  int frequency;
+  Strength(this.age, this.gender, this.weight, this.height, this.frequency);
+
+  
 
   @override
   _Strength createState() => _Strength();
@@ -17,6 +20,7 @@ class Strength extends StatefulWidget {
 // landing page for a longed in user
 class _Strength extends State<Strength> {
   final AuthService _auth = AuthService();
+ // final int days = getFrequency()
   // User choice
   int selection = 0;
 
@@ -84,6 +88,7 @@ class _Strength extends State<Strength> {
                   print(widget.gender);
                   print(widget.height);
                   print(widget.weight);
+                  print(widget.frequency);
                   print(selection);
                   // wanted to bypass Authenticate and go directly register
                   // Brings us to Registration Screen with all our data

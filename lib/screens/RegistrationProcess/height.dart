@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:sp_fitness_app/screens/RegistrationProcess/frequency.dart';
 import 'package:sp_fitness_app/screens/RegistrationProcess/strength.dart';
 
 class Height extends StatefulWidget {
@@ -131,7 +132,8 @@ class _Height extends State<Height> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Strength(
+                      builder: (context) => Frequency
+                      (
                           widget.age, widget.gender, widget.weight, height),
                     ),
                   );
