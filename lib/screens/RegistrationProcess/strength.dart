@@ -20,7 +20,6 @@ class _Strength extends State<Strength> {
   // User choice
   int selection = 0;
 
-  // Do we even need this? It's not being used...
   bool showSignIn = true;
   void toggleView() {
     setState(() {
