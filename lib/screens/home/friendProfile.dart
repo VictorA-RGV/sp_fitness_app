@@ -19,13 +19,12 @@ class _friendProfile extends State<friendProfile> {
   //CollectionReference userI = FirebaseFirestore.instance.collection('Users');
   final Stream<QuerySnapshot> userData =
       FirebaseFirestore.instance.collection('Users').snapshots();
-  // Collects User Specific Data
-  final Stream<QuerySnapshot> userData2 = FirebaseFirestore.instance
-      .collection('Users')
-      .where('email', isEqualTo: initFriendData()) // How the fuck do I do this?
-      .snapshots();
   @override
   Widget build(BuildContext context) {
+    final Stream<QuerySnapshot> userData2 = FirebaseFirestore.instance
+        .collection('Users')
+        .where('email', isEqualTo: widget.friendEmail)
+        .snapshots(); // This was possible?!
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -208,10 +207,5 @@ class _friendProfile extends State<friendProfile> {
         ),
       ),
     );
-  }
-
-  String initFriendData() {
-    String friendData = widget.friendEmail;
-    return friendData;
   }
 }
