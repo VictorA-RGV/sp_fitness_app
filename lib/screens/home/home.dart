@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:sp_fitness_app/screens/Achivements/achivements.dart';
 import 'package:sp_fitness_app/screens/home/friendProfile.dart';
 import 'package:sp_fitness_app/screens/home/second_home.dart';
+import 'package:sp_fitness_app/screens/home/workout_page.dart';
 import 'package:sp_fitness_app/screens/home/friendProfile.dart';
 import 'package:sp_fitness_app/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sp_fitness_app/shared/Initdata.dart';
+import 'package:sp_fitness_app/shared/workout.dart';
 
 class HomePage extends StatelessWidget {
   final AuthService _auth = AuthService();
@@ -234,7 +236,7 @@ class HomePage extends StatelessWidget {
                       Stack(
                         alignment: Alignment.center,
                         children: const [
-                          Text("Achivements",
+                          Text("Achievements",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 16))
                         ],

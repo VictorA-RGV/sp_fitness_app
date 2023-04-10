@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-
 import 'workout_page.dart';
-
-
 import 'package:sp_fitness_app/shared/my_textfield.dart';
 import 'package:sp_fitness_app/screens/Startup/get_started.dart';
 import 'package:sp_fitness_app/screens/home/home.dart';
@@ -51,7 +47,7 @@ class _SecondHomePage extends State<SecondHomePage> {
         backgroundColor: Colors.grey[900],
         content: MyTextField(
           controller: _newWorkoutNameController,
-          hintText: "New workout",
+          hintText: "New workout second",
         ),
         actions: [
           // save
