@@ -47,6 +47,10 @@ void main() {
           final heightNextButtonFinder = find.byValueKey('height-next');
           await driver.tap(heightNextButtonFinder);
 
+          //Frequency screen
+          final freqButtonFinder = find.byValueKey('1');
+          await driver.tap(freqButtonFinder);
+
           //strength screen
           final advancedButtonFinder = find.byValueKey('advanced-button');
           await driver.tap(advancedButtonFinder);
@@ -63,6 +67,9 @@ void main() {
 
           final strengthBackFinder = find.byValueKey('strength-back-button');
           await driver.tap(strengthBackFinder);
+
+          final frequencyBackFinder = find.byValueKey('frequency-back-button');
+          await driver.tap(frequencyBackFinder);
 
           final heightBackFinder = find.byValueKey('height-back-button');
           await driver.tap(heightBackFinder);
