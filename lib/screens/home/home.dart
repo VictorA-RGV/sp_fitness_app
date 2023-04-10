@@ -7,7 +7,6 @@ import 'package:sp_fitness_app/screens/home/workout_page.dart';
 import 'package:sp_fitness_app/screens/home/friendProfile.dart';
 import 'package:sp_fitness_app/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:sp_fitness_app/shared/Initdata.dart';
 import 'package:sp_fitness_app/shared/workout.dart';
 
 class HomePage extends StatelessWidget {
@@ -21,13 +20,13 @@ class HomePage extends StatelessWidget {
   final Stream<QuerySnapshot> userData =
       FirebaseFirestore.instance.collection('Users').snapshots();
 
-  // Collects User Specific Data
-  final Stream<QuerySnapshot> userData2 = FirebaseFirestore.instance
-      .collection('Users')
-      .where('uid', isEqualTo: initData())
-      .snapshots();
   @override
   Widget build(BuildContext context) {
+    // Collects User Specific Data
+    final Stream<QuerySnapshot> userData2 = FirebaseFirestore.instance
+        .collection('Users')
+        .where('uid', isEqualTo: _auth.getuid().toString())
+        .snapshots();
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(0.0),
@@ -317,12 +316,13 @@ class ProfilePage extends StatelessWidget {
   final Stream<QuerySnapshot> userData =
       FirebaseFirestore.instance.collection('Users').snapshots();
   // Collects User Specific Data
-  final Stream<QuerySnapshot> userData2 = FirebaseFirestore.instance
-      .collection('Users')
-      .where('uid', isEqualTo: initData())
-      .snapshots();
+
   @override
   Widget build(BuildContext context) {
+    final Stream<QuerySnapshot> userData2 = FirebaseFirestore.instance
+        .collection('Users')
+        .where('uid', isEqualTo: _auth.getuid().toString())
+        .snapshots();
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
