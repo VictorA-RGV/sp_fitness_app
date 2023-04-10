@@ -2,9 +2,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sp_fitness_app/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:sp_fitness_app/shared/Initdata.dart'; // Do not remove this
 
-class profile extends StatelessWidget {
+class friendProfile extends StatefulWidget {
+  String friendEmail;
+  friendProfile(this.friendEmail);
+
+  @override
+  _friendProfile createState() => _friendProfile();
+}
+
+class _friendProfile extends State<friendProfile> {
   final AuthService _auth = AuthService();
   final FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -15,7 +22,7 @@ class profile extends StatelessWidget {
   // Collects User Specific Data
   final Stream<QuerySnapshot> userData2 = FirebaseFirestore.instance
       .collection('Users')
-      .where('uid', isEqualTo: initData())
+      .where('email', isEqualTo: initFriendData()) // How the fuck do I do this?
       .snapshots();
   @override
   Widget build(BuildContext context) {
@@ -201,5 +208,10 @@ class profile extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String initFriendData() {
+    String friendData = widget.friendEmail;
+    return friendData;
   }
 }
