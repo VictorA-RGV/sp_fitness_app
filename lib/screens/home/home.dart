@@ -2,9 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sp_fitness_app/screens/Achivements/achivements.dart';
 import 'package:sp_fitness_app/screens/home/second_home.dart';
+import 'package:sp_fitness_app/screens/home/profile.dart';
 import 'package:sp_fitness_app/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:sp_fitness_app/shared/custombutton1.dart';
+import 'package:sp_fitness_app/shared/Initdata.dart';
 
 // landing page for a longed in user
 class Home extends StatelessWidget {
@@ -25,13 +26,9 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // Maybe the color of the screen???
-        backgroundColor: Colors.brown[50],
+        // Maybe the color of the screen
+        backgroundColor: Colors.grey[300],
         appBar: AppBar(
-          title: const Text(
-            '',
-            style: TextStyle(color: Colors.blueGrey),
-          ),
           backgroundColor: Colors.transparent,
           elevation: 0.0,
           actions: <Widget>[
@@ -53,6 +50,7 @@ class Home extends StatelessWidget {
                 children: [
                   // Box used to make things look nice
                   Container(
+                      width: 375,
                       height: 60,
                       decoration: BoxDecoration(
                           color: Colors.white,
@@ -114,9 +112,10 @@ class Home extends StatelessWidget {
                       style: TextStyle(fontSize: 18),
                     ),
                   ),
+
                   // User icon
                   const Padding(
-                    padding: EdgeInsets.only(top: 10, left: 340),
+                    padding: EdgeInsets.only(top: 10, left: 320),
                     child: CircleAvatar(
                       backgroundImage: NetworkImage(
                           'https://cdn-icons-png.flaticon.com/512/147/147133.png'),
@@ -317,7 +316,20 @@ class Home extends StatelessWidget {
                     ),
                   ],
                 ),
-              )
+              ),
+              IconButton(
+                onPressed: () {
+                  // Takes us to Achievements Page
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => profile(),
+                    ),
+                  );
+                },
+                icon: Icon(Icons.person_2),
+                iconSize: 150,
+              ),
             ],
           ),
         ),
@@ -338,12 +350,8 @@ class Home extends StatelessWidget {
               label: 'Settings',
             ),
           ],
+          // currentIndex: _selectedIndex,
+          // onTap: _onItemTapped,
         ));
   }
-}
-
-// Get the data properly
-String initData() {
-  final AuthService _auth = AuthService();
-  return _auth.getuid().toString();
 }
