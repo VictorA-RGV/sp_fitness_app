@@ -73,10 +73,10 @@ class _friendProfile extends State<friendProfile> {
                     ? const CircleAvatar(
                         backgroundImage: NetworkImage(
                             'https://cdn-icons-png.flaticon.com/512/147/147133.png'),
-                        radius: 20,
+                        radius: 100,
                       )
                     : CircleAvatar(
-                        radius: 20,
+                        radius: 100,
                         backgroundImage:
                             NetworkImage("${data.docs[0]['ProfilePic']}"));
               },
