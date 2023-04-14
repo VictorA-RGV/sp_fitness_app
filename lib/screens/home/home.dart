@@ -8,6 +8,9 @@ import 'package:sp_fitness_app/screens/home/friendProfile.dart';
 import 'package:sp_fitness_app/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sp_fitness_app/shared/workout.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class HomePage extends StatelessWidget {
   final AuthService _auth = AuthService();
@@ -97,15 +100,40 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
                 // User icon
-                const Padding(
-                  padding: EdgeInsets.only(top: 10, left: 340),
-                  child: CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        'https://cdn-icons-png.flaticon.com/512/147/147133.png'),
+                Padding(
+                  padding: EdgeInsets.only(top: 10, left: 320),
+                  child: StreamBuilder<QuerySnapshot>(
+                    stream: userData2,
+                    builder: (
+                      BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot,
+                    ) {
+                      // If an error occurs when attempting to establish a connection to firebase.
+                      if (snapshot.hasError) {
+                        return const Text('Something went wrong.');
+                      }
+                      // If connection between firebase and app is not established right away.
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Text('Loading...');
+                      }
+                      // Get User Data
+                      final data = snapshot.requireData;
+                      return "${data.docs[0]['ProfilePic']}" == ""
+                          ? const CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                  'https://cdn-icons-png.flaticon.com/512/147/147133.png'),
+                              radius: 20,
+                            )
+                          : CircleAvatar(
+                              radius: 20,
+                              backgroundImage: NetworkImage(
+                                  "${data.docs[0]['ProfilePic']}"));
+                    },
                   ),
                 ),
               ],
             ),
+
             Stack(
               children: [
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -307,16 +335,51 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
+  @override
+  State<ProfilePage> createState() => _ProfilePage();
+}
+
+class _ProfilePage extends State<ProfilePage> {
+  double screenHeight = 0;
+  double screenWidth = 0;
+  Color primary = const Color(0xffeef444c);
+  String profilePicLink = "";
+
+  void pickUploadProfilePic(String UserID) async {
+    final currentUserDocRef =
+        FirebaseFirestore.instance.collection('Users').doc(UserID);
+
+    final image = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      maxHeight: 512,
+      maxWidth: 512,
+      imageQuality: 90,
+    );
+
+    Reference ref =
+        FirebaseStorage.instance.ref().child("${UserID}profilepic.jpg");
+
+    await ref.putFile(File(image!.path));
+
+    ref.getDownloadURL().then((value) async {
+      setState(() {
+        profilePicLink = value;
+        currentUserDocRef.update({
+          'ProfilePic': profilePicLink,
+        });
+      });
+    });
+  }
+
+  CollectionReference user = FirebaseFirestore.instance.collection('Users');
   final AuthService _auth = AuthService();
   final FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-
   //CollectionReference userI = FirebaseFirestore.instance.collection('Users');
   final Stream<QuerySnapshot> userData =
       FirebaseFirestore.instance.collection('Users').snapshots();
   // Collects User Specific Data
-
   @override
   Widget build(BuildContext context) {
     final Stream<QuerySnapshot> userData2 = FirebaseFirestore.instance
@@ -329,16 +392,47 @@ class ProfilePage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 15.0),
         child: Column(
           children: [
-            const CircleAvatar(
-              backgroundImage: NetworkImage(
-                  'https://cdn-icons-png.flaticon.com/512/147/147133.png'),
-              radius: 100,
-            ), // Need a bigger icon...
+            StreamBuilder<QuerySnapshot>(
+              stream: userData2,
+              builder: (
+                BuildContext context,
+                AsyncSnapshot<QuerySnapshot> snapshot,
+              ) {
+                // If an error occurs when attempting to establish a connection to firebase.
+                if (snapshot.hasError) {
+                  return const Text('Something went wrong.');
+                }
+                // If connection between firebase and app is not established right away.
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Text('Loading...');
+                }
+                // Get User Data
+                final data = snapshot.requireData;
+                return Column(children: [
+                  "${data.docs[0]['ProfilePic']}" == ""
+                      ? const CircleAvatar(
+                          backgroundImage: NetworkImage(
+                              'https://cdn-icons-png.flaticon.com/512/147/147133.png'),
+                          radius: 100,
+                        )
+                      : CircleAvatar(
+                          radius: 100,
+                          backgroundImage:
+                              NetworkImage("${data.docs[0]['ProfilePic']}")),
+                  ElevatedButton(
+                    onPressed: () {
+                      String userID = "${data.docs[0].id}";
+                      pickUploadProfilePic(userID);
+                    },
+                    child: const Text('upload Profile Pic'),
+                  ),
+                ]);
+              },
+            ),
             Padding(padding: EdgeInsets.only(bottom: 25)),
             Stack(
               children: [
                 StreamBuilder<QuerySnapshot>(
-                  // ???
                   stream: userData2,
                   builder: (
                     BuildContext context,
@@ -514,11 +608,15 @@ class _FriendsPageState extends State<FriendsPage> {
 
   Widget _buildFriendListItem(QueryDocumentSnapshot friend) {
     return ListTile(
-        leading: const CircleAvatar(
-          // backgroundImage: NetworkImage(friend.data()['profilePicture']),
-          backgroundImage: NetworkImage(
-              'https://twirpz.files.wordpress.com/2015/06/twitter-avi-gender-balanced-figure.png?w=640'),
-        ),
+        leading: "${friend['ProfilePic']}" == ""
+            ? const CircleAvatar(
+                backgroundImage: NetworkImage(
+                    'https://cdn-icons-png.flaticon.com/512/147/147133.png'),
+                radius: 20,
+              )
+            : CircleAvatar(
+                radius: 20,
+                backgroundImage: NetworkImage("${friend['ProfilePic']}")),
         title: Text(friend['email']),
         subtitle: Text('Current weight: ${friend['weight']}'),
         trailing: SizedBox(

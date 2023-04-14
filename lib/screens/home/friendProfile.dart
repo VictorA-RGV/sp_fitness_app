@@ -2,6 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sp_fitness_app/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class friendProfile extends StatefulWidget {
   String friendEmail;
@@ -48,10 +53,33 @@ class _friendProfile extends State<friendProfile> {
         padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 15.0),
         child: Column(
           children: [
-            const CircleAvatar(
-              backgroundImage: NetworkImage(
-                  'https://cdn-icons-png.flaticon.com/512/147/147133.png'),
-              radius: 100,
+            StreamBuilder<QuerySnapshot>(
+              stream: userData2,
+              builder: (
+                BuildContext context,
+                AsyncSnapshot<QuerySnapshot> snapshot,
+              ) {
+                // If an error occurs when attempting to establish a connection to firebase.
+                if (snapshot.hasError) {
+                  return const Text('Something went wrong.');
+                }
+                // If connection between firebase and app is not established right away.
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Text('Loading...');
+                }
+                // Get User Data
+                final data = snapshot.requireData;
+                return "${data.docs[0]['ProfilePic']}" == ""
+                    ? const CircleAvatar(
+                        backgroundImage: NetworkImage(
+                            'https://cdn-icons-png.flaticon.com/512/147/147133.png'),
+                        radius: 20,
+                      )
+                    : CircleAvatar(
+                        radius: 20,
+                        backgroundImage:
+                            NetworkImage("${data.docs[0]['ProfilePic']}"));
+              },
             ), // Need a bigger icon...
             Padding(padding: EdgeInsets.only(bottom: 25)),
             Stack(
@@ -207,5 +235,28 @@ class _friendProfile extends State<friendProfile> {
         ),
       ),
     );
+  }
+
+  double screenHeight = 0;
+  double screenWidth = 0;
+  Color primary = const Color(0xffeef444c);
+  String profilePicLink = "";
+  void pickUploadProfilePic() async {
+    final image = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      maxHeight: 512,
+      maxWidth: 512,
+      imageQuality: 90,
+    );
+
+    Reference ref = FirebaseStorage.instance.ref().child("profilepic.jpg");
+
+    await ref.putFile(File(image!.path));
+
+    ref.getDownloadURL().then((value) async {
+      setState(() {
+        profilePicLink = value;
+      });
+    });
   }
 }
