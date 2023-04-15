@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:sp_fitness_app/screens/Achivements/achivements.dart';
 import 'package:sp_fitness_app/screens/home/friendProfile.dart';
@@ -606,6 +607,85 @@ class _FriendsPageState extends State<FriendsPage> {
     });
   }
 
+  void _addFriend(QueryDocumentSnapshot friend) async {
+    // add current user to the list of friend requests of searched user.
+    print("Friend User: " +
+        friend['email']); // prints the person ur trying to add
+
+    final user = FirebaseAuth.instance.currentUser!;
+
+    final userDocument = await FirebaseFirestore.instance
+        .collection("Users")
+        .where("uid", isEqualTo: user.uid)
+        .get()
+        .then((querySnapshot) {
+      if (querySnapshot.docs.isNotEmpty) {
+        return querySnapshot.docs.first;
+      } else {
+        return null;
+      }
+    });
+
+    final userData = userDocument?.data();
+    print("Current User: " + userData!['email']);
+
+    // We want friends to get a request
+    // We feed them our current user email.
+    // friend['requests'] <-- want our logged in user email to be put on here.
+    // friend['requests']
+    friend.reference.update({
+      'requests':
+          FieldValue.arrayUnion([userData['email']]) // might need the ! here
+    });
+
+    // We want friends to able to see our request on their requests
+    // They should be able to accept or reject
+    // If Accepted, add them to friends list.
+    // If Rejected, get rid of request from requests list.
+  }
+
+  void acceptFriendRequest(String currentUserId, String friendEmail) async {
+    final currentUserDocRef =
+        FirebaseFirestore.instance.collection('Users').doc(currentUserId);
+
+    final friendDocRef = FirebaseFirestore.instance
+        .collection('Users')
+        .where('email', isEqualTo: friendEmail);
+
+    // Remove the friend's email from the current user's requests list
+    currentUserDocRef.update({
+      'requests': FieldValue.arrayRemove([friendEmail]),
+    });
+
+    // Add the friend's email to the current user's friends list
+    currentUserDocRef.update({
+      'friends': FieldValue.arrayUnion([friendEmail]),
+    });
+
+    // Get the friend's document reference
+    final friendQuerySnapshot = await friendDocRef.get();
+    final friendDoc = friendQuerySnapshot.docs.first;
+
+    // Get the current user's email
+    final currentUser = FirebaseAuth.instance.currentUser!;
+    final currentUserEmail = currentUser.email;
+
+    // Add the current user's email to the friend's friends list
+    friendDoc.reference.update({
+      'friends': FieldValue.arrayUnion([currentUserEmail]),
+    });
+  }
+
+  void rejectFriendRequest(String currentUserId, String friendEmail) async {
+    final currentUserDocRef =
+        FirebaseFirestore.instance.collection('Users').doc(currentUserId);
+
+    // Remove the friend's email from the current user's requests list
+    currentUserDocRef.update({
+      'requests': FieldValue.arrayRemove([friendEmail]),
+    });
+  }
+
   Widget _buildFriendListItem(QueryDocumentSnapshot friend) {
     return ListTile(
         leading: "${friend['ProfilePic']}" == ""
@@ -622,11 +702,10 @@ class _FriendsPageState extends State<FriendsPage> {
         trailing: SizedBox(
           width: 60,
           child: ElevatedButton.icon(
-            // onPressed: () => _addFriend(friend),
-            onPressed: () {},
+            onPressed: () => _addFriend(friend),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.blue,
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -653,6 +732,15 @@ class _FriendsPageState extends State<FriendsPage> {
         });
   }
 
+  // Collects User's friend requests.
+  // Took Andrews approach to this.
+  // The stream builder takes care of accessing the data.
+  // This is only getting the User's general data.
+  final Stream<QuerySnapshot> friendRequestsStream = FirebaseFirestore.instance
+      .collection('Users')
+      .where('uid', isEqualTo: initData())
+      .snapshots();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -672,12 +760,12 @@ class _FriendsPageState extends State<FriendsPage> {
               controller: _searchController,
               key: const Key('Friend-search'),
               decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search),
+                prefixIcon: const Icon(Icons.search),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(15.0),
                 ),
                 hintText: 'Email, name, or username',
-                hintStyle: TextStyle(color: Colors.grey),
+                hintStyle: const TextStyle(color: Colors.grey),
               ),
               // Makes sure the textfield is not empty.
               validator: (value) => value!.isEmpty ? 'Enter an email' : null,
@@ -691,6 +779,112 @@ class _FriendsPageState extends State<FriendsPage> {
                   return _buildFriendListItem(_searchResults[index]);
                 }),
               ),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'Current Friends',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ),
+            // Renders Current Friends
+            StreamBuilder<QuerySnapshot>(
+              stream: friendRequestsStream,
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                }
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                    return CircularProgressIndicator();
+                  default:
+                    final data = snapshot.requireData;
+                    List<String> friendsList = List<String>.from(
+                        // snapshot.data?.docs.first.data()!['requests']
+                        data.docs[0]['friends']);
+                    return ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: friendsList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return ListTile(
+                          leading: const CircleAvatar(
+                            backgroundImage: NetworkImage(
+                                'https://twirpz.files.wordpress.com/2015/06/twitter-avi-gender-balanced-figure.png?w=640'),
+                          ),
+                          title: Text(friendsList[index]),
+                        );
+                      },
+                    );
+                }
+              },
+            ),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'Friend Requests',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ),
+            // Renders friends requests.
+            StreamBuilder<QuerySnapshot>(
+              stream: friendRequestsStream,
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                }
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                    return const CircularProgressIndicator();
+                  default:
+                    final data = snapshot.requireData;
+                    List<String> requestsList = List<String>.from(
+                        // snapshot.data?.docs.first.data()!['requests']
+                        data.docs[0]['requests']);
+                    return ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: requestsList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return ListTile(
+                          leading: const CircleAvatar(
+                            backgroundImage: NetworkImage(
+                                'https://twirpz.files.wordpress.com/2015/06/twitter-avi-gender-balanced-figure.png?w=640'),
+                          ),
+                          title: Text(requestsList[index]),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: Icon(Icons.check, color: Colors.green),
+                                onPressed: () {
+                                  // Accept friend request logic
+                                  // If Accepted get rid of the request of that user and add them to the friends list.
+                                  // The friend friend's list should get added with the user too
+                                  //  acceptFriendRequest(userId, requestsList[index]); // Replace userId with the current user's ID
+                                  acceptFriendRequest(
+                                      data.docs[0].id, requestsList[index]);
+                                },
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.close, color: Colors.red),
+                                onPressed: () {
+                                  // Reject friend request logic
+                                  // If Rejected get rid of the request of that user.
+                                  // rejectFriendRequest(userId, requestsList[index]); // Replace userId with the current user's ID
+                                  rejectFriendRequest(
+                                      data.docs[0].id, requestsList[index]);
+                                },
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                }
+              },
             )
           ],
         ),
