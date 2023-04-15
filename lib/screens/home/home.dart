@@ -736,13 +736,14 @@ class _FriendsPageState extends State<FriendsPage> {
   // Took Andrews approach to this.
   // The stream builder takes care of accessing the data.
   // This is only getting the User's general data.
-  final Stream<QuerySnapshot> friendRequestsStream = FirebaseFirestore.instance
-      .collection('Users')
-      .where('uid', isEqualTo: initData())
-      .snapshots();
-
+  final AuthService _auth = AuthService();
   @override
   Widget build(BuildContext context) {
+    final Stream<QuerySnapshot> friendRequestsStream = FirebaseFirestore
+        .instance
+        .collection('Users')
+        .where('uid', isEqualTo: _auth.getuid().toString())
+        .snapshots();
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
