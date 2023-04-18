@@ -157,7 +157,7 @@ class WorkoutData extends ChangeNotifier {
 
     // check off isCompleted boolean
     relevantExercise.isCompleted = !relevantExercise.isCompleted;
-
+    
     notifyListeners();
     // save in database
     db.saveToDatabase(_workouts);

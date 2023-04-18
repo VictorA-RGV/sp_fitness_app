@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:sp_fitness_app/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sp_fitness_app/shared/circularAchievments.dart';
+import 'package:sp_fitness_app/shared/constants.dart';
+import 'achieveData.dart';
+import 'package:sp_fitness_app/shared/Achievement_database.dart';
 // import 'dart:math';
 
 class Achivements extends StatefulWidget {
@@ -15,39 +18,6 @@ class Achivements extends StatefulWidget {
 class _AchivementsState extends State<Achivements> {
   final AuthService _auth = AuthService();
   //Initializing progress with a list of six 0.0 values and a list of achievement data containing map objects of achievement details.
-  List<double> progress = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
-  final List<Map<String, dynamic>> achievementData = [
-    {
-      'image': 'images/flexingArm1.png',
-      'name': 'Big Muscles!',
-      'color': Color(0xffeae2b7),
-    },
-    {
-      'image': 'images/flexingArm1.png',
-      'name': 'Bigger Muscles!',
-      'color': Color(0xffFCBF49),
-    },
-    {
-      'image': 'images/flexingArm1.png',
-      'name': 'Massive Muscles!',
-      'color': Color(0xffF77F00),
-    },
-    {
-      'image': 'images/flexingArm1.png',
-      'name': 'Maximum Muscles! 1 ',
-      'color': Color(0xffD62828),
-    },
-    {
-      'image': 'images/flexingArm1.png',
-      'name': 'Maximum Muscles! 2 ',
-      'color': Color(0xff003049),
-    },
-    {
-      'image': 'images/flexingArm1.png',
-      'name': 'Maximum Muscles! 3 ',
-      'color': Color(0xff3d348b),
-    },
-  ];
 
   final Stream<QuerySnapshot> userData =
       FirebaseFirestore.instance.collection('Users').snapshots();
@@ -88,12 +58,8 @@ class _AchivementsState extends State<Achivements> {
                 image: achievementData[index]['image'],
                 name: achievementData[index]['name'],
                 color: achievementData[index]['color'],
-                progress: progress[index],
-                onIncrease: () {
-                  setState(() {
-                    progress[index] += 0.25;
-                  });
-                },
+                progress:
+                    getAchievementProgress(achievementData[index]['name']),
               );
             },
           ),
@@ -104,20 +70,30 @@ class _AchivementsState extends State<Achivements> {
         //A FloatingActionButton widget is added that when pressed, updates the progress values by 0.25,
         //and when any value reaches 1.0, it moves on to the next achievement in the list.
         //If all the achievements are completed, it prints "complete!" to the console.
-        onPressed: () {
+        onPressed: () async {
           setState(() {
-            bool isDone = false;
-            int i = 0;
-            while (!isDone && i < achievementData.length) {
-              progress[i] += 0.25;
-              if (progress[i] >= 1.0) {
-                i++;
-              } else {
-                isDone = true;
-                if (isDone == true && i == achievementData.length) {
-                  print('complete!');
-                }
-              }
+            updateAchievementData();
+            print(getAchievementProgress("Maximum Muscles! 3"));
+            if (getAchievementProgress("Maximum Muscles! 3") == 1.0) {
+              print('set showDialogFlag to true');
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('Title'),
+                    content: Text('Message'),
+                    actions: <Widget>[
+                      TextButton(
+                        child: Text('OK'),
+                        onPressed: () {
+                          showDialogFlag = false;
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
             }
           });
         },

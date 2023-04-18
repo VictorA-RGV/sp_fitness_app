@@ -1,15 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:sp_fitness_app/screens/Achivements/achivements.dart';
+import 'package:sp_fitness_app/screens/Achivements/Trophy_Achieve.dart';
 import 'package:sp_fitness_app/screens/home/second_home.dart';
-
-import 'package:sp_fitness_app/screens/home/workout_page.dart';
 import 'package:sp_fitness_app/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:sp_fitness_app/shared/custombutton1.dart';
-import 'package:sp_fitness_app/shared/workout.dart';
 
-class HomePage extends StatelessWidget {
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:sp_fitness_app/shared/Achievement_database.dart';
+
+class HomePage extends StatefulWidget {
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final AuthService _auth = AuthService();
 
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -25,6 +29,7 @@ class HomePage extends StatelessWidget {
       .collection('Users')
       .where('uid', isEqualTo: initData())
       .snapshots();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -145,14 +150,14 @@ class HomePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Column(
-                      children: const [
+                      children: [
                         SizedBox(
                           height: 20,
                         ),
                         Padding(
                           padding: EdgeInsets.all(5),
                         ),
-                        Text("0",
+                        Text(passCompletedWorkouts(),
                             style: TextStyle(
                                 fontSize: 30, fontWeight: FontWeight.bold),
                             textAlign: TextAlign.center),
@@ -222,7 +227,8 @@ class HomePage extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Achivements(),
+                                  builder: (context) =>
+                                      ProgressScreen(), //Achivements(), TrophiesPage(),
                                 ),
                               );
                             },

@@ -4,12 +4,12 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sp_fitness_app/models/date_time.dart';
 import 'package:sp_fitness_app/shared/exercise.dart';
 import 'package:sp_fitness_app/shared/workout.dart';
+
 ///import '../models/exercise.dart';
 //import '../models/workout.dart';
-
+import 'package:sp_fitness_app/screens/Achivements/achieveData.dart';
 import 'package:sp_fitness_app/shared/workoutdata.dart';
-
-
+import 'package:sp_fitness_app/shared/Achievement_database.dart';
 
 class HiveDatabase {
   // reference our box
@@ -71,6 +71,9 @@ class HiveDatabase {
       // go thru each exercise in workout
       for (var exercise in workout.exercises) {
         if (exercise.isCompleted) {
+          updateAchievementData();
+          updateAchievementProgress('Completed Tutorial', getAchievementProgress('Completed Tutorial')+ 0.25);
+          updateAchievementProgress('Workouts Completed', getAchievementProgress('Workouts Completed')+ 1);
           return true;
         }
       }

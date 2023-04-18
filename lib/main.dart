@@ -12,14 +12,16 @@ import 'firebase_options.dart';
 const bool isTesting =
     bool.fromEnvironment('FLUTTER_TEST', defaultValue: false);
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  print(isTesting);
   if (!isTesting) {
-    initHive();
+    await initHive();
   }
 
   runApp(const MyApp());
