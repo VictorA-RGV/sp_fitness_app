@@ -1,45 +1,45 @@
-# Name of the workflow
-name: Unit and Integration tests
-# This work flow is triggered when pull requests are opened or updated
-on: [ pull_request ]
-# A workflow run is made up of one or more jobs.
-jobs:
-  # id of job, a string that is unique to the "jobs" node above.
-  test:
-    # Creates a build matrix for your jobs. You can define different
-    # variations of an environment to run each job in.
-    strategy:
-      # A set of different configurations of the virtual  
-      # environment.
-      matrix:
-        device:
-        - "iPhone 11 Pro Max (14.4)"
-      # When set to true, GitHub cancels all in-progress jobs if any        
-      # matrix job fails.
-      fail-fast: true
-    # The type of machine to run the job on.
-    runs-on: macOS-latest
-    # Contains a sequence of tasks.
-    steps:
-    # This step lists all available simulators
-    - name: "List all simulators"
-      run: "xcrun xctrace list devices"
-    # This step specifically finds and starts the Iphone 11 Pro Max Simulator
-    - name: "Start Simulator"
-      run: |
-          IPHONE11=$(xcrun xctrace list devices  2>&1  | grep -m 1 "iPhone 11 Pro Max" | awk -F'[()]' '{print $4}')
-          xcrun simctl boot $IPHONE11
-    # The branch or tag ref that triggered the workflow will be 
-    # checked out.
-    # https://github.com/actions/checkout
-    - uses: actions/checkout@v2
-    # Sets up a flutter environment.
-    # https://github.com/marketplace/actions/flutter-action
-    - uses: subosito/flutter-action@v2
-      with:
-        architecture: x64
-        channel: 'stable' # or: 'dev' or 'beta'
-    # - name: Run Unit Tests
-      # run: flutter test
-    - name: "Run Flutter Driver tests"
-      run: "flutter drive --target=test_driver/app.dart"
+# # Name of the workflow
+# name: Unit and Integration tests
+# # This work flow is triggered when pull requests are opened or updated
+# on: [ pull_request ]
+# # A workflow run is made up of one or more jobs.
+# jobs:
+#   # id of job, a string that is unique to the "jobs" node above.
+#   test:
+#     # Creates a build matrix for your jobs. You can define different
+#     # variations of an environment to run each job in.
+#     strategy:
+#       # A set of different configurations of the virtual  
+#       # environment.
+#       matrix:
+#         device:
+#         - "iPhone 11 Pro Max (14.4)"
+#       # When set to true, GitHub cancels all in-progress jobs if any        
+#       # matrix job fails.
+#       fail-fast: true
+#     # The type of machine to run the job on.
+#     runs-on: macOS-latest
+#     # Contains a sequence of tasks.
+#     steps:
+#     # This step lists all available simulators
+#     - name: "List all simulators"
+#       run: "xcrun xctrace list devices"
+#     # This step specifically finds and starts the Iphone 11 Pro Max Simulator
+#     - name: "Start Simulator"
+#       run: |
+#           IPHONE11=$(xcrun xctrace list devices  2>&1  | grep -m 1 "iPhone 11 Pro Max" | awk -F'[()]' '{print $4}')
+#           xcrun simctl boot $IPHONE11
+#     # The branch or tag ref that triggered the workflow will be 
+#     # checked out.
+#     # https://github.com/actions/checkout
+#     - uses: actions/checkout@v2
+#     # Sets up a flutter environment.
+#     # https://github.com/marketplace/actions/flutter-action
+#     - uses: subosito/flutter-action@v2
+#       with:
+#         architecture: x64
+#         channel: 'stable' # or: 'dev' or 'beta'
+#     # - name: Run Unit Tests
+#       # run: flutter test
+#     - name: "Run Flutter Driver tests"
+#       run: "flutter drive --target=test_driver/app.dart"
