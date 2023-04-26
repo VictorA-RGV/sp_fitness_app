@@ -69,16 +69,37 @@ class _friendProfile extends State<friendProfile> {
                 }
                 // Get User Data
                 final data = snapshot.requireData;
-                return "${data.docs[0]['ProfilePic']}" == ""
-                    ? const CircleAvatar(
-                        backgroundImage: NetworkImage(
-                            'https://cdn-icons-png.flaticon.com/512/147/147133.png'),
-                        radius: 100,
-                      )
-                    : CircleAvatar(
-                        radius: 100,
-                        backgroundImage:
-                            NetworkImage("${data.docs[0]['ProfilePic']}"));
+                return Stack(children: [
+                  Container(
+                    width: 375,
+                    height: 250,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(25),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.1),
+                          spreadRadius: 10,
+                          blurRadius: 3,
+                          // changes position of shadow
+                        )
+                      ],
+                    ),
+                  ),
+                  Positioned(
+                      top: 20,
+                      left: 80,
+                      child: "${data.docs[0]['ProfilePic']}" == ""
+                          ? const CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                  'https://cdn-icons-png.flaticon.com/512/147/147133.png'),
+                              radius: 100,
+                            )
+                          : CircleAvatar(
+                              radius: 100,
+                              backgroundImage: NetworkImage(
+                                  "${data.docs[0]['ProfilePic']}"))),
+                ]);
               },
             ), // Need a bigger icon...
             Padding(padding: EdgeInsets.only(bottom: 25)),
@@ -103,6 +124,23 @@ class _friendProfile extends State<friendProfile> {
                     final data = snapshot.requireData;
                     return Stack(
                       children: [
+                        Container(
+                          width: 375,
+                          height: 300,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(25),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.1),
+                                spreadRadius: 10,
+                                blurRadius: 3,
+                                // changes position of shadow
+                              )
+                            ],
+                          ),
+                        ),
+
                         // Text for the container below
                         const Padding(
                           padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
@@ -111,19 +149,14 @@ class _friendProfile extends State<friendProfile> {
                                   fontWeight: FontWeight.bold, fontSize: 20)),
                         ),
                         // Container for Username. Will display the username
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
-                          child: Container(
-                            width: 375,
-                            height: 25,
-                            decoration: BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                            child: const Text("  Username placeholder",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 20)),
-                          ),
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(0, 25, 0, 0),
+                          child: Text("  Username placeholder",
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              )),
                         ),
                         const Padding(
                           padding: EdgeInsets.fromLTRB(10, 50, 0, 0),
@@ -133,17 +166,11 @@ class _friendProfile extends State<friendProfile> {
                         ),
                         Padding(
                           padding: const EdgeInsets.fromLTRB(0, 75, 0, 0),
-                          child: Container(
-                            width: 375,
-                            height: 25,
-                            decoration: BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                            child: Text("  ${data.docs[0]['email']}",
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 20)),
-                          ),
+                          child: Text("  ${data.docs[0]['email']}",
+                              style: const TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20)),
                         ),
                         const Padding(
                           padding: EdgeInsets.fromLTRB(10, 100, 0, 0),
@@ -153,17 +180,11 @@ class _friendProfile extends State<friendProfile> {
                         ),
                         Padding(
                           padding: const EdgeInsets.fromLTRB(0, 125, 0, 0),
-                          child: Container(
-                            width: 375,
-                            height: 25,
-                            decoration: BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                            child: Text("  ${data.docs[0]['age']}",
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 20)),
-                          ),
+                          child: Text("  ${data.docs[0]['age']}",
+                              style: const TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20)),
                         ),
                         const Padding(
                           padding: EdgeInsets.fromLTRB(10, 150, 0, 0),
@@ -172,19 +193,12 @@ class _friendProfile extends State<friendProfile> {
                                   fontWeight: FontWeight.bold, fontSize: 20)),
                         ),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 175, 0, 0),
-                          child: Container(
-                            width: 375,
-                            height: 25,
-                            decoration: BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.circular(25),
-                            ),
+                            padding: const EdgeInsets.fromLTRB(0, 175, 0, 0),
                             child: Text("  ${data.docs[0]['gender']}",
                                 style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 20)),
-                          ),
-                        ),
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20))),
                         const Padding(
                           padding: EdgeInsets.fromLTRB(10, 200, 0, 0),
                           child: Text("Level",
@@ -193,17 +207,11 @@ class _friendProfile extends State<friendProfile> {
                         ),
                         Padding(
                           padding: const EdgeInsets.fromLTRB(0, 225, 0, 0),
-                          child: Container(
-                            width: 375,
-                            height: 25,
-                            decoration: BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                            child: Text("  ${data.docs[0]['selection']}",
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 20)),
-                          ),
+                          child: Text("  ${data.docs[0]['selection']}",
+                              style: const TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20)),
                         ),
                         const Padding(
                           padding: EdgeInsets.fromLTRB(10, 250, 0, 0),
@@ -213,17 +221,11 @@ class _friendProfile extends State<friendProfile> {
                         ),
                         Padding(
                           padding: const EdgeInsets.fromLTRB(0, 275, 0, 0),
-                          child: Container(
-                            width: 375,
-                            height: 25,
-                            decoration: BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                            child: Text("  ${data.docs[0]['weight']}",
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 20)),
-                          ),
+                          child: Text("  ${data.docs[0]['weight']}",
+                              style: const TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20)),
                         ),
                       ],
                     );
