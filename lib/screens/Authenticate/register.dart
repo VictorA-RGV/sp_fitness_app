@@ -163,6 +163,9 @@ class _RegisterState extends State<Register> {
 // gender, this.weight, this.height, this.selection
                           user.add({
                             'uid': result.uid,
+                            'username':
+                                "username", // added this in case we ever want to add a username
+                            'ProfilePic': "", // Added this for the profile pic
                             'email': email,
                             'age': widget.age,
                             'gender': widget.gender,
