@@ -1,11 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:sp_fitness_app/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sp_fitness_app/shared/circularAchievments.dart';
 import 'package:sp_fitness_app/shared/constants.dart';
 import 'achieveData.dart';
 import 'package:sp_fitness_app/shared/Achievement_database.dart';
+
 // import 'dart:math';
+bool hasBeenCalled = false;
+
+void myMethod(BuildContext context) async {
+  if (!hasBeenCalled) {
+    if (getAchievementProgress("Maximum Muscles! 3") == 1.0) {
+      SchedulerBinding.instance
+          .addPostFrameCallback((_) => showCustomDialog(context));
+    }
+    hasBeenCalled = true;
+  }
+}
 
 class Achivements extends StatefulWidget {
   Achivements({Key? key}) : super(key: key);
@@ -24,6 +37,7 @@ class _AchivementsState extends State<Achivements> {
   // The build method is overridden and a Scaffold widget with an AppBar and a body is returned.
   @override
   Widget build(BuildContext context) {
+    myMethod(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -73,28 +87,7 @@ class _AchivementsState extends State<Achivements> {
         onPressed: () async {
           setState(() {
             updateAchievementData();
-            print(getAchievementProgress("Maximum Muscles! 3"));
-            if (getAchievementProgress("Maximum Muscles! 3") == 1.0) {
-              print('set showDialogFlag to true');
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Text('Title'),
-                    content: Text('Message'),
-                    actions: <Widget>[
-                      TextButton(
-                        child: Text('OK'),
-                        onPressed: () {
-                          showDialogFlag = false;
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
-                  );
-                },
-              );
-            }
+            hasBeenCalled = false;
           });
         },
         child: const Icon(Icons.add),

@@ -23,7 +23,7 @@ void main() async {
   if (!isTesting) {
     await initHive();
   }
-
+  
   runApp(const MyApp());
 }
 

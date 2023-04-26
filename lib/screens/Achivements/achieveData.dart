@@ -19,17 +19,17 @@ List<double> progress = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
     },
     {
       'image': 'images/flexingArm1.png',
-      'name': 'Maximum Muscles! 1 ',
+      'name': 'Maximum Muscles! 1',
       'color': Color(0xffD62828),
     },
     {
       'image': 'images/flexingArm1.png',
-      'name': 'Maximum Muscles! 2 ',
+      'name': 'Maximum Muscles! 2',
       'color': Color(0xff003049),
     },
     {
       'image': 'images/flexingArm1.png',
-      'name': 'Maximum Muscles! 3 ',
+      'name': 'Maximum Muscles! 3',
       'color': Color(0xff3d348b),
     },
   ];

@@ -170,7 +170,8 @@ class _RegisterState extends State<Register> {
                             'height': widget.height,
                             'selection': widget.selection,
                             'requests': [],
-                            'friends': []
+                            'friends': [],
+                            'badges': []
                           }).then((value) => print('user added'));
 
                           if (result == null) {

@@ -10,6 +10,8 @@ import 'package:sp_fitness_app/shared/workout.dart';
 import 'package:sp_fitness_app/screens/Achivements/achieveData.dart';
 import 'package:sp_fitness_app/shared/workoutdata.dart';
 import 'package:sp_fitness_app/shared/Achievement_database.dart';
+import 'package:sp_fitness_app/shared/constants.dart';
+
 
 class HiveDatabase {
   // reference our box
@@ -74,6 +76,7 @@ class HiveDatabase {
           updateAchievementData();
           updateAchievementProgress('Completed Tutorial', getAchievementProgress('Completed Tutorial')+ 0.25);
           updateAchievementProgress('Workouts Completed', getAchievementProgress('Workouts Completed')+ 1);
+          
           return true;
         }
       }

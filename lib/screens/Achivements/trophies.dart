@@ -28,7 +28,17 @@ List<Trophy> _trophies = [
     name: 'Social Media Guru',
     description: 'Shared the app on social media',
     imageUrl: 'https://via.placeholder.com/150',
+  ),  Trophy(
+    name: 'Progress Pal',
+    description: 'friend someone',
+    imageUrl: 'https://via.placeholder.com/150',
   ),
+  Trophy(
+    name: 'Motivator',
+    description: 'Poke your friends to get them moving 15 times',
+    imageUrl: 'https://via.placeholder.com/150',
+  ),  
+  
 ];
 
 class TrophiesPage extends StatefulWidget {
@@ -44,7 +54,7 @@ class _TrophiesPageState extends State<TrophiesPage>
   Map<String, double> _progressValues =
       {}; // Add a map to store progress values
 
-    @override
+  @override
   void initState() {
     super.initState();
     _controller = AnimationController(
@@ -60,12 +70,8 @@ class _TrophiesPageState extends State<TrophiesPage>
     for (var trophy in _trophies) {
       final progress = getAchievementProgress(trophy.name);
       _progressValues[trophy.name] = progress;
-
     }
-    
   }
-  
-
 
   @override
   void dispose() {

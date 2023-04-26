@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import '../services/auth.dart';
 import 'constants.dart';
 import 'package:sp_fitness_app/screens/Achivements/achieveData.dart';
 
@@ -51,6 +53,16 @@ void resetAllValues() async {
   }
 }
 
+void showCurrentDatabase() async {
+  Box box = Hive.box("achievements");
+  print('is the box empty?: ${box.isEmpty}');
+  final dataList = box.values.toList();
+  for (var key in box.keys) {
+    final value = box.get(key);
+    print('$key: $value');
+  }
+}
+
 void clearHiveBox() async {
   Box box = Hive.box("achievements");
   await box.clear();
@@ -58,7 +70,6 @@ void clearHiveBox() async {
 
 void updateAchievementData() {
   while (currentIndex < achievementData.length) {
-    
     // Get the current achievement and its progress value
     var achievement = achievementData[currentIndex];
     var progress = getAchievementProgress(achievement['name']);
@@ -109,6 +120,8 @@ List<Map<String, dynamic>> muscleList = [
   {"name": "VIP User", "value": 0.0},
   {"name": "Social Media Guru", "value": 0.3},
   {"name": "Workouts Completed", "value": 0.0},
+  {"name": "Motivator", "value": 0.0},
+  {"name": "Progress Pal", "value": 0.0},
 ];
 
 class AchievementAdapter extends TypeAdapter<Achievement> {
