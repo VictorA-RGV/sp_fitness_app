@@ -41,9 +41,8 @@ class _HomePageState extends State<HomePage> {
       ),
       child: Scaffold(
         body: Padding(
-          padding: const EdgeInsets.all(0.0),
-          child: Column(
-            children: [
+            padding: const EdgeInsets.all(0.0),
+            child: Column(children: [
               Stack(
                 alignment: Alignment.center,
                 children: [
@@ -63,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.only(left:8.0),
+                      padding: const EdgeInsets.only(left: 8.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -82,7 +81,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ],
                           ),
-                          Padding(padding: EdgeInsets.only( left: 80.0)),
+                          Padding(padding: EdgeInsets.only(left: 80.0)),
                           Expanded(
                             child: _buildUserProfilePic(),
                           ),
@@ -272,9 +271,9 @@ class _HomePageState extends State<HomePage> {
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
+                            children: [const SizedBox(height: 8,),
                               Image.asset('images/gym1.png', height: 80),
-                              SizedBox(height: 10),
+                              const SizedBox(height: 16),
                               Text(
                                 "Workout",
                                 style: TextStyle(
@@ -289,125 +288,121 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-            /// SECOND ROW OF STUFF
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Achivements Button
-                  Stack(
-                    alignment: Alignment.bottomCenter,
-                    children: [
-                      Container(
-                          width: 175,
-                          height: 150,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.03),
-                                  spreadRadius: 10,
-                                  blurRadius: 3,
-                                  // changes position of shadow
-                                ),
-                              ])),
-                      Stack(
-                        alignment: Alignment.center,
+
+              /// SECOND ROW OF STUFF
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                // Achivements Button
+                Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: [
+                    Container(
+                      width: 175,
+                      height: 150,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.03),
+                              spreadRadius: 10,
+                              blurRadius: 3,
+                              // changes position of shadow
+                            ),
+                          ]),
+                      child: Column(
                         children: [
-                          IconButton(
-                            onPressed: () {
-                              // Takes us to Achievements Page
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SummaryScreen(),
-                                ),
-                              );
-                            },
-                            icon: Image.asset('images/Trophy1.png'),
-                            iconSize: 150,
+                          Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  // Takes us to Achievements Page
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SummaryScreen(),
+                                    ),
+                                  );
+                                },
+                                icon: Image.asset('images/Trophy1.png'),
+                                iconSize: 100,
+                              ),
+                            ],
                           ),
-                          const Padding(padding: EdgeInsets.only(bottom: 150))
+                          Stack(
+                            alignment: Alignment.center,
+                            children: const [
+                              Text("Statistics",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16))
+                            ],
+                          ),
                         ],
                       ),
-                      Stack(
-                        alignment: Alignment.center,
-                        children: const [
-                          Text("STATS",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16))
-                        ],
-                      ),
-                      
-                    ],
-                  ),
-                  const SizedBox(
-                    width: 25.0,
-                  ),
-                  //  Workout Button
-                  Stack(
-                    alignment: Alignment.bottomCenter,
-                    children: [
-                      Container(
-                          width: 175,
-                          height: 150,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.03),
-                                  spreadRadius: 10,
-                                  blurRadius: 3,
-                                  // changes position of shadow
-                                ),
-                              ])),
-                      Stack(
-                        alignment: Alignment.center,
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  width: 10.0,
+                ),
+                //  Workout Button
+                Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: [
+                    Container(
+                      width: 175,
+                      height: 150,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.03),
+                              spreadRadius: 10,
+                              blurRadius: 3,
+                              // changes position of shadow
+                            ),
+                          ]),
+                      child: Column(
                         children: [
-                          IconButton(
-                            onPressed: () {
-                              // Takes us to  Worrkout Page
-                              //Navigator.push(
-                               // context,
-                              //  MaterialPageRoute(
-                                //  builder: (context) =>  FilterScreen(),
-                               // ),
-                             // );
-                            },
-                            icon: Image.asset('images/gym1.png'),
-                            iconSize: 100,
+                          const SizedBox(height: 16,),
+                          Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  // Takes us to  Worrkout Page
+                                  //Navigator.push(
+                                  // context,
+                                  //  MaterialPageRoute(
+                                  //  builder: (context) =>  FilterScreen(),
+                                  // ),
+                                  // );
+                                },
+                                icon: Image.asset('images/gym1.png'),
+                                iconSize: 80,
+                              ),
+                            ],
+                          ),const SizedBox(height: 6,),
+                          Stack(
+                            alignment: Alignment.center,
+                            children: const [
+                              Text(
+                                "Activity",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 16),
+                              )
+                            ],
                           ),
-                          const Padding(
-                              padding: EdgeInsets.only(
-                            bottom: 170,
-                          ))
                         ],
                       ),
-                      Stack(
-                        alignment: Alignment.center,
-                        children: const [
-                          Text(
-                            "ACTIVITY",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
-                          )
-                          ],
-                        ),
-                        
-                      
-                    ],
-                  ),
+                    ),
+                  ],
+                ),
+              ]),
+            ])),
       ),
-                 
-    ])  )],
-              ),
-            )
-    ,
-        
-      
     );
   }
 }

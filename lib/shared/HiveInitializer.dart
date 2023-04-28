@@ -7,21 +7,30 @@ Future<void> initHive() async {
     await Hive.initFlutter();
      Hive.registerAdapter(AchievementAdapter());
     final box = await Hive.openBox("workout_database");
-    final box = await Hive.openBox("achievements");
+    
+   //final dataList = box.values.toList();
+   for (var key in box.keys) {
+    final value = box.get(key);
+    print('$key: $value');
+  }
+
+
+
+    final box2 = await Hive.openBox("achievements");
     for (var muscle in muscleList) {
       
       final muscleName = muscle['name'];
     
-      if (!box.containsKey(muscleName)) {
+      if (!box2.containsKey(muscleName)) {
         final newMuscle = Achievement(name: muscleName, progress: muscle['value']);
-        box.put(muscleName, newMuscle);
+        box2.put(muscleName, newMuscle);
       }
     }
 
     print('is the box empty?: ${box.isEmpty}');
-    final dataList = box.values.toList();
-    for (var key in box.keys) {
-      final value = box.get(key);
+    final dataList = box2.values.toList();
+    for (var key in box2.keys) {
+      final value = box2.get(key);
       print('$key: $value');
     }
   } catch (e) {
@@ -29,10 +38,5 @@ Future<void> initHive() async {
     print('An error occurred while initializing Hive: $e');
   }
 
-   //final dataList = box.values.toList();
-   for (var key in box.keys) {
-    final value = box.get(key);
-    print('$key: $value');
-  }
   //print(dataList);
 }
