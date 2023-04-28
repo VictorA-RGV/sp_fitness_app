@@ -2,9 +2,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:sp_fitness_app/screens/Achivements/Trophy_Achieve.dart';
+import 'package:sp_fitness_app/screens/home/friendProfile.dart';
 import 'package:sp_fitness_app/screens/home/second_home.dart';
+
+import 'package:sp_fitness_app/screens/home/workout_page.dart';
 import 'package:sp_fitness_app/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:sp_fitness_app/shared/workout.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sp_fitness_app/shared/Achievement_database.dart';
@@ -13,6 +20,7 @@ class HomePage extends StatefulWidget {
   @override
   State<HomePage> createState() => _HomePageState();
 }
+
 
 class _HomePageState extends State<HomePage> {
   final AuthService _auth = AuthService();
@@ -25,14 +33,13 @@ class _HomePageState extends State<HomePage> {
   final Stream<QuerySnapshot> userData =
       FirebaseFirestore.instance.collection('Users').snapshots();
 
-  // Collects User Specific Data
-  final Stream<QuerySnapshot> userData2 = FirebaseFirestore.instance
-      .collection('Users')
-      .where('uid', isEqualTo: initData())
-      .snapshots();
-
   @override
   Widget build(BuildContext context) {
+    // Collects User Specific Data
+    final Stream<QuerySnapshot> userData2 = FirebaseFirestore.instance
+        .collection('Users')
+        .where('uid', isEqualTo: _auth.getuid().toString())
+        .snapshots();
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(0.0),
@@ -103,15 +110,40 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 // User icon
-                const Padding(
-                  padding: EdgeInsets.only(top: 10, left: 340),
-                  child: CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        'https://cdn-icons-png.flaticon.com/512/147/147133.png'),
+                Padding(
+                  padding: EdgeInsets.only(top: 10, left: 320),
+                  child: StreamBuilder<QuerySnapshot>(
+                    stream: userData2,
+                    builder: (
+                      BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot,
+                    ) {
+                      // If an error occurs when attempting to establish a connection to firebase.
+                      if (snapshot.hasError) {
+                        return const Text('Something went wrong.');
+                      }
+                      // If connection between firebase and app is not established right away.
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Text('Loading...');
+                      }
+                      // Get User Data
+                      final data = snapshot.requireData;
+                      return "${data.docs[0]['ProfilePic']}" == ""
+                          ? const CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                  'https://cdn-icons-png.flaticon.com/512/147/147133.png'),
+                              radius: 20,
+                            )
+                          : CircleAvatar(
+                              radius: 20,
+                              backgroundImage: NetworkImage(
+                                  "${data.docs[0]['ProfilePic']}"));
+                    },
                   ),
                 ),
               ],
             ),
+
             Stack(
               children: [
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -314,12 +346,251 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
+  @override
+  State<ProfilePage> createState() => _ProfilePage();
+}
+
+class _ProfilePage extends State<ProfilePage> {
+  double screenHeight = 0;
+  double screenWidth = 0;
+  Color primary = const Color(0xffeef444c);
+  String profilePicLink = "";
+
+  void pickUploadProfilePic(String UserID) async {
+    final currentUserDocRef =
+        FirebaseFirestore.instance.collection('Users').doc(UserID);
+
+    final image = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      maxHeight: 512,
+      maxWidth: 512,
+      imageQuality: 90,
+    );
+
+    Reference ref =
+        FirebaseStorage.instance.ref().child("${UserID}profilepic.jpg");
+
+    await ref.putFile(File(image!.path));
+
+    ref.getDownloadURL().then((value) async {
+      setState(() {
+        profilePicLink = value;
+        currentUserDocRef.update({
+          'ProfilePic': profilePicLink,
+        });
+      });
+    });
+  }
+
+  CollectionReference user = FirebaseFirestore.instance.collection('Users');
+  final AuthService _auth = AuthService();
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  //CollectionReference userI = FirebaseFirestore.instance.collection('Users');
+  final Stream<QuerySnapshot> userData =
+      FirebaseFirestore.instance.collection('Users').snapshots();
+  // Collects User Specific Data
   @override
   Widget build(BuildContext context) {
+    final Stream<QuerySnapshot> userData2 = FirebaseFirestore.instance
+        .collection('Users')
+        .where('uid', isEqualTo: _auth.getuid().toString())
+        .snapshots();
     return Scaffold(
-      body: Center(
-        child: Text('Profile Page'),
+      backgroundColor: Colors.white,
+      body: Container(
+        padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 15.0),
+        child: Column(
+          children: [
+            StreamBuilder<QuerySnapshot>(
+              stream: userData2,
+              builder: (
+                BuildContext context,
+                AsyncSnapshot<QuerySnapshot> snapshot,
+              ) {
+                // If an error occurs when attempting to establish a connection to firebase.
+                if (snapshot.hasError) {
+                  return const Text('Something went wrong.');
+                }
+                // If connection between firebase and app is not established right away.
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Text('Loading...');
+                }
+                // Get User Data
+                final data = snapshot.requireData;
+                return Column(children: [
+                  "${data.docs[0]['ProfilePic']}" == ""
+                      ? const CircleAvatar(
+                          backgroundImage: NetworkImage(
+                              'https://cdn-icons-png.flaticon.com/512/147/147133.png'),
+                          radius: 100,
+                        )
+                      : CircleAvatar(
+                          radius: 100,
+                          backgroundImage:
+                              NetworkImage("${data.docs[0]['ProfilePic']}")),
+                  ElevatedButton(
+                    onPressed: () {
+                      String userID = "${data.docs[0].id}";
+                      pickUploadProfilePic(userID);
+                    },
+                    child: const Text('upload Profile Pic'),
+                  ),
+                ]);
+              },
+            ),
+            Padding(padding: EdgeInsets.only(bottom: 25)),
+            Stack(
+              children: [
+                StreamBuilder<QuerySnapshot>(
+                  stream: userData2,
+                  builder: (
+                    BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot,
+                  ) {
+                    // If an error occurs when attempting to establish a connection to firebase.
+                    if (snapshot.hasError) {
+                      return const Text('Something went wrong.');
+                    }
+                    // If connection between firebase and app is not established right away.
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Text('Loading...');
+                    }
+                    // Get User Data
+                    final data = snapshot.requireData;
+                    return Stack(
+                      children: [
+                        // Text for the container below
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                          child: Text("Username",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20)),
+                        ),
+                        // Container for Username. Will display the username
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
+                          child: Container(
+                            width: 375,
+                            height: 25,
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            child: const Text("  Username placeholder",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 20)),
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(10, 50, 0, 0),
+                          child: Text("Email",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20)),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 75, 0, 0),
+                          child: Container(
+                            width: 375,
+                            height: 25,
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            child: Text("  ${data.docs[0]['email']}",
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 20)),
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(10, 100, 0, 0),
+                          child: Text("Age",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20)),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 125, 0, 0),
+                          child: Container(
+                            width: 375,
+                            height: 25,
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            child: Text("  ${data.docs[0]['age']}",
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 20)),
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(10, 150, 0, 0),
+                          child: Text("Gender",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20)),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 175, 0, 0),
+                          child: Container(
+                            width: 375,
+                            height: 25,
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            child: Text("  ${data.docs[0]['gender']}",
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 20)),
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(10, 200, 0, 0),
+                          child: Text("Level",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20)),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 225, 0, 0),
+                          child: Container(
+                            width: 375,
+                            height: 25,
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            child: Text("  ${data.docs[0]['selection']}",
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 20)),
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(10, 250, 0, 0),
+                          child: Text("Initial Weight",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20)),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 275, 0, 0),
+                          child: Container(
+                            width: 375,
+                            height: 25,
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            child: Text("  ${data.docs[0]['weight']}",
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 20)),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -427,51 +698,62 @@ class _FriendsPageState extends State<FriendsPage> {
 
   Widget _buildFriendListItem(QueryDocumentSnapshot friend) {
     return ListTile(
-      leading: const CircleAvatar(
-        // backgroundImage: NetworkImage(friend.data()['profilePicture']),
-        backgroundImage: NetworkImage(
-            'https://twirpz.files.wordpress.com/2015/06/twitter-avi-gender-balanced-figure.png?w=640'),
-      ),
-      title: Text(friend['email']),
-      subtitle: Text('Current weight: ${friend['weight']}'),
-      trailing: SizedBox(
-        width: 60,
-        child: ElevatedButton.icon(
-          // onPressed: () => _addFriend(friend),
-          onPressed: () => _addFriend(friend),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.blue,
-            padding: const EdgeInsets.all(8.0),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+        leading: "${friend['ProfilePic']}" == ""
+            ? const CircleAvatar(
+                backgroundImage: NetworkImage(
+                    'https://cdn-icons-png.flaticon.com/512/147/147133.png'),
+                radius: 20,
+              )
+            : CircleAvatar(
+                radius: 20,
+                backgroundImage: NetworkImage("${friend['ProfilePic']}")),
+        title: Text(friend['email']),
+        subtitle: Text('Current weight: ${friend['weight']}'),
+        trailing: SizedBox(
+          width: 60,
+          child: ElevatedButton.icon(
+            onPressed: () => _addFriend(friend),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blue,
+              padding: const EdgeInsets.all(8.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            icon: const Icon(
+              Icons.person,
+              color: Colors.white,
+              size: 20,
+            ),
+            label: const Icon(
+              Icons.add,
+              color: Colors.white,
+              size: 20,
             ),
           ),
-          icon: const Icon(
-            Icons.person,
-            color: Colors.white,
-            size: 20,
-          ),
-          label: const Icon(
-            Icons.add,
-            color: Colors.white,
-            size: 20,
-          ),
         ),
-      ),
-    );
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => friendProfile(_searchController.text),
+            ),
+          );
+        });
   }
 
   // Collects User's friend requests.
   // Took Andrews approach to this.
   // The stream builder takes care of accessing the data.
   // This is only getting the User's general data.
-  final Stream<QuerySnapshot> friendRequestsStream = FirebaseFirestore.instance
-      .collection('Users')
-      .where('uid', isEqualTo: initData())
-      .snapshots();
-
+  final AuthService _auth = AuthService();
   @override
   Widget build(BuildContext context) {
+    final Stream<QuerySnapshot> friendRequestsStream = FirebaseFirestore
+        .instance
+        .collection('Users')
+        .where('uid', isEqualTo: _auth.getuid().toString())
+        .snapshots();
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
@@ -713,10 +995,4 @@ class _HomeState extends State<Home> {
       ),
     );
   }
-}
-
-// Get the data properly
-String initData() {
-  final AuthService _auth = AuthService();
-  return _auth.getuid().toString();
 }
