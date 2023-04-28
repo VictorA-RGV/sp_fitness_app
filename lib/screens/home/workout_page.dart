@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sp_fitness_app/shared/exercise_tile.dart';
 import 'package:sp_fitness_app/shared/my_textfield.dart';
 import 'package:sp_fitness_app/shared/workoutdata.dart';
+import 'package:sp_fitness_app/shared/constants.dart';
 
 class WorkoutPage extends StatefulWidget {
   final String workoutName;
@@ -91,6 +92,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
         ],
       ),
     );
+   
   }
 
   // save button pressed
@@ -125,7 +127,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { 
     return Consumer<WorkoutData>(
       builder: (context, value, child) => Scaffold(
         backgroundColor: Colors.grey[300],
