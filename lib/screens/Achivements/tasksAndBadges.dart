@@ -80,16 +80,16 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
           )
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          updateAchievementProgress(
-              'Bronze', getAchievementProgress('Bronze') + 5);
-          setState(() {
-            _bprogress = getAchievementProgress('Bronze').toInt();
-          });
-        },
-        child: Icon(Icons.add),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     updateAchievementProgress(
+      //         'Bronze', getAchievementProgress('Bronze') + 5);
+      //     setState(() {
+      //       _bprogress = getAchievementProgress('Bronze').toInt();
+      //     });
+      //   },
+      //   child: Icon(Icons.add),
+      // ),
       body: Column(
         children: [
           Container(
@@ -445,12 +445,12 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
               ],
             ),
           ),
-          ElevatedButton(
-            onPressed: () {
-              clearHiveBox();
-            },
-            child: Text('Clear Trophy/Achieve Values'),
-          ),
+          // ElevatedButton(
+          //   onPressed: () {
+          //     clearHiveBox();
+          //   },
+          //   child: Text('Clear Trophy/Achieve Values'),
+          // ),
         ],
       ),
     );

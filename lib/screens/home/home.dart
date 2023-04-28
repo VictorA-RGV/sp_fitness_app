@@ -5,7 +5,7 @@ import 'package:sp_fitness_app/screens/Achivements/Trophy_Achieve.dart';
 import 'package:sp_fitness_app/screens/activity_screen/activity_screen.dart';
 import 'package:sp_fitness_app/screens/home/friendProfile.dart';
 import 'package:sp_fitness_app/screens/home/second_home.dart';
-
+import 'package:sp_fitness_app/shared/constants.dart';
 import 'package:sp_fitness_app/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
+                      padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -81,10 +81,13 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ],
                           ),
-                          Padding(padding: EdgeInsets.only(left: 80.0)),
-                          Expanded(
-                            child: _buildUserProfilePic(),
-                          ),
+                          
+                           SizedBox(
+                              width: 50,
+                              height: 50,
+                              child: _buildUserProfilePic(),
+                            ),
+                          
                         ],
                       ),
                     ),
@@ -207,9 +210,7 @@ class _HomePageState extends State<HomePage> {
                           // Takes us to Achievements Page
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => CurrencyScreen(),
-                            ),
+                            SlideRightRoute(page: CurrencyScreen()),
                           );
                         },
                         child: Container(
@@ -250,9 +251,7 @@ class _HomePageState extends State<HomePage> {
                           // Takes us to  Worrkout Page
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => const SecondHomePage(),
-                            ),
+                            SlideLeftRoute(page: SecondHomePage()),
                           );
                         },
                         child: Container(
@@ -271,7 +270,10 @@ class _HomePageState extends State<HomePage> {
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [const SizedBox(height: 8,),
+                            children: [
+                              const SizedBox(
+                                height: 8,
+                              ),
                               Image.asset('images/gym1.png', height: 80),
                               const SizedBox(height: 16),
                               Text(
@@ -317,15 +319,12 @@ class _HomePageState extends State<HomePage> {
                               IconButton(
                                 onPressed: () {
                                   // Takes us to Achievements Page
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => SummaryScreen(),
-                                    ),
-                                  );
+                                  Navigator.push(context,
+                                      SlideUpRoute(page: SummaryScreen()));
                                 },
-                                icon: Image.asset('images/Trophy1.png'),
+                                icon: Icon(Icons.insights),
                                 iconSize: 100,
+                                color: Colors.grey,
                               ),
                             ],
                           ),
@@ -366,7 +365,9 @@ class _HomePageState extends State<HomePage> {
                           ]),
                       child: Column(
                         children: [
-                          const SizedBox(height: 16,),
+                          const SizedBox(
+                            height: 16,
+                          ),
                           Stack(
                             alignment: Alignment.center,
                             children: [
@@ -384,7 +385,10 @@ class _HomePageState extends State<HomePage> {
                                 iconSize: 80,
                               ),
                             ],
-                          ),const SizedBox(height: 6,),
+                          ),
+                          const SizedBox(
+                            height: 6,
+                          ),
                           Stack(
                             alignment: Alignment.center,
                             children: const [
@@ -429,19 +433,22 @@ class _ProfilePage extends State<ProfilePage> {
       imageQuality: 90,
     );
 
-    Reference ref =
-        FirebaseStorage.instance.ref().child("${UserID}profilepic.jpg");
+    if (image != null) {
+      // Check if an image was actually selected
+      Reference ref =
+          FirebaseStorage.instance.ref().child("${UserID}profilepic.jpg");
 
-    await ref.putFile(File(image!.path));
+      await ref.putFile(File(image.path));
 
-    ref.getDownloadURL().then((value) async {
-      setState(() {
-        profilePicLink = value;
-        currentUserDocRef.update({
-          'ProfilePic': profilePicLink,
+      ref.getDownloadURL().then((value) async {
+        setState(() {
+          profilePicLink = value;
+          currentUserDocRef.update({
+            'ProfilePic': profilePicLink,
+          });
         });
       });
-    });
+    }
   }
 
   CollectionReference user = FirebaseFirestore.instance.collection('Users');
@@ -976,7 +983,7 @@ class SettingsPage extends StatelessWidget {
   }
 }
 
-// landing page for a longed in user
+// landing page for a logged in user
 class Home extends StatefulWidget {
   @override
   State<Home> createState() => _HomeState();

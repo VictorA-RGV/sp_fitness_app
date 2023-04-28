@@ -1,4 +1,5 @@
 //import 'package:audio_wave/audio_wave.dart';
+import 'package:sp_fitness_app/shared/constants.dart';
 import 'package:sp_fitness_app/core/app_export.dart';
 import 'package:sp_fitness_app/screens/home/home.dart';
 import 'package:sp_fitness_app/shared/widgets/custom_button.dart';
@@ -12,6 +13,23 @@ class SummaryScreen extends StatelessWidget {
     //bool isRtl = true;
     return Scaffold(
       backgroundColor: ColorConstant.gray50,
+      appBar: AppBar(
+        title: const Text(
+          'Summary',
+          style: TextStyle(color: Colors.black, fontSize: 15),
+        ),
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context); // Generate the previous page
+          },
+          child: BackButton(
+            color: Colors.black, 
+          ),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+      
+      ),
       body: SafeArea(
         child: Column(
           children: [
@@ -30,44 +48,9 @@ class SummaryScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.max,
                   children: [
+                    
                     Padding(
-                        padding: getPadding(
-                          bottom: 0,
-                        ),
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.of(context).pushAndRemoveUntil(
-                                MaterialPageRoute(builder: (context) => Home()),
-                                (Route<dynamic> route) => false);
-                          },
-                          child: Icon(
-                            Icons.arrow_back,
-                            color: Colors.black,
-                          ),
-                        )),
-                    Padding(
-                      padding: getPadding(
-                        top: 3,
-                      ),
-                      child: Text(
-                        "Summary",
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          color: ColorConstant.black900,
-                          fontSize: getFontSize(
-                            15,
-                          ),
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w500,
-                          height: 1.00,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: getPadding(
-                        bottom: 1,
-                      ),
+                      padding: EdgeInsets.only(left: 180),
                       child: IconButton(
                             onPressed: () {
                               // Takes us to Achievements Page
