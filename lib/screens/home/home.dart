@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:sp_fitness_app/screens/Achivements/Stats.dart';
 import 'package:sp_fitness_app/screens/Achivements/achivements.dart';
+import 'package:sp_fitness_app/screens/activity_screen/activity_screen.dart';
 import 'package:sp_fitness_app/screens/home/friendProfile.dart';
 import 'package:sp_fitness_app/screens/home/second_home.dart';
 import 'package:sp_fitness_app/screens/home/workout_page.dart';
@@ -269,6 +271,7 @@ class HomePage extends StatelessWidget {
                                   fontWeight: FontWeight.bold, fontSize: 16))
                         ],
                       ),
+                      
                     ],
                   ),
                   const SizedBox(
@@ -328,10 +331,125 @@ class HomePage extends StatelessWidget {
                   ),
                 ],
               ),
+            ),
+            /// SECOND ROW OF STUFF
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Achivements Button
+                  Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      Container(
+                          width: 175,
+                          height: 150,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.03),
+                                  spreadRadius: 10,
+                                  blurRadius: 3,
+                                  // changes position of shadow
+                                ),
+                              ])),
+                      Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              // Takes us to Achievements Page
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SummaryScreen(),
+                                ),
+                              );
+                            },
+                            icon: Image.asset('images/Trophy1.png'),
+                            iconSize: 150,
+                          ),
+                          const Padding(padding: EdgeInsets.only(bottom: 150))
+                        ],
+                      ),
+                      Stack(
+                        alignment: Alignment.center,
+                        children: const [
+                          Text("STATS",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 16))
+                        ],
+                      ),
+                      
+                    ],
+                  ),
+                  const SizedBox(
+                    width: 25.0,
+                  ),
+                  //  Workout Button
+                  Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      Container(
+                          width: 175,
+                          height: 150,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.03),
+                                  spreadRadius: 10,
+                                  blurRadius: 3,
+                                  // changes position of shadow
+                                ),
+                              ])),
+                      Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              // Takes us to  Worrkout Page
+                              //Navigator.push(
+                               // context,
+                              //  MaterialPageRoute(
+                                //  builder: (context) =>  FilterScreen(),
+                               // ),
+                             // );
+                            },
+                            icon: Image.asset('images/gym1.png'),
+                            iconSize: 100,
+                          ),
+                          const Padding(
+                              padding: EdgeInsets.only(
+                            bottom: 170,
+                          ))
+                        ],
+                      ),
+                      Stack(
+                        alignment: Alignment.center,
+                        children: const [
+                          Text(
+                            "ACTIVITY",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          )
+                        ],
+                      ),
+                      
+                      
+                    ],
+                  ),
+                 
+    ])  )],
+              ),
             )
-          ],
-        ),
-      ),
+    ,
+        
+      
     );
   }
 }

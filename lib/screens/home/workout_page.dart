@@ -27,6 +27,8 @@ class _WorkoutPageState extends State<WorkoutPage> {
   final _repsController = TextEditingController();
   final _setsController = TextEditingController();
 
+
+
   // create a new individual exercise
   void createNewExercise() {
     showDialog(
