@@ -48,6 +48,8 @@ dependencies:
   hive_flutter: ^1.1.0
   flutter_slidable: ^2.0.0
   driver_extensions: ^1.2.0+1
+  firebase_messaging: ^14.4.1
+  cloud_functions: ^4.1.1
 
 dev_dependencies:
   flutter_test:

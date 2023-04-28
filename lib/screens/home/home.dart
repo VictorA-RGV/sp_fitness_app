@@ -408,7 +408,7 @@ class _FriendsPageState extends State<FriendsPage>
         ),
         subtitle: Text(
           'Current weight: ${friend['weight']}',
-          style: const TextStyle(fontFamily: 'Averta'),
+          style: const TextStyle(fontFamily: 'Averta', color: Colors.grey),
         ),
         trailing: SizedBox(
           width: 60,
