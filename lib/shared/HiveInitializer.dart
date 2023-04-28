@@ -6,7 +6,7 @@ Future<void> initHive() async {
   try {
     await Hive.initFlutter();
      Hive.registerAdapter(AchievementAdapter());
-    await Hive.openBox("workout_database");
+    final box = await Hive.openBox("workout_database");
     final box = await Hive.openBox("achievements");
     for (var muscle in muscleList) {
       
@@ -28,4 +28,11 @@ Future<void> initHive() async {
     // handle the exception
     print('An error occurred while initializing Hive: $e');
   }
+
+   //final dataList = box.values.toList();
+   for (var key in box.keys) {
+    final value = box.get(key);
+    print('$key: $value');
+  }
+  //print(dataList);
 }
