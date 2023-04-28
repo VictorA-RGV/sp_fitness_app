@@ -55,7 +55,7 @@ Widget showCustomDialog(BuildContext context) {
                         fontSize: 17)),
                 onPressed: () {
                   showDialogFlag = false;
-                  _addWorkoutBadge(context);
+                  
                   Navigator.of(context).pop();
                 },
               ),

@@ -15,6 +15,9 @@ void myMethod(BuildContext context) async {
     if (getAchievementProgress("Maximum Muscles! 3") == 1.0) {
       SchedulerBinding.instance
           .addPostFrameCallback((_) => showCustomDialog(context));
+      _addWorkoutBadge(context);
+
+      updateAchievementProgress('Bronze', getAchievementProgress('Bronze') + 1);
     }
     hasBeenCalled = true;
   }
@@ -42,11 +45,16 @@ class _AchivementsState extends State<Achivements> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
-          'Bicep Builder ',
+          'Badges ',
           style: TextStyle(color: Colors.blueGrey),
         ),
-        leading: const BackButton(
-          color: Colors.blueGrey,
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context); // Generate the previous page
+          },
+          child: BackButton(
+            color: Colors.blueGrey,
+          ),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
@@ -94,4 +102,72 @@ class _AchivementsState extends State<Achivements> {
       ),
     );
   }
+}
+
+void _addWorkoutBadge(BuildContext context) async {
+  final userDocs = await FirebaseFirestore.instance
+      .collection('Users')
+      .where('uid', isEqualTo: initData())
+      .get();
+
+  if (userDocs.docs.isEmpty) {
+    print('Document does not exist');
+    return;
+  }
+  final userDocRef = userDocs.docs.first.reference;
+  final userDataMap = userDocs.docs.first.data() as Map<String, dynamic>?;
+
+  if (userDataMap == null) {
+    print('User data is null');
+    return;
+  }
+
+  final badges = userDataMap.containsKey('badges')
+      ? userDataMap['badges'] as List<dynamic>
+      : [];
+
+  if (badges.contains('Workout Badge')) {
+    print('User already has Workout Badge');
+    return;
+  }
+
+  final newBadges = [...badges, 'Workout Badge'];
+  final newUserData = {...userDataMap, 'badges': newBadges};
+  await userDocRef.update(newUserData);
+
+  // Show a snackbar to indicate that the badge has been added
+}
+
+void _addCustomBadge(String badgeName, BuildContext context) async {
+  final userDocs = await FirebaseFirestore.instance
+      .collection('Users')
+      .where('uid', isEqualTo: initData())
+      .get();
+
+  if (userDocs.docs.isEmpty) {
+    print('Document does not exist');
+    return;
+  }
+  final userDocRef = userDocs.docs.first.reference;
+  final userDataMap = userDocs.docs.first.data() as Map<String, dynamic>?;
+
+  if (userDataMap == null) {
+    print('User data is null');
+    return;
+  }
+
+  final badges = userDataMap.containsKey('badges')
+      ? userDataMap['badges'] as List<dynamic>
+      : [];
+
+  if (badges.contains(badgeName)) {
+    print('User already has $badgeName');
+    return;
+  }
+
+  final newBadges = [...badges, badgeName];
+  final newUserData = {...userDataMap, 'badges': newBadges};
+  await userDocRef.update(newUserData);
+
+  // Show a snackbar to indicate that the badge has been added
 }

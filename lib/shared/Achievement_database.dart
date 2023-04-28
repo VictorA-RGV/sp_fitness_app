@@ -122,6 +122,10 @@ List<Map<String, dynamic>> muscleList = [
   {"name": "Workouts Completed", "value": 0.0},
   {"name": "Motivator", "value": 0.0},
   {"name": "Progress Pal", "value": 0.0},
+  {"name": "Bronze", "value": 0.0},
+  {"name": "Silver", "value": 0.0},
+  {"name": "Gold", "value": 0.0},
+  {"name": "Platinum", "value": 0.0},
 ];
 
 class AchievementAdapter extends TypeAdapter<Achievement> {

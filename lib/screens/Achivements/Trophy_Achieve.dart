@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sp_fitness_app/screens/Achivements/achivements.dart';
+import 'package:sp_fitness_app/screens/Achivements/tasksAndBadges.dart';
 import 'package:sp_fitness_app/screens/Achivements/trophies.dart';
 import 'package:sp_fitness_app/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -198,6 +199,15 @@ void _deleteBadges() async {
            ElevatedButton(
               onPressed: _deleteBadges,
               child: Text('delete badges'),
+            ),ElevatedButton(
+              onPressed: (){ Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        CurrencyScreen(), //Achivements(), TrophiesPage(),
+                  ),
+                );},
+              child: Text('currency screen'),
             ),
           ],
         ),

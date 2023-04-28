@@ -1,30 +1,24 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:sp_fitness_app/screens/Achivements/Trophy_Achieve.dart';
 import 'package:sp_fitness_app/screens/home/friendProfile.dart';
 import 'package:sp_fitness_app/screens/home/second_home.dart';
 
-import 'package:sp_fitness_app/screens/home/workout_page.dart';
 import 'package:sp_fitness_app/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:sp_fitness_app/shared/workout.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sp_fitness_app/shared/Achievement_database.dart';
+
+import '../Achivements/tasksAndBadges.dart';
 
 class HomePage extends StatefulWidget {
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
-
 class _HomePageState extends State<HomePage> {
-  final AuthService _auth = AuthService();
-
   final FirebaseAuth auth = FirebaseAuth.instance;
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -36,310 +30,265 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     // Collects User Specific Data
-    final Stream<QuerySnapshot> userData2 = FirebaseFirestore.instance
-        .collection('Users')
-        .where('uid', isEqualTo: _auth.getuid().toString())
-        .snapshots();
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(0.0),
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                // Box used to make things look nice
-                Container(
-                    height: 60,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.03),
-                            spreadRadius: 10,
-                            blurRadius: 3,
-                            // changes position of shadow
-                          ),
-                        ])),
 
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                  // User information
-                  child: Container(
-                    // Size of container
-                    height: 63,
-                    padding: const EdgeInsets.symmetric(vertical: 0),
-                    // ???
-                    child: StreamBuilder<QuerySnapshot>(
-                      // ???
-                      stream: userData2,
-                      builder: (
-                        BuildContext context,
-                        // ???
-                        AsyncSnapshot<QuerySnapshot> snapshot,
-                      ) {
-                        // If an error occurs when attempting to establish a connection to firebase.
-                        if (snapshot.hasError) {
-                          return const Text('Something went wrong.');
-                        }
-                        // If connection between firebase and app is not established right away.
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Text('Loading...');
-                        }
-                        // Get User Data
-                        // ???
-                        final data = snapshot.requireData;
-                        return Column(
-                          children: [
-                            Text("Hello, ${data.docs[0]['email']}",
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 20))
-                          ],
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                // extra text
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
-                  child: Text(
-                    'Let\'s check your activity',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                ),
-                // User icon
-                Padding(
-                  padding: EdgeInsets.only(top: 10, left: 320),
-                  child: StreamBuilder<QuerySnapshot>(
-                    stream: userData2,
-                    builder: (
-                      BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> snapshot,
-                    ) {
-                      // If an error occurs when attempting to establish a connection to firebase.
-                      if (snapshot.hasError) {
-                        return const Text('Something went wrong.');
-                      }
-                      // If connection between firebase and app is not established right away.
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Text('Loading...');
-                      }
-                      // Get User Data
-                      final data = snapshot.requireData;
-                      return "${data.docs[0]['ProfilePic']}" == ""
-                          ? const CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                  'https://cdn-icons-png.flaticon.com/512/147/147133.png'),
-                              radius: 20,
-                            )
-                          : CircleAvatar(
-                              radius: 20,
-                              backgroundImage: NetworkImage(
-                                  "${data.docs[0]['ProfilePic']}"));
-                    },
-                  ),
-                ),
-              ],
-            ),
-
-            Stack(
-              children: [
-                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Container(
-                      width: 175,
-                      height: 100,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.03),
-                              spreadRadius: 10,
-                              blurRadius: 3,
-                              // changes position of shadow
-                            ),
-                          ])),
-                  const SizedBox(
-                    width: 30.0,
-                  ),
-                  Container(
-                      width: 175,
-                      height: 100,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.03),
-                              spreadRadius: 10,
-                              blurRadius: 3,
-                              // changes position of shadow
-                            ),
-                          ])),
-                ]),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Column(
-                      children: [
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(5),
-                        ),
-                        Text(passCompletedWorkouts(),
-                            style: TextStyle(
-                                fontSize: 30, fontWeight: FontWeight.bold),
-                            textAlign: TextAlign.center),
-                        Padding(padding: EdgeInsets.all(4)),
-                        Text("Workouts Completed",
-                            style: TextStyle(fontSize: 16),
-                            textAlign: TextAlign.center)
-                      ],
-                    ),
-                    const SizedBox(
-                      width: 30,
-                    ),
-                    Column(
-                      children: [
-                        const Text("Workouts In-Progress",
-                            style: TextStyle(fontSize: 16),
-                            textAlign: TextAlign.center),
-                        Padding(padding: EdgeInsets.all(5)),
-                        Row(
-                          children: const [
-                            Text("0",
-                                style: TextStyle(
-                                    fontSize: 30, fontWeight: FontWeight.bold),
-                                textAlign: TextAlign.center),
-                            Text("\tWorkouts",
-                                style: TextStyle(fontSize: 16),
-                                textAlign: TextAlign.center)
-                          ],
-                        )
-                      ],
-                    )
-                  ],
-                )
-              ],
-            ),
-
-            // Where the buttons are
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+    return Padding(
+      padding: const EdgeInsets.only(
+        left: 16.0,
+        right: 16.0,
+        bottom: 16.0,
+      ),
+      child: Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.all(0.0),
+          child: Column(
+            children: [
+              Stack(
+                alignment: Alignment.center,
                 children: [
-                  // Achivements Button
-                  Stack(
-                    alignment: Alignment.bottomCenter,
-                    children: [
-                      Container(
-                          width: 175,
-                          height: 150,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.03),
-                                  spreadRadius: 10,
-                                  blurRadius: 3,
-                                  // changes position of shadow
-                                ),
-                              ])),
-                      Stack(
-                        alignment: Alignment.center,
+                  // Box used to make things look nice
+                  Container(
+                    height: 70,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.03),
+                          spreadRadius: 10,
+                          blurRadius: 3,
+                          // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left:8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          IconButton(
-                            onPressed: () {
-                              // Takes us to Achievements Page
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      ProgressScreen(), //Achivements(), TrophiesPage(),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _buildUserInformation(),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 5, horizontal: 0),
+                                child: Text(
+                                  'Let\'s check your activity',
+                                  style: TextStyle(fontSize: 18),
                                 ),
-                              );
-                            },
-                            icon: Image.asset('images/Trophy1.png'),
-                            iconSize: 150,
+                              ),
+                            ],
                           ),
-                          const Padding(padding: EdgeInsets.only(bottom: 150))
+                          Padding(padding: EdgeInsets.only( left: 80.0)),
+                          Expanded(
+                            child: _buildUserProfilePic(),
+                          ),
                         ],
                       ),
-                      Stack(
-                        alignment: Alignment.center,
-                        children: const [
-                          Text("Achievements",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16))
-                        ],
-                      ),
-                    ],
+                    ),
                   ),
-                  const SizedBox(
-                    width: 25.0,
-                  ),
-                  //  Workout Button
-                  Stack(
-                    alignment: Alignment.bottomCenter,
+                ],
+              ),
+              const Padding(padding: EdgeInsets.all(8.0)),
+
+              Stack(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Container(
-                          width: 175,
-                          height: 150,
+                      Expanded(
+                        child: Container(
+                          height: 100,
                           decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.03),
-                                  spreadRadius: 10,
-                                  blurRadius: 3,
-                                  // changes position of shadow
-                                ),
-                              ])),
-                      Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              // Takes us to  Worrkout Page
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const SecondHomePage(),
-                                ),
-                              );
-                            },
-                            icon: Image.asset('images/gym1.png'),
-                            iconSize: 100,
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.03),
+                                spreadRadius: 10,
+                                blurRadius: 3,
+                              ),
+                            ],
                           ),
-                          const Padding(
-                              padding: EdgeInsets.only(
-                            bottom: 170,
-                          ))
-                        ],
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                passCompletedWorkouts(),
+                                style: TextStyle(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              SizedBox(height: 4),
+                              Text(
+                                "Workouts Completed",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.grey,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                      Stack(
-                        alignment: Alignment.center,
-                        children: const [
-                          Text(
-                            "Workout",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
-                          )
-                        ],
+                      SizedBox(width: 15),
+                      Expanded(
+                        child: Container(
+                          height: 100,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.03),
+                                spreadRadius: 10,
+                                blurRadius: 3,
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "0",
+                                    style: TextStyle(
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    "Workouts",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.grey,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 4),
+                              Text(
+                                "Workouts In-Progress",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.grey,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ],
                   ),
                 ],
               ),
-            )
-          ],
+
+              // Where the buttons are
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Achievements Button
+                    Flexible(
+                      child: InkWell(
+                        onTap: () {
+                          // Takes us to Achievements Page
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CurrencyScreen(),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          width: 175,
+                          height: 150,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.03),
+                                spreadRadius: 10,
+                                blurRadius: 3,
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset('images/Trophy1.png', height: 100),
+                              SizedBox(height: 10),
+                              Text(
+                                "Achievements",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 16),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 15.0),
+                    // Workout Button
+                    Flexible(
+                      child: InkWell(
+                        onTap: () {
+                          // Takes us to  Worrkout Page
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SecondHomePage(),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          width: 175,
+                          height: 150,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.03),
+                                spreadRadius: 10,
+                                blurRadius: 3,
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset('images/gym1.png', height: 80),
+                              SizedBox(height: 10),
+                              Text(
+                                "Workout",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 16),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -995,4 +944,78 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+}
+
+Widget _buildUserInformation() {
+  final AuthService _auth = AuthService();
+
+  final Stream<QuerySnapshot> userData2 = FirebaseFirestore.instance
+      .collection('Users')
+      .where('uid', isEqualTo: _auth.getuid().toString())
+      .snapshots();
+  return
+      // User information
+      StreamBuilder<QuerySnapshot>(
+    // ???
+    stream: userData2,
+    builder: (
+      BuildContext context,
+      // ???
+      AsyncSnapshot<QuerySnapshot> snapshot,
+    ) {
+      try {
+        // Get User Data
+        final data = snapshot.requireData;
+        return Column(
+          children: [
+            Text(
+              "Hello, ${data.docs[0]['email']}",
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+            ),
+          ],
+        );
+      } catch (e) {
+        return const CircularProgressIndicator();
+      }
+    },
+  );
+}
+
+Widget _buildUserProfilePic() {
+  final AuthService _auth = AuthService();
+
+  final Stream<QuerySnapshot> userData2 = FirebaseFirestore.instance
+      .collection('Users')
+      .where('uid', isEqualTo: _auth.getuid().toString())
+      .snapshots();
+  return StreamBuilder<QuerySnapshot>(
+    stream: userData2,
+    builder: (
+      BuildContext context,
+      AsyncSnapshot<QuerySnapshot> snapshot,
+    ) {
+      try {
+        // Get User Data
+        final data = snapshot.requireData;
+        return "${data.docs[0]['ProfilePic']}" == ""
+            ? const CircleAvatar(
+                backgroundImage: NetworkImage(
+                  'https://cdn-icons-png.flaticon.com/512/147/147133.png',
+                ),
+                radius: 20,
+              )
+            : CircleAvatar(
+                radius: 20,
+                backgroundImage: NetworkImage(
+                  "${data.docs[0]['ProfilePic']}",
+                ),
+              );
+      } catch (e) {
+        return const CircularProgressIndicator();
+      }
+    },
+  );
 }
