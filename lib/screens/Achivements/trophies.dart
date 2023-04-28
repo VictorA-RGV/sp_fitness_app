@@ -84,7 +84,7 @@ class _TrophiesPageState extends State<TrophiesPage>
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Trophies ',
+          'Tasks ',
           style: TextStyle(color: Colors.blueGrey),
         ),
         leading: const BackButton(

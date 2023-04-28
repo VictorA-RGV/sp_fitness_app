@@ -170,7 +170,7 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   SizedBox(width: 8),
                                   Text(
-                                    "Workouts",
+                                    "",
                                     style: TextStyle(
                                       fontSize: 16,
                                       color: Colors.grey,
