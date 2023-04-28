@@ -590,7 +590,7 @@ class _ProfilePage extends State<ProfilePage> {
                   ),
                   child: Column(children: [
                     Text("Achivements Place Holder")
-                    // Place achivements here
+                    // Place achivements here or else
                   ]),
                 ),
               ],
