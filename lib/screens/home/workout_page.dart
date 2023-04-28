@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sp_fitness_app/services/auth.dart';
 import 'package:provider/provider.dart';
 import 'package:sp_fitness_app/shared/exercise_tile.dart';
 import 'package:sp_fitness_app/shared/my_textfield.dart';
@@ -13,6 +14,7 @@ class WorkoutPage extends StatefulWidget {
 }
 
 class _WorkoutPageState extends State<WorkoutPage> {
+  final AuthService _auth = AuthService();
   // tick off check box
   void checkBoxTicked(String workoutName, String exerciseName) {
     Provider.of<WorkoutData>(context, listen: false)
@@ -129,8 +131,21 @@ class _WorkoutPageState extends State<WorkoutPage> {
         backgroundColor: Colors.grey[300],
         appBar: AppBar(
           title: Text(widget.workoutName),
+          leading: const BackButton(
+            color: Colors.blueGrey,
+          ),
           backgroundColor: Colors.grey[900],
           elevation: 0,
+          actions: [
+            TextButton.icon(
+              onPressed: () async {
+                await _auth.signOut();
+              },
+              icon: const Icon(Icons.person, color: Colors.blueGrey),
+              label: const Text('logout',
+                  style: TextStyle(color: Colors.blueGrey)),
+            )
+          ],
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: createNewExercise,
