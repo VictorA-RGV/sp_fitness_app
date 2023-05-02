@@ -417,7 +417,7 @@ class _FriendsPageState extends State<FriendsPage>
             onPressed: () => _addFriend(friend),
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color.fromARGB(255, 255, 93, 81),
-              padding: const EdgeInsets.all(8.01),
+              padding: const EdgeInsets.all(8.0),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15),
               ),
