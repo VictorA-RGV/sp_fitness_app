@@ -1,8 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:sp_fitness_app/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sp_fitness_app/shared/circularAchievments.dart';
+import 'package:sp_fitness_app/shared/constants.dart';
+import 'achieveData.dart';
+import 'package:sp_fitness_app/shared/Achievement_database.dart';
+
 // import 'dart:math';
+bool hasBeenCalled = false;
+
+void myMethod(BuildContext context) async {
+  if (!hasBeenCalled) {
+    if (getAchievementProgress("Maximum Muscles! 3") == 1.0) {
+      SchedulerBinding.instance
+          .addPostFrameCallback((_) => showCustomDialog(context));
+      _addWorkoutBadge(context);
+
+      updateAchievementProgress('Bronze', getAchievementProgress('Bronze') + 1);
+    }
+    hasBeenCalled = true;
+  }
+}
 
 class Achivements extends StatefulWidget {
   Achivements({Key? key}) : super(key: key);
@@ -15,54 +34,27 @@ class Achivements extends StatefulWidget {
 class _AchivementsState extends State<Achivements> {
   final AuthService _auth = AuthService();
   //Initializing progress with a list of six 0.0 values and a list of achievement data containing map objects of achievement details.
-  List<double> progress = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
-  final List<Map<String, dynamic>> achievementData = [
-    {
-      'image': 'images/flexingArm1.png',
-      'name': 'Big Muscles!',
-      'color': Color(0xffeae2b7),
-    },
-    {
-      'image': 'images/flexingArm1.png',
-      'name': 'Bigger Muscles!',
-      'color': Color(0xffFCBF49),
-    },
-    {
-      'image': 'images/flexingArm1.png',
-      'name': 'Massive Muscles!',
-      'color': Color(0xffF77F00),
-    },
-    {
-      'image': 'images/flexingArm1.png',
-      'name': 'Maximum Muscles! 1 ',
-      'color': Color(0xffD62828),
-    },
-    {
-      'image': 'images/flexingArm1.png',
-      'name': 'Maximum Muscles! 2 ',
-      'color': Color(0xff003049),
-    },
-    {
-      'image': 'images/flexingArm1.png',
-      'name': 'Maximum Muscles! 3 ',
-      'color': Color(0xff3d348b),
-    },
-  ];
 
   final Stream<QuerySnapshot> userData =
       FirebaseFirestore.instance.collection('Users').snapshots();
   // The build method is overridden and a Scaffold widget with an AppBar and a body is returned.
   @override
   Widget build(BuildContext context) {
+    myMethod(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
-          'Bicep Builder ',
+          'Badges ',
           style: TextStyle(color: Colors.blueGrey),
         ),
-        leading: const BackButton(
-          color: Colors.blueGrey,
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context); // Generate the previous page
+          },
+          child: BackButton(
+            color: Colors.blueGrey,
+          ),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
@@ -88,12 +80,8 @@ class _AchivementsState extends State<Achivements> {
                 image: achievementData[index]['image'],
                 name: achievementData[index]['name'],
                 color: achievementData[index]['color'],
-                progress: progress[index],
-                onIncrease: () {
-                  setState(() {
-                    progress[index] += 0.25;
-                  });
-                },
+                progress:
+                    getAchievementProgress(achievementData[index]['name']),
               );
             },
           ),
@@ -104,25 +92,82 @@ class _AchivementsState extends State<Achivements> {
         //A FloatingActionButton widget is added that when pressed, updates the progress values by 0.25,
         //and when any value reaches 1.0, it moves on to the next achievement in the list.
         //If all the achievements are completed, it prints "complete!" to the console.
-        onPressed: () {
+        onPressed: () async {
           setState(() {
-            bool isDone = false;
-            int i = 0;
-            while (!isDone && i < achievementData.length) {
-              progress[i] += 0.25;
-              if (progress[i] >= 1.0) {
-                i++;
-              } else {
-                isDone = true;
-                if (isDone == true && i == achievementData.length) {
-                  print('complete!');
-                }
-              }
-            }
+            updateAchievementData();
+            hasBeenCalled = false;
           });
         },
         child: const Icon(Icons.add),
       ),
     );
   }
+}
+
+void _addWorkoutBadge(BuildContext context) async {
+  final userDocs = await FirebaseFirestore.instance
+      .collection('Users')
+      .where('uid', isEqualTo: initData())
+      .get();
+
+  if (userDocs.docs.isEmpty) {
+    print('Document does not exist');
+    return;
+  }
+  final userDocRef = userDocs.docs.first.reference;
+  final userDataMap = userDocs.docs.first.data() as Map<String, dynamic>?;
+
+  if (userDataMap == null) {
+    print('User data is null');
+    return;
+  }
+
+  final badges = userDataMap.containsKey('badges')
+      ? userDataMap['badges'] as List<dynamic>
+      : [];
+
+  if (badges.contains('Workout Badge')) {
+    print('User already has Workout Badge');
+    return;
+  }
+
+  final newBadges = [...badges, 'Workout Badge'];
+  final newUserData = {...userDataMap, 'badges': newBadges};
+  await userDocRef.update(newUserData);
+
+  // Show a snackbar to indicate that the badge has been added
+}
+
+void _addCustomBadge(String badgeName, BuildContext context) async {
+  final userDocs = await FirebaseFirestore.instance
+      .collection('Users')
+      .where('uid', isEqualTo: initData())
+      .get();
+
+  if (userDocs.docs.isEmpty) {
+    print('Document does not exist');
+    return;
+  }
+  final userDocRef = userDocs.docs.first.reference;
+  final userDataMap = userDocs.docs.first.data() as Map<String, dynamic>?;
+
+  if (userDataMap == null) {
+    print('User data is null');
+    return;
+  }
+
+  final badges = userDataMap.containsKey('badges')
+      ? userDataMap['badges'] as List<dynamic>
+      : [];
+
+  if (badges.contains(badgeName)) {
+    print('User already has $badgeName');
+    return;
+  }
+
+  final newBadges = [...badges, badgeName];
+  final newUserData = {...userDataMap, 'badges': newBadges};
+  await userDocRef.update(newUserData);
+
+  // Show a snackbar to indicate that the badge has been added
 }

@@ -59,4 +59,19 @@ class AuthService {
   }
 
   // Delete account
+Future deleteAccount() async {
+  try {
+    User? user = _auth.currentUser;
+    if (user != null) {
+      await user.delete();
+      return true;
+    } else {
+      return false;
+    }
+  } catch (e) {
+    print(e.toString()); 
+    return null;
+  }
+}
+
 }

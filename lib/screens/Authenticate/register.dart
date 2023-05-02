@@ -162,21 +162,21 @@ class _RegisterState extends State<Register> {
                                 .registerWithEmailAndPassword(email, password);
 
 // gender, this.weight, this.height, this.selection
-                            user.add({
-                              'uid': result.uid,
-                              'username':
-                                  "username", // added this in case we ever want to add a username
-                              'ProfilePic':
-                                  "", // Added this for the profile pic
-                              'email': email,
-                              'age': widget.age,
-                              'gender': widget.gender,
-                              'weight': widget.weight,
-                              'height': widget.height,
-                              'selection': widget.selection,
-                              'requests': [],
-                              'friends': []
-                            }).then((value) => print('user added'));
+                          user.add({
+                            'uid': result.uid,
+                            'username':
+                                "username", // added this in case we ever want to add a username
+                            'ProfilePic': "", // Added this for the profile pic
+                            'email': email,
+                            'age': widget.age,
+                            'gender': widget.gender,
+                            'weight': widget.weight,
+                            'height': widget.height,
+                            'selection': widget.selection,
+                            'requests': [],
+                            'friends': [],
+                            'badges': []
+                          }).then((value) => print('user added'));
 
                             if (result == null) {
                               setState(() {
