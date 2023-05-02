@@ -14,7 +14,7 @@ import 'dart:io';
 import 'package:sp_fitness_app/shared/Achievement_database.dart';
 
 import 'package:sp_fitness_app/screens/home/tab1.dart';
-import 'package:sp_fitness_app/screens/home/tab2.dart';
+import 'package:sp_fitness_app/screens/home/tab2.dart' as Tab2;
 
 import '../Achivements/tasksAndBadges.dart';
 
@@ -377,12 +377,12 @@ class _HomePageState extends State<HomePage> {
                               IconButton(
                                 onPressed: () {
                                   // Takes us to  Worrkout Page
-                                  //Navigator.push(
-                                  // context,
-                                  //  MaterialPageRoute(
-                                  //  builder: (context) =>  FilterScreen(),
-                                  // ),
-                                  // );
+                                  Navigator.push(
+                                  context,
+                                   MaterialPageRoute(
+                                   builder: (context) =>  ActivityScreen(),
+                                  ),
+                                  );
                                 },
                                 icon: Image.asset('images/gym1.png'),
                                 iconSize: 80,
@@ -734,77 +734,78 @@ class _FriendsPageState extends State<FriendsPage>
           FieldValue.arrayUnion([userData['email']]) // might need the ! here
     });
   }
+Widget _buildFriendListItem(QueryDocumentSnapshot friend) {
+  return Container(
+    decoration: BoxDecoration(
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.1),
+          spreadRadius: 1,
+          blurRadius: 0,
+          offset: const Offset(0, 1),
+        ),
+      ],
+      border: Border.all(
+        // color: Colors.grey.shade300,
+        color: Colors.transparent,
+        width: 2.0,
+      ),
+      borderRadius: BorderRadius.circular(12),
+      color: Colors.white,
+    ),
+    child: ListTile(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => friendProfile(_searchController.text),
+          ),
+        );
+      },
+      leading: "${friend['ProfilePic']}" == ""
+          ? const CircleAvatar(
+              backgroundImage: NetworkImage(
+                'https://cdn-icons-png.flaticon.com/512/147/147133.png'),
+              radius: 20,
+            )
+          : CircleAvatar(
+              radius: 20,
+              backgroundImage: NetworkImage("${friend['ProfilePic']}")),
+      title: Text(
+        friend['email'],
+        style: const TextStyle(fontFamily: 'Averta'),
+      ),
+      subtitle: Text(
+        'Current weight: ${friend['weight']}',
+        style: const TextStyle(fontFamily: 'Averta', color: Colors.grey),
+      ),
+      trailing: SizedBox(
+        width: 60,
+        child: ElevatedButton.icon(
+          onPressed: () => _addFriend(friend),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color.fromARGB(255, 255, 93, 81),
+            padding: const EdgeInsets.all(8.0),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+          ),
+          icon: const Icon(
+            Icons.person,
+            color: Colors.white,
+            size: 20,
+          ),
+          label: const Icon(
+            Icons.add,
+            color: Colors.white,
+            size: 20,
+          ),
+        ),
+      ),
+    ),
+  );
+}
 
-  Widget _buildFriendListItem(QueryDocumentSnapshot friend) {
-    return Container(
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 1,
-            blurRadius: 0,
-            offset: const Offset(0, 1),
-          ),
-        ],
-        border: Border.all(
-          // color: Colors.grey.shade300,
-          color: Colors.transparent,
-          width: 2.0,
-        ),
-        borderRadius: BorderRadius.circular(12),
-        color: Colors.white,
-      ),
-      child: ListTile(
-          leading: "${friend['ProfilePic']}" == ""
-            ? const CircleAvatar(
-                    backgroundImage: NetworkImage(
-                      'https://cdn-icons-png.flaticon.com/512/147/147133.png'),
-                  radius: 20,
-              )
-            : CircleAvatar(
-                radius: 20,
-                backgroundImage: NetworkImage("${friend['ProfilePic']}")),
-          title: Text(
-          friend['email'],
-          style: const TextStyle(fontFamily: 'Averta'),
-        ),
-          subtitle: Text(
-          'Current weight: ${friend['weight']}',
-          style: const TextStyle(fontFamily: 'Averta', color: Colors.grey),
-        ),
-          trailing: SizedBox(
-            width: 60,
-            child: ElevatedButton.icon(
-                onPressed: () => _addFriend(friend),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 255, 93, 81),
-                padding: const EdgeInsets.all(8.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
-              ),
-              ),
-                icon: const Icon(
-                Icons.person,
-                color: Colors.white,
-                size: 20,
-              ),
-              label: const Icon(
-                Icons.add,
-                color: Colors.white,
-                size: 20,
-              ),
-            ),
-          ),
-      ),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => friendProfile(_searchController.text),
-            ),
-          );
-        });
-  }
 
   // Collects User's friend requests.
   // Took Andrews approach to this.
@@ -812,7 +813,7 @@ class _FriendsPageState extends State<FriendsPage>
   // This is only getting the User's general data.
   final Stream<QuerySnapshot> friendRequestsStream = FirebaseFirestore.instance
       .collection('Users')
-      .where('uid', isEqualTo: initData())
+      .where('uid', isEqualTo: Tab2.initData())
       .snapshots();
 
   bool _isFriendsSelected = false;
@@ -826,6 +827,8 @@ class _FriendsPageState extends State<FriendsPage>
 
   @override
   Widget build(BuildContext context) {
+      final AuthService _auth = AuthService();
+
     final Stream<QuerySnapshot> friendRequestsStream = FirebaseFirestore
         .instance
         .collection('Users')
@@ -983,7 +986,7 @@ class _FriendsPageState extends State<FriendsPage>
                               controller: tabController,
                               children: [
                                 Tab1(),
-                                Tab2(),
+                                Tab2.Tab2(),
                               ],
                             ),
                           )
