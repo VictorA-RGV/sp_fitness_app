@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:sp_fitness_app/services/auth.dart';
 import 'package:provider/provider.dart';
 import 'package:sp_fitness_app/shared/exercise_tile.dart';
 import 'package:sp_fitness_app/shared/my_textfield.dart';
 import 'package:sp_fitness_app/shared/workoutdata.dart';
+import 'package:sp_fitness_app/shared/constants.dart';
 
 class WorkoutPage extends StatefulWidget {
   final String workoutName;
@@ -13,6 +15,7 @@ class WorkoutPage extends StatefulWidget {
 }
 
 class _WorkoutPageState extends State<WorkoutPage> {
+  final AuthService _auth = AuthService();
   // tick off check box
   void checkBoxTicked(String workoutName, String exerciseName) {
     Provider.of<WorkoutData>(context, listen: false)
@@ -24,6 +27,8 @@ class _WorkoutPageState extends State<WorkoutPage> {
   final _weightController = TextEditingController();
   final _repsController = TextEditingController();
   final _setsController = TextEditingController();
+
+
 
   // create a new individual exercise
   void createNewExercise() {
@@ -87,6 +92,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
         ],
       ),
     );
+   
   }
 
   // save button pressed
@@ -121,14 +127,27 @@ class _WorkoutPageState extends State<WorkoutPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { 
     return Consumer<WorkoutData>(
       builder: (context, value, child) => Scaffold(
         backgroundColor: Colors.grey[300],
         appBar: AppBar(
           title: Text(widget.workoutName),
+          leading: const BackButton(
+            color: Colors.blueGrey,
+          ),
           backgroundColor: Colors.grey[900],
           elevation: 0,
+          actions: [
+            TextButton.icon(
+              onPressed: () async {
+                await _auth.signOut();
+              },
+              icon: const Icon(Icons.person, color: Colors.blueGrey),
+              label: const Text('logout',
+                  style: TextStyle(color: Colors.blueGrey)),
+            )
+          ],
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: createNewExercise,

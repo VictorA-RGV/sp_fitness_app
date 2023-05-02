@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sp_fitness_app/models/date_time.dart';
 import 'package:sp_fitness_app/screens/RegistrationProcess/frequency.dart';
@@ -7,8 +8,12 @@ import 'package:sp_fitness_app/shared/workout.dart';
 import 'package:sp_fitness_app/shared/hive_database.dart';
 import 'exercise.dart';
 import 'workout.dart';
+import 'package:sp_fitness_app/screens/home/home.dart';
 
 
+
+// Get the user data for the current user
+//Stream<QuerySnapshot> userData = getUserData('currentUserId');
 
 class WorkoutData extends ChangeNotifier {
 
@@ -157,7 +162,7 @@ class WorkoutData extends ChangeNotifier {
 
     // check off isCompleted boolean
     relevantExercise.isCompleted = !relevantExercise.isCompleted;
-
+    
     notifyListeners();
     // save in database
     db.saveToDatabase(_workouts);

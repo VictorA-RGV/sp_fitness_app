@@ -6,14 +6,14 @@ class AchievementCircs extends StatefulWidget {
   final String name;
   final Color color;
   final double progress;
-  final void Function() onIncrease;
+  
 
   const AchievementCircs({
     required this.image,
     required this.name,
     required this.color,
     required this.progress,
-    required this.onIncrease,
+    
     Key? key,
   }) : super(key: key);
   //Fake comment for git

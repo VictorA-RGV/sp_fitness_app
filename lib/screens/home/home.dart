@@ -1,21 +1,29 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:sp_fitness_app/screens/Achivements/achivements.dart';
+import 'package:sp_fitness_app/screens/Achivements/Stats.dart';
+import 'package:sp_fitness_app/screens/Achivements/Trophy_Achieve.dart';
+import 'package:sp_fitness_app/screens/activity_screen/activity_screen.dart';
+import 'package:sp_fitness_app/screens/home/friendProfile.dart';
 import 'package:sp_fitness_app/screens/home/second_home.dart';
-
-import 'package:sp_fitness_app/screens/home/workout_page.dart';
+import 'package:sp_fitness_app/shared/constants.dart';
 import 'package:sp_fitness_app/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:sp_fitness_app/shared/custombutton1.dart';
-import 'package:sp_fitness_app/shared/workout.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+import 'package:sp_fitness_app/shared/Achievement_database.dart';
 
 import 'package:sp_fitness_app/screens/home/tab1.dart';
 import 'package:sp_fitness_app/screens/home/tab2.dart';
 
-class HomePage extends StatelessWidget {
-  final AuthService _auth = AuthService();
+import '../Achivements/tasksAndBadges.dart';
 
+class HomePage extends StatefulWidget {
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final FirebaseAuth auth = FirebaseAuth.instance;
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -24,49 +32,524 @@ class HomePage extends StatelessWidget {
   final Stream<QuerySnapshot> userData =
       FirebaseFirestore.instance.collection('Users').snapshots();
 
-  // Collects User Specific Data
-  final Stream<QuerySnapshot> userData2 = FirebaseFirestore.instance
-      .collection('Users')
-      .where('uid', isEqualTo: initData())
-      .snapshots();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(0.0),
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                // Box used to make things look nice
-                Container(
-                    height: 60,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.03),
-                            spreadRadius: 10,
-                            blurRadius: 3,
-                            // changes position of shadow
-                          ),
-                        ])),
+    // Collects User Specific Data
 
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                  // User information
-                  child: Container(
-                    // Size of container
-                    height: 63,
-                    padding: const EdgeInsets.symmetric(vertical: 0),
-                    // ???
-                    child: StreamBuilder<QuerySnapshot>(
-                      // ???
+    return Padding(
+      padding: const EdgeInsets.only(
+        left: 16.0,
+        right: 16.0,
+        bottom: 16.0,
+      ),
+      child: Scaffold(
+        body: Padding(
+            padding: const EdgeInsets.all(0.0),
+            child: Column(children: [
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  // Box used to make things look nice
+                  Container(
+                    height: 70,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.03),
+                          spreadRadius: 10,
+                          blurRadius: 3,
+                          // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _buildUserInformation(),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 5, horizontal: 0),
+                                child: Text(
+                                  'Let\'s check your activity',
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                              ),
+                            ],
+                          ),
+                          
+                           SizedBox(
+                              width: 50,
+                              height: 50,
+                              child: _buildUserProfilePic(),
+                            ),
+                          
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const Padding(padding: EdgeInsets.all(8.0)),
+
+              Stack(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          height: 100,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.03),
+                                spreadRadius: 10,
+                                blurRadius: 3,
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                passCompletedWorkouts(),
+                                style: TextStyle(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              SizedBox(height: 4),
+                              Text(
+                                "Workouts Completed",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.grey,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 15),
+                      Expanded(
+                        child: Container(
+                          height: 100,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.03),
+                                spreadRadius: 10,
+                                blurRadius: 3,
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "0",
+                                    style: TextStyle(
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    "",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.grey,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 4),
+                              Text(
+                                "Workouts In-Progress",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.grey,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+
+              // Where the buttons are
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Achievements Button
+                    Flexible(
+                      child: InkWell(
+                        onTap: () {
+                          // Takes us to Achievements Page
+                          Navigator.push(
+                            context,
+                            SlideRightRoute(page: CurrencyScreen()),
+                          );
+                        },
+                        child: Container(
+                          width: 175,
+                          height: 150,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.03),
+                                spreadRadius: 10,
+                                blurRadius: 3,
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset('images/Trophy1.png', height: 100),
+                              SizedBox(height: 10),
+                              Text(
+                                "Achievements",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 16),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 15.0),
+                    // Workout Button
+                    Flexible(
+                      child: InkWell(
+                        onTap: () {
+                          // Takes us to  Worrkout Page
+                          Navigator.push(
+                            context,
+                            SlideLeftRoute(page: SecondHomePage()),
+                          );
+                        },
+                        child: Container(
+                          width: 175,
+                          height: 150,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.03),
+                                spreadRadius: 10,
+                                blurRadius: 3,
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Image.asset('images/gym1.png', height: 80),
+                              const SizedBox(height: 16),
+                              Text(
+                                "Workout",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 16),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              /// SECOND ROW OF STUFF
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                // Achivements Button
+                Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: [
+                    Container(
+                      width: 175,
+                      height: 150,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.03),
+                              spreadRadius: 10,
+                              blurRadius: 3,
+                              // changes position of shadow
+                            ),
+                          ]),
+                      child: Column(
+                        children: [
+                          Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  // Takes us to Achievements Page
+                                  Navigator.push(context,
+                                      SlideUpRoute(page: SummaryScreen()));
+                                },
+                                icon: Icon(Icons.insights),
+                                iconSize: 100,
+                                color: Colors.grey,
+                              ),
+                            ],
+                          ),
+                          Stack(
+                            alignment: Alignment.center,
+                            children: const [
+                              Text("Statistics",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16))
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  width: 10.0,
+                ),
+                //  Workout Button
+                Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: [
+                    Container(
+                      width: 175,
+                      height: 150,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.03),
+                              spreadRadius: 10,
+                              blurRadius: 3,
+                              // changes position of shadow
+                            ),
+                          ]),
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  // Takes us to  Worrkout Page
+                                  //Navigator.push(
+                                  // context,
+                                  //  MaterialPageRoute(
+                                  //  builder: (context) =>  FilterScreen(),
+                                  // ),
+                                  // );
+                                },
+                                icon: Image.asset('images/gym1.png'),
+                                iconSize: 80,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 6,
+                          ),
+                          Stack(
+                            alignment: Alignment.center,
+                            children: const [
+                              Text(
+                                "Activity",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 16),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ]),
+            ])),
+      ),
+    );
+  }
+}
+
+class ProfilePage extends StatefulWidget {
+  @override
+  State<ProfilePage> createState() => _ProfilePage();
+}
+
+class _ProfilePage extends State<ProfilePage> {
+  double screenHeight = 0;
+  double screenWidth = 0;
+  Color primary = const Color(0xffeef444c);
+  String profilePicLink = "";
+
+  void pickUploadProfilePic(String UserID) async {
+    final currentUserDocRef =
+        FirebaseFirestore.instance.collection('Users').doc(UserID);
+
+    final image = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      maxHeight: 512,
+      maxWidth: 512,
+      imageQuality: 90,
+    );
+
+    if (image != null) {
+      // Check if an image was actually selected
+      Reference ref =
+          FirebaseStorage.instance.ref().child("${UserID}profilepic.jpg");
+
+    try {
+      await ref.putFile(File(image.path));
+    } catch (err) {
+      print("Caught error: $err");
+    }
+
+      ref.getDownloadURL().then((value) async {
+        setState(() {
+          profilePicLink = value;
+          currentUserDocRef.update({
+            'ProfilePic': profilePicLink,
+          });
+        });
+      });
+    }
+  }
+
+  CollectionReference user = FirebaseFirestore.instance.collection('Users');
+  final AuthService _auth = AuthService();
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  //CollectionReference userI = FirebaseFirestore.instance.collection('Users');
+  final Stream<QuerySnapshot> userData =
+      FirebaseFirestore.instance.collection('Users').snapshots();
+  // Collects User Specific Data
+  @override
+  Widget build(BuildContext context) {
+    final Stream<QuerySnapshot> userData2 = FirebaseFirestore.instance
+        .collection('Users')
+        .where('uid', isEqualTo: _auth.getuid().toString())
+        .snapshots();
+    return Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SingleChildScrollView(
+          child: Container(
+            padding:
+                const EdgeInsets.symmetric(vertical: 20.0, horizontal: 15.0),
+            child: Column(
+              children: [
+                StreamBuilder<QuerySnapshot>(
+                  stream: userData2,
+                  builder: (
+                    BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot,
+                  ) {
+                    // If an error occurs when attempting to establish a connection to firebase.
+                    if (snapshot.hasError) {
+                      return const Text('Something went wrong.');
+                    }
+                    // If connection between firebase and app is not established right away.
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Text('Loading...');
+                    }
+                    // Get User Data
+                    final data = snapshot.requireData;
+                    return Stack(children: [
+                      Container(
+                        width: 375,
+                        height: 250,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(25),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.07),
+                              spreadRadius: 10,
+                              blurRadius: 3,
+                              // changes position of shadow
+                            )
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                          top: 20,
+                          left: 80,
+                          child: "${data.docs[0]['ProfilePic']}" == ""
+                              ? const CircleAvatar(
+                                  backgroundImage: NetworkImage(
+                                      'https://cdn-icons-png.flaticon.com/512/147/147133.png'),
+                                  radius: 100,
+                                )
+                              : CircleAvatar(
+                                  radius: 100,
+                                  backgroundImage: NetworkImage(
+                                      "${data.docs[0]['ProfilePic']}"))),
+                      Positioned(
+                          left: 190,
+                          top: 175,
+                          child: RawMaterialButton(
+                              onPressed: () {
+                                String userID = "${data.docs[0].id}";
+                                pickUploadProfilePic(userID);
+                              },
+                              padding: const EdgeInsets.all(15),
+                              elevation: 2.0,
+                              fillColor: Colors.blueAccent,
+                              shape: const CircleBorder(),
+                              child: const Icon(Icons.edit,
+                                  size: 25, color: Colors.white))),
+                    ]);
+                  },
+                ),
+                const Padding(padding: EdgeInsets.only(bottom: 25)),
+                Stack(
+                  children: [
+                    StreamBuilder<QuerySnapshot>(
                       stream: userData2,
                       builder: (
                         BuildContext context,
-                        // ???
                         AsyncSnapshot<QuerySnapshot> snapshot,
                       ) {
                         // If an error occurs when attempting to establish a connection to firebase.
@@ -79,246 +562,121 @@ class HomePage extends StatelessWidget {
                           return const Text('Loading...');
                         }
                         // Get User Data
-                        // ???
                         final data = snapshot.requireData;
-                        return Column(
+                        return Stack(
                           children: [
-                            Text("Hello, ${data.docs[0]['email']}",
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 20))
+                            Container(
+                                width: 375,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(25),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.07),
+                                      spreadRadius: 10,
+                                      blurRadius: 3,
+                                      // changes position of shadow
+                                    )
+                                  ],
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Padding(
+                                        padding: EdgeInsets.only(top: 20)),
+                                    const Text(
+                                      "  Username",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                    // Container for Username. Will display the username
+                                    const Text("  Username placeholder",
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                        )),
+                                    const Text("  Email",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20)),
+                                    Text("  ${data.docs[0]['email']}",
+                                        style: const TextStyle(
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20)),
+                                    const Text("  Age",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20)),
+                                    Text("  ${data.docs[0]['age']}",
+                                        style: const TextStyle(
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20)),
+                                    const Text("  Gender",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20)),
+                                    Text("  ${data.docs[0]['gender']}",
+                                        style: const TextStyle(
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20)),
+                                    const Text("  Level",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20)),
+                                    Text("  ${data.docs[0]['selection']}",
+                                        style: const TextStyle(
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20)),
+                                    const Text("  Initial Weight",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20)),
+                                    Text("  ${data.docs[0]['weight']}",
+                                        style: const TextStyle(
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20)),
+                                    const Padding(
+                                        padding: EdgeInsets.only(top: 20))
+                                  ],
+                                )),
                           ],
                         );
                       },
                     ),
-                  ),
-                ),
-                // extra text
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
-                  child: Text(
-                    'Let\'s check your activity',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                ),
-                // User icon
-                const Padding(
-                  padding: EdgeInsets.only(top: 10, left: 340),
-                  child: CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        'https://cdn-icons-png.flaticon.com/512/147/147133.png'),
-                  ),
-                ),
-              ],
-            ),
-            Stack(
-              children: [
-                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Container(
-                      width: 175,
-                      height: 100,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.03),
-                              spreadRadius: 10,
-                              blurRadius: 3,
-                              // changes position of shadow
-                            ),
-                          ])),
-                  const SizedBox(
-                    width: 30.0,
-                  ),
-                  Container(
-                      width: 175,
-                      height: 100,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.03),
-                              spreadRadius: 10,
-                              blurRadius: 3,
-                              // changes position of shadow
-                            ),
-                          ])),
-                ]),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Column(
-                      children: const [
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(5),
-                        ),
-                        Text("0",
-                            style: TextStyle(
-                                fontSize: 30, fontWeight: FontWeight.bold),
-                            textAlign: TextAlign.center),
-                        Padding(padding: EdgeInsets.all(4)),
-                        Text("Workouts Completed",
-                            style: TextStyle(fontSize: 16),
-                            textAlign: TextAlign.center)
-                      ],
-                    ),
-                    const SizedBox(
-                      width: 30,
-                    ),
-                    Column(
-                      children: [
-                        const Text("Workouts In-Progress",
-                            style: TextStyle(fontSize: 16),
-                            textAlign: TextAlign.center),
-                        Padding(padding: EdgeInsets.all(5)),
-                        Row(
-                          children: const [
-                            Text("0",
-                                style: TextStyle(
-                                    fontSize: 30, fontWeight: FontWeight.bold),
-                                textAlign: TextAlign.center),
-                            Text("\tWorkouts",
-                                style: TextStyle(fontSize: 16),
-                                textAlign: TextAlign.center)
-                          ],
-                        )
-                      ],
-                    )
                   ],
-                )
+                ),
+                Padding(padding: EdgeInsets.only(bottom: 25)),
+                Container(
+                  width: 375,
+                  decoration: BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.circular(25),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.07),
+                        spreadRadius: 10,
+                        blurRadius: 3,
+                        // changes position of shadow
+                      )
+                    ],
+                  ),
+                  child: Column(children: [
+                    Text("Achivements Place Holder")
+                    // Place achivements here or else
+                  ]),
+                ),
               ],
             ),
-
-            // Where the buttons are
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Achivements Button
-                  Stack(
-                    alignment: Alignment.bottomCenter,
-                    children: [
-                      Container(
-                          width: 175,
-                          height: 150,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.03),
-                                  spreadRadius: 10,
-                                  blurRadius: 3,
-                                  // changes position of shadow
-                                ),
-                              ])),
-                      Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              // Takes us to Achievements Page
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Achivements(),
-                                ),
-                              );
-                            },
-                            icon: Image.asset('images/Trophy1.png'),
-                            iconSize: 150,
-                          ),
-                          const Padding(padding: EdgeInsets.only(bottom: 150))
-                        ],
-                      ),
-                      Stack(
-                        alignment: Alignment.center,
-                        children: const [
-                          Text("Achievements",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16))
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    width: 25.0,
-                  ),
-                  //  Workout Button
-                  Stack(
-                    alignment: Alignment.bottomCenter,
-                    children: [
-                      Container(
-                          width: 175,
-                          height: 150,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.03),
-                                  spreadRadius: 10,
-                                  blurRadius: 3,
-                                  // changes position of shadow
-                                ),
-                              ])),
-                      Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              // Takes us to  Worrkout Page
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const SecondHomePage(),
-                                ),
-                              );
-                            },
-                            icon: Image.asset('images/gym1.png'),
-                            iconSize: 100,
-                          ),
-                          const Padding(
-                              padding: EdgeInsets.only(
-                            bottom: 170,
-                          ))
-                        ],
-                      ),
-                      Stack(
-                        alignment: Alignment.center,
-                        children: const [
-                          Text(
-                            "Workout",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class ProfilePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text('Profile Page'),
-      ),
-    );
+          ),
+        ));
   }
 }
 
@@ -397,45 +755,55 @@ class _FriendsPageState extends State<FriendsPage>
         color: Colors.white,
       ),
       child: ListTile(
-        leading: const CircleAvatar(
-          // backgroundImage: NetworkImage(friend.data()['profilePicture']),
-          backgroundImage: NetworkImage(
-              'https://twirpz.files.wordpress.com/2015/06/twitter-avi-gender-balanced-figure.png?w=640'),
-        ),
-        title: Text(
+          leading: "${friend['ProfilePic']}" == ""
+            ? const CircleAvatar(
+                    backgroundImage: NetworkImage(
+                      'https://cdn-icons-png.flaticon.com/512/147/147133.png'),
+                  radius: 20,
+              )
+            : CircleAvatar(
+                radius: 20,
+                backgroundImage: NetworkImage("${friend['ProfilePic']}")),
+          title: Text(
           friend['email'],
           style: const TextStyle(fontFamily: 'Averta'),
         ),
-        subtitle: Text(
+          subtitle: Text(
           'Current weight: ${friend['weight']}',
           style: const TextStyle(fontFamily: 'Averta', color: Colors.grey),
         ),
-        trailing: SizedBox(
-          width: 60,
-          child: ElevatedButton.icon(
-            // onPressed: () => _addFriend(friend),
-            onPressed: () => _addFriend(friend),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color.fromARGB(255, 255, 93, 81),
-              padding: const EdgeInsets.all(8.0),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
+          trailing: SizedBox(
+            width: 60,
+            child: ElevatedButton.icon(
+                onPressed: () => _addFriend(friend),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 255, 93, 81),
+                padding: const EdgeInsets.all(8.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+              ),
+              ),
+                icon: const Icon(
+                Icons.person,
+                color: Colors.white,
+                size: 20,
+              ),
+              label: const Icon(
+                Icons.add,
+                color: Colors.white,
+                size: 20,
               ),
             ),
-            icon: const Icon(
-              Icons.person,
-              color: Colors.white,
-              size: 20,
-            ),
-            label: const Icon(
-              Icons.add,
-              color: Colors.white,
-              size: 20,
-            ),
           ),
-        ),
       ),
-    );
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => friendProfile(_searchController.text),
+            ),
+          );
+        });
   }
 
   // Collects User's friend requests.
@@ -458,6 +826,11 @@ class _FriendsPageState extends State<FriendsPage>
 
   @override
   Widget build(BuildContext context) {
+    final Stream<QuerySnapshot> friendRequestsStream = FirebaseFirestore
+        .instance
+        .collection('Users')
+        .where('uid', isEqualTo: _auth.getuid().toString())
+        .snapshots();
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -639,7 +1012,7 @@ class SettingsPage extends StatelessWidget {
   }
 }
 
-// landing page for a longed in user
+// landing page for a logged in user
 class Home extends StatefulWidget {
   @override
   State<Home> createState() => _HomeState();
@@ -721,8 +1094,76 @@ class _HomeState extends State<Home> {
   }
 }
 
-// Get the data properly
-String initData() {
+Widget _buildUserInformation() {
   final AuthService _auth = AuthService();
-  return _auth.getuid().toString();
+
+  final Stream<QuerySnapshot> userData2 = FirebaseFirestore.instance
+      .collection('Users')
+      .where('uid', isEqualTo: _auth.getuid().toString())
+      .snapshots();
+  return
+      // User information
+      StreamBuilder<QuerySnapshot>(
+    // ???
+    stream: userData2,
+    builder: (
+      BuildContext context,
+      // ???
+      AsyncSnapshot<QuerySnapshot> snapshot,
+    ) {
+      try {
+        // Get User Data
+        final data = snapshot.requireData;
+        return Column(
+          children: [
+            Text(
+              "Hello, ${data.docs[0]['email']}",
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+            ),
+          ],
+        );
+      } catch (e) {
+        return const CircularProgressIndicator();
+      }
+    },
+  );
+}
+
+Widget _buildUserProfilePic() {
+  final AuthService _auth = AuthService();
+
+  final Stream<QuerySnapshot> userData2 = FirebaseFirestore.instance
+      .collection('Users')
+      .where('uid', isEqualTo: _auth.getuid().toString())
+      .snapshots();
+  return StreamBuilder<QuerySnapshot>(
+    stream: userData2,
+    builder: (
+      BuildContext context,
+      AsyncSnapshot<QuerySnapshot> snapshot,
+    ) {
+      try {
+        // Get User Data
+        final data = snapshot.requireData;
+        return "${data.docs[0]['ProfilePic']}" == ""
+            ? const CircleAvatar(
+                backgroundImage: NetworkImage(
+                  'https://cdn-icons-png.flaticon.com/512/147/147133.png',
+                ),
+                radius: 20,
+              )
+            : CircleAvatar(
+                radius: 20,
+                backgroundImage: NetworkImage(
+                  "${data.docs[0]['ProfilePic']}",
+                ),
+              );
+      } catch (e) {
+        return const CircularProgressIndicator();
+      }
+    },
+  );
 }
