@@ -13,6 +13,9 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:sp_fitness_app/shared/Achievement_database.dart';
 
+import 'package:sp_fitness_app/screens/home/tab1.dart';
+import 'package:sp_fitness_app/screens/home/tab2.dart' as Tab2;
+
 import '../Achivements/tasksAndBadges.dart';
 
 class HomePage extends StatefulWidget {
@@ -374,12 +377,12 @@ class _HomePageState extends State<HomePage> {
                               IconButton(
                                 onPressed: () {
                                   // Takes us to  Worrkout Page
-                                  //Navigator.push(
-                                  // context,
-                                  //  MaterialPageRoute(
-                                  //  builder: (context) =>  FilterScreen(),
-                                  // ),
-                                  // );
+                                  Navigator.push(
+                                  context,
+                                   MaterialPageRoute(
+                                   builder: (context) =>  ActivityScreen(),
+                                  ),
+                                  );
                                 },
                                 icon: Image.asset('images/gym1.png'),
                                 iconSize: 80,
@@ -682,9 +685,11 @@ class FriendsPage extends StatefulWidget {
   State<FriendsPage> createState() => _FriendsPageState();
 }
 
-class _FriendsPageState extends State<FriendsPage> {
+class _FriendsPageState extends State<FriendsPage>
+    with SingleTickerProviderStateMixin {
   final TextEditingController _searchController = TextEditingController();
   List<QueryDocumentSnapshot> _searchResults = [];
+  bool _showSearchResults = false;
 
   void _onSearch(String searchText) async {
     final List<QueryDocumentSnapshot> results = await FirebaseFirestore.instance
@@ -693,15 +698,19 @@ class _FriendsPageState extends State<FriendsPage> {
         .get()
         .then((querySnapshot) => querySnapshot.docs);
 
+    bool hasResults =
+        results.isNotEmpty; // check if there are any search results
+
     setState(() {
       _searchResults = results;
+      _showSearchResults = _showSearchResults = hasResults;
     });
   }
 
   void _addFriend(QueryDocumentSnapshot friend) async {
     // add current user to the list of friend requests of searched user.
-    print("Friend User: " +
-        friend['email']); // prints the person ur trying to add
+    // print("Friend User: " +
+    //     friend['email']); // prints the person ur trying to add
 
     final user = FirebaseAuth.instance.currentUser!;
 
@@ -720,267 +729,275 @@ class _FriendsPageState extends State<FriendsPage> {
     final userData = userDocument?.data();
     print("Current User: " + userData!['email']);
 
-    // We want friends to get a request
-    // We feed them our current user email.
-    // friend['requests'] <-- want our logged in user email to be put on here.
-    // friend['requests']
     friend.reference.update({
       'requests':
           FieldValue.arrayUnion([userData['email']]) // might need the ! here
     });
-
-    // We want friends to able to see our request on their requests
-    // They should be able to accept or reject
-    // If Accepted, add them to friends list.
-    // If Rejected, get rid of request from requests list.
   }
-
-  void acceptFriendRequest(String currentUserId, String friendEmail) async {
-    final currentUserDocRef =
-        FirebaseFirestore.instance.collection('Users').doc(currentUserId);
-
-    final friendDocRef = FirebaseFirestore.instance
-        .collection('Users')
-        .where('email', isEqualTo: friendEmail);
-
-    // Remove the friend's email from the current user's requests list
-    currentUserDocRef.update({
-      'requests': FieldValue.arrayRemove([friendEmail]),
-    });
-
-    // Add the friend's email to the current user's friends list
-    currentUserDocRef.update({
-      'friends': FieldValue.arrayUnion([friendEmail]),
-    });
-
-    // Get the friend's document reference
-    final friendQuerySnapshot = await friendDocRef.get();
-    final friendDoc = friendQuerySnapshot.docs.first;
-
-    // Get the current user's email
-    final currentUser = FirebaseAuth.instance.currentUser!;
-    final currentUserEmail = currentUser.email;
-
-    // Add the current user's email to the friend's friends list
-    friendDoc.reference.update({
-      'friends': FieldValue.arrayUnion([currentUserEmail]),
-    });
-  }
-
-  void rejectFriendRequest(String currentUserId, String friendEmail) async {
-    final currentUserDocRef =
-        FirebaseFirestore.instance.collection('Users').doc(currentUserId);
-
-    // Remove the friend's email from the current user's requests list
-    currentUserDocRef.update({
-      'requests': FieldValue.arrayRemove([friendEmail]),
-    });
-  }
-
-  Widget _buildFriendListItem(QueryDocumentSnapshot friend) {
-    return ListTile(
-        leading: "${friend['ProfilePic']}" == ""
-            ? const CircleAvatar(
-                backgroundImage: NetworkImage(
-                    'https://cdn-icons-png.flaticon.com/512/147/147133.png'),
-                radius: 20,
-              )
-            : CircleAvatar(
-                radius: 20,
-                backgroundImage: NetworkImage("${friend['ProfilePic']}")),
-        title: Text(friend['email']),
-        subtitle: Text('Current weight: ${friend['weight']}'),
-        trailing: SizedBox(
-          width: 60,
-          child: ElevatedButton.icon(
-            onPressed: () => _addFriend(friend),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blue,
-              padding: const EdgeInsets.all(8.0),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-            icon: const Icon(
-              Icons.person,
-              color: Colors.white,
-              size: 20,
-            ),
-            label: const Icon(
-              Icons.add,
-              color: Colors.white,
-              size: 20,
+Widget _buildFriendListItem(QueryDocumentSnapshot friend) {
+  return Container(
+    decoration: BoxDecoration(
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.1),
+          spreadRadius: 1,
+          blurRadius: 0,
+          offset: const Offset(0, 1),
+        ),
+      ],
+      border: Border.all(
+        // color: Colors.grey.shade300,
+        color: Colors.transparent,
+        width: 2.0,
+      ),
+      borderRadius: BorderRadius.circular(12),
+      color: Colors.white,
+    ),
+    child: ListTile(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => friendProfile(_searchController.text),
+          ),
+        );
+      },
+      leading: "${friend['ProfilePic']}" == ""
+          ? const CircleAvatar(
+              backgroundImage: NetworkImage(
+                'https://cdn-icons-png.flaticon.com/512/147/147133.png'),
+              radius: 20,
+            )
+          : CircleAvatar(
+              radius: 20,
+              backgroundImage: NetworkImage("${friend['ProfilePic']}")),
+      title: Text(
+        friend['email'],
+        style: const TextStyle(fontFamily: 'Averta'),
+      ),
+      subtitle: Text(
+        'Current weight: ${friend['weight']}',
+        style: const TextStyle(fontFamily: 'Averta', color: Colors.grey),
+      ),
+      trailing: SizedBox(
+        width: 60,
+        child: ElevatedButton.icon(
+          onPressed: () => _addFriend(friend),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color.fromARGB(255, 255, 93, 81),
+            padding: const EdgeInsets.all(8.0),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
             ),
           ),
+          icon: const Icon(
+            Icons.person,
+            color: Colors.white,
+            size: 20,
+          ),
+          label: const Icon(
+            Icons.add,
+            color: Colors.white,
+            size: 20,
+          ),
         ),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => friendProfile(_searchController.text),
-            ),
-          );
-        });
-  }
+      ),
+    ),
+  );
+}
+
 
   // Collects User's friend requests.
   // Took Andrews approach to this.
   // The stream builder takes care of accessing the data.
   // This is only getting the User's general data.
-  final AuthService _auth = AuthService();
+  final Stream<QuerySnapshot> friendRequestsStream = FirebaseFirestore.instance
+      .collection('Users')
+      .where('uid', isEqualTo: Tab2.initData())
+      .snapshots();
+
+  bool _isFriendsSelected = false;
+  late TabController tabController;
+
+  @override
+  void initState() {
+    tabController = TabController(length: 2, vsync: this);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+      final AuthService _auth = AuthService();
+
     final Stream<QuerySnapshot> friendRequestsStream = FirebaseFirestore
         .instance
         .collection('Users')
         .where('uid', isEqualTo: _auth.getuid().toString())
         .snapshots();
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
-        child: Column(
-          children: [
-            const Text(
-              'Add friends',
-              style: TextStyle(
-                  fontSize: 18,
-                  fontFamily: 'Roboto',
-                  fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 20),
-            TextFormField(
-              controller: _searchController,
-              key: const Key('Friend-search'),
-              decoration: InputDecoration(
-                prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                hintText: 'Email, name, or username',
-                hintStyle: const TextStyle(color: Colors.grey),
-              ),
-              // Makes sure the textfield is not empty.
-              validator: (value) => value!.isEmpty ? 'Enter an email' : null,
-              // Changes variable to Textfield input
-              onFieldSubmitted: (value) => _onSearch(_searchController.text),
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: _searchResults.length,
-                itemBuilder: ((context, index) {
-                  return _buildFriendListItem(_searchResults[index]);
-                }),
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                'Current Friends',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-            ),
-            // Renders Current Friends
-            StreamBuilder<QuerySnapshot>(
-              stream: friendRequestsStream,
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                }
-                switch (snapshot.connectionState) {
-                  case ConnectionState.waiting:
-                    return const CircularProgressIndicator();
-                  default:
-                    final data = snapshot.requireData;
-                    List<String> friendsList = List<String>.from(
-                        // snapshot.data?.docs.first.data()!['requests']
-                        data.docs[0]['friends']);
-                    return ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: friendsList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return ListTile(
-                          leading: const CircleAvatar(
-                            backgroundImage: NetworkImage(
-                                'https://twirpz.files.wordpress.com/2015/06/twitter-avi-gender-balanced-figure.png?w=640'),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
+          child: Stack(
+            children: [
+              Column(
+                // crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Add friends',
+                    style: TextStyle(
+                        fontSize: 22,
+                        fontFamily: 'Averta',
+                        fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    controller: _searchController,
+                    key: const Key('Friend-search'),
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.grey[00],
+                      enabledBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(15),
+                        ),
+                        // borderSide:
+                        //     BorderSide(color: Colors.grey.shade300, width: 2.0),
+                        borderSide: BorderSide(color: Colors.transparent),
+                      ),
+                      focusedBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(15),
+                        ),
+                        // borderSide:
+                        //     BorderSide(color: Colors.grey.shade300, width: 2.0),
+                        borderSide: BorderSide(color: Colors.transparent),
+                      ),
+                      prefixIcon: const Icon(
+                        Icons.search,
+                        color: Color.fromARGB(255, 126, 126, 126),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      hintText: 'Email, name, or username',
+                      hintStyle: const TextStyle(
+                        color: Color.fromARGB(255, 126, 126, 126),
+                        fontFamily: 'Averta',
+                      ),
+                    ),
+                    // Makes sure the textfield is not empty.
+                    validator: (value) =>
+                        value!.isEmpty ? 'Enter an email' : null,
+                    // Changes variable to Textfield input
+                    onFieldSubmitted: (value) =>
+                        _onSearch(_searchController.text),
+                  ),
+                  // Friends + Request Button Render Logic.
+                  if (!_showSearchResults)
+                    SizedBox(
+                      height: 0,
+                      child: Expanded(
+                        child: ListView.builder(
+                          itemCount: _searchResults.length,
+                          itemBuilder: ((context, index) {
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 25.0),
+                              child:
+                                  _buildFriendListItem(_searchResults[index]),
+                            );
+                          }),
+                        ),
+                      ),
+                    ),
+                  if (_showSearchResults)
+                    SizedBox(
+                      height: 110,
+                      child: Expanded(
+                        child: ListView.builder(
+                          itemCount: _searchResults.length,
+                          itemBuilder: ((context, index) {
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 25.0),
+                              child:
+                                  _buildFriendListItem(_searchResults[index]),
+                            );
+                          }),
+                        ),
+                      ),
+                    ),
+                  // 3RD BUTTON DESIGN
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 0),
+                    child: SizedBox(
+                      // height: MediaQuery.of(context).size.height,
+                      height: 520, // size of the pages
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 30),
+                          Container(
+                            // height: 50, DO NOT UNCOMMENT
+                            width: MediaQuery.of(context).size.height,
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 255, 93, 81),
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(1),
+                                  child: TabBar(
+                                    unselectedLabelColor: Colors.white,
+                                    labelColor: Colors.black,
+                                    indicatorColor: Colors.white,
+                                    indicatorWeight: 0, // 2 =  Original
+                                    indicator: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    controller: tabController,
+                                    tabs: const [
+                                      Tab(
+                                        // text: 'Friends',
+                                        child: Text(
+                                          'Friends',
+                                          style: TextStyle(
+                                            fontFamily: 'Averta',
+                                          ),
+                                        ),
+                                      ),
+                                      Tab(
+                                        child: Text(
+                                          'Requests',
+                                          style:
+                                              TextStyle(fontFamily: 'Averta'),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                          title: Text(friendsList[index]),
-                        );
-                      },
-                    );
-                }
-              },
-            ),
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                'Friend Requests',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-            ),
-            // Renders friends requests.
-            StreamBuilder<QuerySnapshot>(
-              stream: friendRequestsStream,
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                }
-                switch (snapshot.connectionState) {
-                  case ConnectionState.waiting:
-                    return const CircularProgressIndicator();
-                  default:
-                    final data = snapshot.requireData;
-                    List<String> requestsList = List<String>.from(
-                        // snapshot.data?.docs.first.data()!['requests']
-                        data.docs[0]['requests']);
-                    return ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: requestsList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return ListTile(
-                          leading: const CircleAvatar(
-                            backgroundImage: NetworkImage(
-                                'https://twirpz.files.wordpress.com/2015/06/twitter-avi-gender-balanced-figure.png?w=640'),
-                          ),
-                          title: Text(requestsList[index]),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                icon: const Icon(Icons.check,
-                                    color: Colors.green),
-                                onPressed: () {
-                                  // Accept friend request logic
-                                  // If Accepted get rid of the request of that user and add them to the friends list.
-                                  // The friend friend's list should get added with the user too
-                                  //  acceptFriendRequest(userId, requestsList[index]); // Replace userId with the current user's ID
-                                  acceptFriendRequest(
-                                      data.docs[0].id, requestsList[index]);
-                                },
-                              ),
-                              IconButton(
-                                icon:
-                                    const Icon(Icons.close, color: Colors.red),
-                                onPressed: () {
-                                  // Reject friend request logic
-                                  // If Rejected get rid of the request of that user.
-                                  // rejectFriendRequest(userId, requestsList[index]); // Replace userId with the current user's ID
-                                  rejectFriendRequest(
-                                      data.docs[0].id, requestsList[index]);
-                                },
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    );
-                }
-              },
-            )
-          ],
+                          Expanded(
+                            child: TabBarView(
+                              controller: tabController,
+                              children: [
+                                Tab1(),
+                                Tab2.Tab2(),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

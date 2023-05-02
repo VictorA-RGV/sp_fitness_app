@@ -48,6 +48,8 @@ dependencies:
   hive_flutter: ^1.1.0
   flutter_slidable: ^2.0.0
   driver_extensions: ^1.2.0+1
+  firebase_messaging: ^14.4.1
+  cloud_functions: ^4.1.1
 
   easy_localization: ^3.0.1
   audio_wave: ^0.1.5
@@ -105,6 +107,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+  fonts:
+  - family: Averta
+    fonts:
+      - asset: fonts/Averta-Std.ttf
   # fonts:
   #   - family: Schyler
   #     fonts:
