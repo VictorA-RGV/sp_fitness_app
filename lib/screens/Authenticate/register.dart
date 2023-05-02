@@ -56,109 +56,110 @@ class _RegisterState extends State<Register> {
                 key: Key('register-back-button'),
               ),
             ),
-            body: Container(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
-              child: Form(
-                // will be used to validate the form
-                key: _formKey,
-                child: Column(
-                  children: [
-                    const Text(
-                      'Register',
-                      key: Key('register-screen'),
-                      style: TextStyle(
-                        fontFamily: 'Roboto',
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20.0,
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15.0),
+            body: SingleChildScrollView(
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                    vertical: 20.0, horizontal: 50.0),
+                child: Form(
+                  // will be used to validate the form
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      const Text(
+                        'Register',
+                        key: Key('register-screen'),
+                        style: TextStyle(
+                          fontFamily: 'Roboto',
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
                         ),
-                        hintText: 'Email',
-                        hintStyle: TextStyle(color: Colors.grey),
                       ),
-                      validator: (value) =>
-                          value!.isEmpty ? 'Enter an email' : null,
-                      onChanged: (value) {
-                        setState(
-                          () {
-                            email = value;
-                          },
-                        );
-                      },
-                    ),
-                    const SizedBox(
-                      height: 20.0,
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15.0),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
+                      TextFormField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                          hintText: 'Email',
+                          hintStyle: TextStyle(color: Colors.grey),
                         ),
-                        hintText: 'Password',
-                        hintStyle: TextStyle(color: Colors.grey),
+                        validator: (value) =>
+                            value!.isEmpty ? 'Enter an email' : null,
+                        onChanged: (value) {
+                          setState(
+                            () {
+                              email = value;
+                            },
+                          );
+                        },
                       ),
-                      obscureText: true,
-                      validator: (value) => value!.length < 6
-                          ? 'Enter a password with 6+ chars long'
-                          : null,
-                      onChanged: (value) {
-                        setState(() {
-                          password = value;
-                        });
-                      },
-                    ),
-                    const SizedBox(
-                      height: 20.0,
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15.0),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
+                      TextFormField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                          hintText: 'Password',
+                          hintStyle: TextStyle(color: Colors.grey),
                         ),
-                        hintText: 'Confirm Password',
-                        hintStyle: TextStyle(color: Colors.grey),
-                      ),
-                      obscureText: true,
-                      validator: (value) {
-                        if (value != password) {
-                          return 'Passwords do not match';
-                        }
-                        if (value!.length < 6) {
-                          return 'Enter a password with 6+ chars long';
-                        }
-                        return null;
-                      },
-                      onChanged: (value) {
-                        setState(
-                          () {
-                            confirmPassword = value;
-                          },
-                        );
-                      },
-                    ),
-                    const SizedBox(
-                      height: 20.0,
-                    ),
-                    Expanded(
-                      child:
-                          Container(), // puts our elevatedButton at the bottom.
-                    ),
-                    ElevatedButton(
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
+                        obscureText: true,
+                        validator: (value) => value!.length < 6
+                            ? 'Enter a password with 6+ chars long'
+                            : null,
+                        onChanged: (value) {
                           setState(() {
-                            loading = true;
+                            password = value;
                           });
-                          dynamic result = await _auth
-                              .registerWithEmailAndPassword(email, password);
+                        },
+                      ),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
+                      TextFormField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                          hintText: 'Confirm Password',
+                          hintStyle: TextStyle(color: Colors.grey),
+                        ),
+                        obscureText: true,
+                        validator: (value) {
+                          if (value != password) {
+                            return 'Passwords do not match';
+                          }
+                          if (value!.length < 6) {
+                            return 'Enter a password with 6+ chars long';
+                          }
+                          return null;
+                        },
+                        onChanged: (value) {
+                          setState(
+                            () {
+                              confirmPassword = value;
+                            },
+                          );
+                        },
+                      ),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
+                      Expanded(
+                        child:
+                            Container(), // puts our elevatedButton at the bottom.
+                      ),
+                      ElevatedButton(
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            setState(() {
+                              loading = true;
+                            });
+                            dynamic result = await _auth
+                                .registerWithEmailAndPassword(email, password);
 
 // gender, this.weight, this.height, this.selection
                           user.add({
@@ -177,39 +178,39 @@ class _RegisterState extends State<Register> {
                             'badges': []
                           }).then((value) => print('user added'));
 
-                          if (result == null) {
-                            setState(() {
-                              error = 'please supply a valid email';
-                              loading = false;
-                            });
-                          } else
-                            Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                builder: (context) => Wrapper(),
-                              ),
-                            );
-                        }
-                      },
-                      child: const Text('Register'),
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: Size(327, 50),
-                        elevation: 0,
-                        backgroundColor: Color.fromARGB(255, 255, 93, 81),
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(50),
+                            if (result == null) {
+                              setState(() {
+                                error = 'please supply a valid email';
+                                loading = false;
+                              });
+                            } else
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                  builder: (context) => Wrapper(),
+                                ),
+                              );
+                          }
+                        },
+                        child: const Text('Register'),
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size(327, 50),
+                          elevation: 0,
+                          backgroundColor: Color.fromARGB(255, 255, 93, 81),
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(50),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 15.0,
-                      child: Text(error),
-                    )
-                  ],
+                      SizedBox(
+                        height: 15.0,
+                        child: Text(error),
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-          );
+            ));
   }
 }
