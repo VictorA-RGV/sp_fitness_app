@@ -439,7 +439,7 @@ class _ProfilePage extends State<ProfilePage> {
           FirebaseStorage.instance.ref().child("${UserID}profilepic.jpg");
 
     try {
-      await ref.putFile(File(image!.path));
+      await ref.putFile(File(image.path));
     } catch (err) {
       print("Caught error: $err");
     }
