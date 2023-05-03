@@ -47,7 +47,7 @@ class _ExerciseTileState extends State<ExerciseTile> {
     return GestureDetector(
       onTap: widget.onTap,
       child: Padding(
-        padding: const EdgeInsets.only(left: 25, right: 25, top: 20),
+        padding: const EdgeInsets.only(left: 12, right: 10, top: 20),
         child: Slidable(
           endActionPane: ActionPane(
             motion: const StretchMotion(),

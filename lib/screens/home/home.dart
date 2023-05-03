@@ -17,6 +17,7 @@ import 'package:sp_fitness_app/screens/home/tab1.dart';
 import 'package:sp_fitness_app/screens/home/tab2.dart' as Tab2;
 
 import '../Achivements/tasksAndBadges.dart';
+import '../Achivements/trophyClass.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -58,7 +59,7 @@ class _HomePageState extends State<HomePage> {
                       boxShadow: [
                         BoxShadow(
                           color: Colors.grey.withOpacity(0.03),
-                          spreadRadius: 10,
+                          spreadRadius: 4,
                           blurRadius: 3,
                           // changes position of shadow
                         ),
@@ -84,13 +85,11 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ],
                           ),
-                          
-                           SizedBox(
-                              width: 50,
-                              height: 50,
-                              child: _buildUserProfilePic(),
-                            ),
-                          
+                          SizedBox(
+                            width: 50,
+                            height: 50,
+                            child: _buildUserProfilePic(),
+                          ),
                         ],
                       ),
                     ),
@@ -113,7 +112,7 @@ class _HomePageState extends State<HomePage> {
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.grey.withOpacity(0.03),
-                                spreadRadius: 10,
+                                spreadRadius: 4,
                                 blurRadius: 3,
                               ),
                             ],
@@ -152,7 +151,7 @@ class _HomePageState extends State<HomePage> {
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.grey.withOpacity(0.03),
-                                spreadRadius: 10,
+                                spreadRadius: 4,
                                 blurRadius: 3,
                               ),
                             ],
@@ -225,7 +224,7 @@ class _HomePageState extends State<HomePage> {
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.grey.withOpacity(0.03),
-                                spreadRadius: 10,
+                                spreadRadius: 4,
                                 blurRadius: 3,
                               ),
                             ],
@@ -233,7 +232,7 @@ class _HomePageState extends State<HomePage> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Image.asset('images/Trophy1.png', height: 100),
+                              Image.asset('images/Trophy1.png', height: 90),
                               SizedBox(height: 10),
                               Text(
                                 "Achievements",
@@ -266,7 +265,7 @@ class _HomePageState extends State<HomePage> {
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.grey.withOpacity(0.03),
-                                spreadRadius: 10,
+                                spreadRadius: 4,
                                 blurRadius: 3,
                               ),
                             ],
@@ -309,7 +308,7 @@ class _HomePageState extends State<HomePage> {
                           boxShadow: [
                             BoxShadow(
                               color: Colors.grey.withOpacity(0.03),
-                              spreadRadius: 10,
+                              spreadRadius: 4,
                               blurRadius: 3,
                               // changes position of shadow
                             ),
@@ -325,7 +324,7 @@ class _HomePageState extends State<HomePage> {
                                   Navigator.push(context,
                                       SlideUpRoute(page: SummaryScreen()));
                                 },
-                                icon: Icon(Icons.insights),
+                                icon: Image.asset('images/chart.png'),
                                 iconSize: 100,
                                 color: Colors.grey,
                               ),
@@ -361,7 +360,7 @@ class _HomePageState extends State<HomePage> {
                           boxShadow: [
                             BoxShadow(
                               color: Colors.grey.withOpacity(0.03),
-                              spreadRadius: 10,
+                              spreadRadius: 4,
                               blurRadius: 3,
                               // changes position of shadow
                             ),
@@ -378,13 +377,13 @@ class _HomePageState extends State<HomePage> {
                                 onPressed: () {
                                   // Takes us to  Worrkout Page
                                   Navigator.push(
-                                  context,
-                                   MaterialPageRoute(
-                                   builder: (context) =>  ActivityScreen(),
-                                  ),
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ActivityScreen(),
+                                    ),
                                   );
                                 },
-                                icon: Image.asset('images/gym1.png'),
+                                icon: Image.asset('images/heart.png'),
                                 iconSize: 80,
                               ),
                             ],
@@ -441,11 +440,11 @@ class _ProfilePage extends State<ProfilePage> {
       Reference ref =
           FirebaseStorage.instance.ref().child("${UserID}profilepic.jpg");
 
-    try {
-      await ref.putFile(File(image.path));
-    } catch (err) {
-      print("Caught error: $err");
-    }
+      try {
+        await ref.putFile(File(image.path));
+      } catch (err) {
+        print("Caught error: $err");
+      }
 
       ref.getDownloadURL().then((value) async {
         setState(() {
@@ -458,6 +457,44 @@ class _ProfilePage extends State<ProfilePage> {
     }
   }
 
+  final List<Trophy> _trophies = [
+    Trophy(
+      name: 'Completed Tutorial',
+      description: 'Finished the app tutorial',
+      imageUrl: 'images/earn_asset.png',
+    ),
+    Trophy(
+      name: 'Daily Login',
+      description: 'Logged in to the app every day for a week',
+      imageUrl: 'images/task_asset.png',
+    ),
+    Trophy(
+      name: 'Feedback Pro',
+      description: 'Submitted 10 feedback reports',
+      imageUrl: 'images/feedback_asset.png',
+    ),
+    Trophy(
+      name: 'VIP User',
+      description: 'Purchased a premium subscription',
+      imageUrl: 'images/vip_asset.png',
+    ),
+    Trophy(
+      name: 'Social Media Guru',
+      description: 'Shared the app on social media',
+      imageUrl: 'images/share_asset.png',
+    ),
+    Trophy(
+      name: 'Progress Pal',
+      description: 'friend someone',
+      imageUrl: 'images/friend_asset.png',
+    ),
+    Trophy(
+      name: 'Motivator',
+      description: 'Poke your friends to get them moving 15 times',
+      imageUrl: 'images/poke_asset.png',
+    ),
+  ];
+
   CollectionReference user = FirebaseFirestore.instance.collection('Users');
   final AuthService _auth = AuthService();
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -465,6 +502,7 @@ class _ProfilePage extends State<ProfilePage> {
   //CollectionReference userI = FirebaseFirestore.instance.collection('Users');
   final Stream<QuerySnapshot> userData =
       FirebaseFirestore.instance.collection('Users').snapshots();
+
   // Collects User Specific Data
   @override
   Widget build(BuildContext context) {
@@ -472,6 +510,7 @@ class _ProfilePage extends State<ProfilePage> {
         .collection('Users')
         .where('uid', isEqualTo: _auth.getuid().toString())
         .snapshots();
+
     return Scaffold(
         backgroundColor: Colors.transparent,
         body: SingleChildScrollView(
@@ -506,7 +545,7 @@ class _ProfilePage extends State<ProfilePage> {
                           boxShadow: [
                             BoxShadow(
                               color: Colors.grey.withOpacity(0.07),
-                              spreadRadius: 10,
+                              spreadRadius: 6,
                               blurRadius: 3,
                               // changes position of shadow
                             )
@@ -573,7 +612,7 @@ class _ProfilePage extends State<ProfilePage> {
                                   boxShadow: [
                                     BoxShadow(
                                       color: Colors.grey.withOpacity(0.07),
-                                      spreadRadius: 10,
+                                      spreadRadius: 6,
                                       blurRadius: 3,
                                       // changes position of shadow
                                     )
@@ -583,7 +622,9 @@ class _ProfilePage extends State<ProfilePage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     const Padding(
-                                        padding: EdgeInsets.only(top: 20)),
+                                        padding: EdgeInsets.only(
+                                      top: 20,
+                                    )),
                                     const Text(
                                       "  Username",
                                       style: TextStyle(
@@ -625,15 +666,22 @@ class _ProfilePage extends State<ProfilePage> {
                                             color: Colors.grey,
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20)),
-                                    const Text("  Level",
+                                    const Text("  Fitness Level",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20)),
-                                    Text("  ${data.docs[0]['selection']}",
-                                        style: const TextStyle(
-                                            color: Colors.grey,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20)),
+                                    Text(
+                                      data.docs[0]['selection'] == 1
+                                          ? "  Beginner"
+                                          : data.docs[0]['selection'] == 2
+                                              ? "  Intermediate"
+                                              : "  Advanced",
+                                      style: const TextStyle(
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
+
                                     const Text("  Initial Weight",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
@@ -654,25 +702,101 @@ class _ProfilePage extends State<ProfilePage> {
                   ],
                 ),
                 Padding(padding: EdgeInsets.only(bottom: 25)),
-                Container(
-                  width: 375,
-                  decoration: BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.circular(25),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.07),
-                        spreadRadius: 10,
-                        blurRadius: 3,
-                        // changes position of shadow
-                      )
-                    ],
-                  ),
-                  child: Column(children: [
-                    Text("Achivements Place Holder")
-                    // Place achivements here or else
-                  ]),
-                ),
+                StreamBuilder<QuerySnapshot>( // start of badges
+                    stream: userData2,
+                    builder: (
+                      BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot,
+                    ) {
+                      // If an error occurs when attempting to establish a connection to firebase.
+                      if (snapshot.hasError) {
+                        return const Text('Something went wrong.');
+                      }
+                      // If connection between firebase and app is not established right away.
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Text('Loading...');
+                      }
+                      // Get User Data
+                      final data = snapshot.requireData;
+
+                      return Container(
+                        width: 375,
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 255, 93, 81),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: Colors.black54, width: 2.5),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.07),
+                              spreadRadius: 6,
+                              blurRadius: 3,
+                              // changes position of shadow
+                            )
+                          ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: Colors.white,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Text(
+                                    "Badges: ",
+                                    style: TextStyle(
+                                      color: Colors.black87,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                              SizedBox(
+                                height: 80,
+                                child: ListView.builder( // creates the badges!
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: _trophies.length,
+                                  itemBuilder: (context, index) {
+                                    final trophy = _trophies[index];
+                                    final badges = data.docs[0]['badges'];
+                                    final hasBadge =
+                                        badges.contains(trophy.name);
+
+                                    return Padding(
+                                      padding: const EdgeInsets.only(right: 12),
+                                      child: Column(
+                                        children: [
+                                          Image.asset(
+                                            trophy.imageUrl,
+                                            height: 60,
+                                          ),
+                                          Text(
+                                            trophy.name,
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
+                                              color: hasBadge
+                                                  ? Colors.black87
+                                                  : Colors.grey,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }),
               ],
             ),
           ),
@@ -734,78 +858,78 @@ class _FriendsPageState extends State<FriendsPage>
           FieldValue.arrayUnion([userData['email']]) // might need the ! here
     });
   }
-Widget _buildFriendListItem(QueryDocumentSnapshot friend) {
-  return Container(
-    decoration: BoxDecoration(
-      boxShadow: [
-        BoxShadow(
-          color: Colors.grey.withOpacity(0.1),
-          spreadRadius: 1,
-          blurRadius: 0,
-          offset: const Offset(0, 1),
-        ),
-      ],
-      border: Border.all(
-        // color: Colors.grey.shade300,
-        color: Colors.transparent,
-        width: 2.0,
-      ),
-      borderRadius: BorderRadius.circular(12),
-      color: Colors.white,
-    ),
-    child: ListTile(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => friendProfile(_searchController.text),
+
+  Widget _buildFriendListItem(QueryDocumentSnapshot friend) {
+    return Container(
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 0,
+            offset: const Offset(0, 1),
           ),
-        );
-      },
-      leading: "${friend['ProfilePic']}" == ""
-          ? const CircleAvatar(
-              backgroundImage: NetworkImage(
-                'https://cdn-icons-png.flaticon.com/512/147/147133.png'),
-              radius: 20,
-            )
-          : CircleAvatar(
-              radius: 20,
-              backgroundImage: NetworkImage("${friend['ProfilePic']}")),
-      title: Text(
-        friend['email'],
-        style: const TextStyle(fontFamily: 'Averta'),
+        ],
+        border: Border.all(
+          // color: Colors.grey.shade300,
+          color: Colors.transparent,
+          width: 2.0,
+        ),
+        borderRadius: BorderRadius.circular(12),
+        color: Colors.white,
       ),
-      subtitle: Text(
-        'Current weight: ${friend['weight']}',
-        style: const TextStyle(fontFamily: 'Averta', color: Colors.grey),
-      ),
-      trailing: SizedBox(
-        width: 60,
-        child: ElevatedButton.icon(
-          onPressed: () => _addFriend(friend),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color.fromARGB(255, 255, 93, 81),
-            padding: const EdgeInsets.all(8.0),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
+      child: ListTile(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => friendProfile(_searchController.text),
+            ),
+          );
+        },
+        leading: "${friend['ProfilePic']}" == ""
+            ? const CircleAvatar(
+                backgroundImage: NetworkImage(
+                    'https://cdn-icons-png.flaticon.com/512/147/147133.png'),
+                radius: 20,
+              )
+            : CircleAvatar(
+                radius: 20,
+                backgroundImage: NetworkImage("${friend['ProfilePic']}")),
+        title: Text(
+          friend['email'],
+          style: const TextStyle(fontFamily: 'Averta'),
+        ),
+        subtitle: Text(
+          'Current weight: ${friend['weight']}',
+          style: const TextStyle(fontFamily: 'Averta', color: Colors.grey),
+        ),
+        trailing: SizedBox(
+          width: 60,
+          child: ElevatedButton.icon(
+            onPressed: () => _addFriend(friend),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color.fromARGB(255, 255, 93, 81),
+              padding: const EdgeInsets.all(8.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+            ),
+            icon: const Icon(
+              Icons.person,
+              color: Colors.white,
+              size: 20,
+            ),
+            label: const Icon(
+              Icons.add,
+              color: Colors.white,
+              size: 20,
             ),
           ),
-          icon: const Icon(
-            Icons.person,
-            color: Colors.white,
-            size: 20,
-          ),
-          label: const Icon(
-            Icons.add,
-            color: Colors.white,
-            size: 20,
-          ),
         ),
       ),
-    ),
-  );
-}
-
+    );
+  }
 
   // Collects User's friend requests.
   // Took Andrews approach to this.
@@ -827,7 +951,7 @@ Widget _buildFriendListItem(QueryDocumentSnapshot friend) {
 
   @override
   Widget build(BuildContext context) {
-      final AuthService _auth = AuthService();
+    final AuthService _auth = AuthService();
 
     final Stream<QuerySnapshot> friendRequestsStream = FirebaseFirestore
         .instance

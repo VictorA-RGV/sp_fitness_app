@@ -95,6 +95,30 @@ flutter:
     - images/crown.png
     - images/Trophy1.png
     - images/gym1.png
+    - images/bubble_asset.png
+    - images/crown_asset.png
+    - images/earn_asset.png
+    - images/feedback_asset.png
+    - images/friend_asset.png
+    - images/medal_asset.png
+    - images/poke_asset.png
+    - images/share_asset.png
+    - images/speech_asset.png
+    - images/steps_asset.png
+    - images/task_asset.png
+    - images/vip_asset.png
+    - images/gold_medal.png
+    - images/silver_medal.png
+    - images/bronze_medal.png
+    - images/heart.png
+    - images/chart.png
+    - images/platinum_trophy.png
+    
+    
+    
+    
+    
+    
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -152,7 +152,7 @@ void _deleteBadges() async {
                     ),
                   ],
                 );
-                ;
+                
               },
             ),
             ElevatedButton(

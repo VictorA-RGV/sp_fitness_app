@@ -6,6 +6,7 @@ class Trophy {
 
   final String imageUrl;
 
+
   Trophy(
       {required this.name, required this.description, required this.imageUrl});
 }
