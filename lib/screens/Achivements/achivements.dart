@@ -76,13 +76,53 @@ class _AchivementsState extends State<Achivements> {
           child: ListView.builder(
             itemCount: achievementData.length,
             itemBuilder: (context, index) {
-              return AchievementCircs(
-                image: achievementData[index]['image'],
-                name: achievementData[index]['name'],
-                color: achievementData[index]['color'],
-                progress:
-                    getAchievementProgress(achievementData[index]['name']),
-              );
+              if (index == 0) {
+                // First item is top centered
+                return Center(
+                  child: AchievementCircs(
+                    image: achievementData[index]['image'],
+                    name: achievementData[index]['name'],
+                    color: achievementData[index]['color'],
+                    progress:
+                        getAchievementProgress(achievementData[index]['name']),
+                  ),
+                );
+              } else if (index == achievementData.length - 1) {
+                // Last item is bottom centered
+                return Center(
+                  child: AchievementCircs(
+                    image: achievementData[index]['image'],
+                    name: achievementData[index]['name'],
+                    color: achievementData[index]['color'],
+                    progress:
+                        getAchievementProgress(achievementData[index]['name']),
+                  ),
+                );
+              } else if ((index - 2) % 2 == 0) {
+                // Items in pairs
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    AchievementCircs(
+                      image: achievementData[index - 1]['image'],
+                      name: achievementData[index - 1]['name'],
+                      color: achievementData[index - 1]['color'],
+                      progress: getAchievementProgress(
+                          achievementData[index - 1]['name']),
+                    ),
+                    AchievementCircs(
+                      image: achievementData[index]['image'],
+                      name: achievementData[index]['name'],
+                      color: achievementData[index]['color'],
+                      progress: getAchievementProgress(
+                          achievementData[index]['name']),
+                    ),
+                  ],
+                );
+              } else {
+                // Ignore odd numbered items
+                return SizedBox.shrink();
+              }
             },
           ),
         ),

@@ -494,7 +494,6 @@ class _ProfilePage extends State<ProfilePage> {
       imageUrl: 'images/poke_asset.png',
     ),
   ];
-  
 
   CollectionReference user = FirebaseFirestore.instance.collection('Users');
   final AuthService _auth = AuthService();
@@ -503,7 +502,7 @@ class _ProfilePage extends State<ProfilePage> {
   //CollectionReference userI = FirebaseFirestore.instance.collection('Users');
   final Stream<QuerySnapshot> userData =
       FirebaseFirestore.instance.collection('Users').snapshots();
-      
+
   // Collects User Specific Data
   @override
   Widget build(BuildContext context) {
@@ -511,7 +510,7 @@ class _ProfilePage extends State<ProfilePage> {
         .collection('Users')
         .where('uid', isEqualTo: _auth.getuid().toString())
         .snapshots();
-       
+
     return Scaffold(
         backgroundColor: Colors.transparent,
         body: SingleChildScrollView(
@@ -623,7 +622,9 @@ class _ProfilePage extends State<ProfilePage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     const Padding(
-                                        padding: EdgeInsets.only(top: 20)),
+                                        padding: EdgeInsets.only(
+                                      top: 20,
+                                    )),
                                     const Text(
                                       "  Username",
                                       style: TextStyle(
@@ -665,15 +666,22 @@ class _ProfilePage extends State<ProfilePage> {
                                             color: Colors.grey,
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20)),
-                                    const Text("  Level",
+                                    const Text("  Fitness Level",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20)),
-                                    Text("  ${data.docs[0]['selection']}",
-                                        style: const TextStyle(
-                                            color: Colors.grey,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20)),
+                                    Text(
+                                      data.docs[0]['selection'] == 1
+                                          ? "  Beginner"
+                                          : data.docs[0]['selection'] == 2
+                                              ? "  Intermediate"
+                                              : "  Advanced",
+                                      style: const TextStyle(
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
+
                                     const Text("  Initial Weight",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
@@ -694,101 +702,101 @@ class _ProfilePage extends State<ProfilePage> {
                   ],
                 ),
                 Padding(padding: EdgeInsets.only(bottom: 25)),
-                StreamBuilder<QuerySnapshot>(
-                  stream: userData2,
-                  builder: (
-                    BuildContext context,
-                    AsyncSnapshot<QuerySnapshot> snapshot,
-                  ) {
-                    // If an error occurs when attempting to establish a connection to firebase.
-                    if (snapshot.hasError) {
-                      return const Text('Something went wrong.');
-                    }
-                    // If connection between firebase and app is not established right away.
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Text('Loading...');
-                    }
-                    // Get User Data
-                    final data = snapshot.requireData;
-                    
-                    return Container(
-                      width: 375,
-                      decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 255, 93, 81),
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Colors.black54, width: 2.5),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.07),
-                            spreadRadius: 6,
-                            blurRadius: 3,
-                            // changes position of shadow
-                          )
-                        ],
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: Colors.white,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: Text(
-                                  "Badges: ",
-                                  style: TextStyle(
-                                    color: Colors.black87,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
+                StreamBuilder<QuerySnapshot>( // start of badges
+                    stream: userData2,
+                    builder: (
+                      BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot,
+                    ) {
+                      // If an error occurs when attempting to establish a connection to firebase.
+                      if (snapshot.hasError) {
+                        return const Text('Something went wrong.');
+                      }
+                      // If connection between firebase and app is not established right away.
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Text('Loading...');
+                      }
+                      // Get User Data
+                      final data = snapshot.requireData;
+
+                      return Container(
+                        width: 375,
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 255, 93, 81),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: Colors.black54, width: 2.5),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.07),
+                              spreadRadius: 6,
+                              blurRadius: 3,
+                              // changes position of shadow
+                            )
+                          ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: Colors.white,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Text(
+                                    "Badges: ",
+                                    style: TextStyle(
+                                      color: Colors.black87,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(height: 5),
-                            SizedBox(
-                              height: 80,
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: _trophies.length,
-                                itemBuilder: (context, index) {
-                                  final trophy = _trophies[index];
-                                  final badges = data.docs[0]['badges'];
-                                  final hasBadge = badges.contains(trophy.name);
-                
-                                  return Padding(
-                                    padding: const EdgeInsets.only(right: 12),
-                                    child: Column(
-                                      children: [
-                                        Image.asset(
-                                          trophy.imageUrl,
-                                          height: 60,
-                                        ),
-                                        Text(
-                                          trophy.name,
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500,
-                                            color: hasBadge
-                                                ? Colors.black87
-                                                : Colors.grey,
+                              const SizedBox(height: 5),
+                              SizedBox(
+                                height: 80,
+                                child: ListView.builder( // creates the badges!
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: _trophies.length,
+                                  itemBuilder: (context, index) {
+                                    final trophy = _trophies[index];
+                                    final badges = data.docs[0]['badges'];
+                                    final hasBadge =
+                                        badges.contains(trophy.name);
+
+                                    return Padding(
+                                      padding: const EdgeInsets.only(right: 12),
+                                      child: Column(
+                                        children: [
+                                          Image.asset(
+                                            trophy.imageUrl,
+                                            height: 60,
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                },
+                                          Text(
+                                            trophy.name,
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
+                                              color: hasBadge
+                                                  ? Colors.black87
+                                                  : Colors.grey,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  }
-                ),
+                      );
+                    }),
               ],
             ),
           ),

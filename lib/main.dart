@@ -12,7 +12,6 @@ import 'firebase_options.dart';
 const bool isTesting =
     bool.fromEnvironment('FLUTTER_TEST', defaultValue: false);
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -23,7 +22,7 @@ void main() async {
   if (!isTesting) {
     await initHive();
   }
-  
+
   runApp(const MyApp());
 }
 
@@ -39,6 +38,15 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           home: Wrapper(),
+          theme: ThemeData(
+            textTheme: const TextTheme(
+              bodyLarge: TextStyle(fontFamily: 'Averta'),
+              bodyMedium: TextStyle(fontFamily: 'Averta'),
+              displayLarge: TextStyle(fontFamily: 'Averta'),
+              displayMedium: TextStyle(fontFamily: 'Averta'),
+              // Add more styles as needed
+            ),
+          ),
         ),
       ),
     );
