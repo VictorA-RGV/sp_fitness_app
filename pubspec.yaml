@@ -110,6 +110,9 @@ flutter:
     - images/gold_medal.png
     - images/silver_medal.png
     - images/bronze_medal.png
+    - images/heart.png
+    - images/chart.png
+    - images/platinum_trophy.png
     
     
     

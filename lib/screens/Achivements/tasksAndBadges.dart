@@ -98,16 +98,9 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
+                Row(
                   children: [
-                    Text(
-                      'Bronze',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: Colors.brown,
-                      ),
-                    ),
+                    Image.asset('images/bronze_medal.png', height: 40),
                     Text(
                       '$_bprogress',
                       style: TextStyle(
@@ -118,16 +111,9 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
                     ),
                   ],
                 ),
-                Column(
+                Row(
                   children: [
-                    Text(
-                      'Silver',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: Colors.grey[500],
-                      ),
-                    ),
+                    Image.asset('images/silver_medal.png', height: 40),
                     Text(
                       '$_sprogress',
                       style: TextStyle(
@@ -138,16 +124,9 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
                     ),
                   ],
                 ),
-                Column(
+                Row(
                   children: [
-                    Text(
-                      'Gold',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: Colors.amber,
-                      ),
-                    ),
+                    Image.asset('images/gold_medal.png', height: 40),
                     Text(
                       '$_gprogress',
                       style: TextStyle(
@@ -158,16 +137,9 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
                     ),
                   ],
                 ),
-                Column(
+                Row(
                   children: [
-                    Text(
-                      'Platinum',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: Colors.grey[700],
-                      ),
-                    ),
+                    Image.asset('images/platinum_trophy.png', height: 40,),
                     Text(
                       '$_pprogress',
                       style: TextStyle(
@@ -445,12 +417,12 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
               ],
             ),
           ),
-          // ElevatedButton(
-          //   onPressed: () {
-          //     clearHiveBox();
-          //   },
-          //   child: Text('Clear Trophy/Achieve Values'),
-          // ),
+          ElevatedButton(
+            onPressed: () {
+              clearHiveBox();
+            },
+            child: Text('Clear Trophy/Achieve Values'),
+          ),
         ],
       ),
     );

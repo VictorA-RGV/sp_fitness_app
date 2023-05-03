@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sp_fitness_app/screens/Achivements/trophyClass.dart';
 import 'package:sp_fitness_app/services/auth.dart';
 import 'package:sp_fitness_app/shared/Achievement_database.dart';
+import 'package:sp_fitness_app/shared/constants.dart' as badge;
 
 List<Trophy> _trophies = [
   Trophy(
@@ -117,7 +118,7 @@ class _TrophiesPageState extends State<TrophiesPage>
               animation.addListener(() {
                 setState(() {
                   updateAchievementProgress(trophy.name, animation.value);
-                });
+                  });
               });
               _controller.forward(from: 0.0);
             },
@@ -126,8 +127,8 @@ class _TrophiesPageState extends State<TrophiesPage>
                 ListTile(
                   leading: Image(
                     image: AssetImage(trophy.imageUrl),
-                    width: 80,
-                    height: 80,
+                    width: 60,
+                    height: 60,
                   ),
                   title: Text(trophy.name),
                   subtitle: Column(

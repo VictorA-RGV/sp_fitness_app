@@ -29,10 +29,14 @@ void updateAchievementProgress(String achievementName, double progress) {
       orElse: () => Achievement(name: achievementName),
     );
     achievement.progress = progress;
+     if(achievement.progress >= 1.0){
+    _addCustomBadge(achievementName);
+  }
     box.put(achievementName, achievement);
   } catch (e) {
     print("Error updating achievement progress: $e");
   }
+ 
 }
 
 int currentIndex = 0;
@@ -127,6 +131,41 @@ List<Map<String, dynamic>> muscleList = [
   {"name": "Gold", "value": 0.0},
   {"name": "Platinum", "value": 0.0},
 ];
+
+void _addCustomBadge(String badgeName) async {
+  final userDocs = await FirebaseFirestore.instance
+      .collection('Users')
+      .where('uid', isEqualTo: initData())
+      .get();
+
+  if (userDocs.docs.isEmpty) {
+    print('Document does not exist');
+    return;
+  }
+  final userDocRef = userDocs.docs.first.reference;
+  final userDataMap = userDocs.docs.first.data() as Map<String, dynamic>?;
+
+  if (userDataMap == null) {
+    print('User data is null');
+    return;
+  }
+
+  final badges = userDataMap.containsKey('badges')
+      ? userDataMap['badges'] as List<dynamic>
+      : [];
+
+  if (badges.contains(badgeName)) {
+    print('User already has $badgeName');
+    return;
+  }
+
+  final newBadges = [...badges, badgeName];
+  final newUserData = {...userDataMap, 'badges': newBadges};
+  await userDocRef.update(newUserData);
+
+  // Show a snackbar to indicate that the badge has been added
+}
+
 
 class AchievementAdapter extends TypeAdapter<Achievement> {
   @override
