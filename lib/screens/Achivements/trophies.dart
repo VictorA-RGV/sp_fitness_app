@@ -7,36 +7,36 @@ List<Trophy> _trophies = [
   Trophy(
     name: 'Completed Tutorial',
     description: 'Finished the app tutorial',
-    imageUrl: 'https://via.placeholder.com/150',
+    imageUrl: 'images/earn_asset.png',
   ),
   Trophy(
     name: 'Daily Login',
     description: 'Logged in to the app every day for a week',
-    imageUrl: 'https://via.placeholder.com/150',
+    imageUrl: 'images/task_asset.png',
   ),
   Trophy(
     name: 'Feedback Pro',
     description: 'Submitted 10 feedback reports',
-    imageUrl: 'https://via.placeholder.com/150',
+    imageUrl: 'images/feedback_asset.png',
   ),
   Trophy(
     name: 'VIP User',
     description: 'Purchased a premium subscription',
-    imageUrl: 'https://via.placeholder.com/150',
+    imageUrl: 'images/vip_asset.png',
   ),
   Trophy(
     name: 'Social Media Guru',
     description: 'Shared the app on social media',
-    imageUrl: 'https://via.placeholder.com/150',
+    imageUrl: 'images/share_asset.png',
   ),  Trophy(
     name: 'Progress Pal',
     description: 'friend someone',
-    imageUrl: 'https://via.placeholder.com/150',
+    imageUrl: 'images/friend_asset.png',
   ),
   Trophy(
     name: 'Motivator',
     description: 'Poke your friends to get them moving 15 times',
-    imageUrl: 'https://via.placeholder.com/150',
+    imageUrl: 'images/poke_asset.png',
   ),  
   
 ];
@@ -124,8 +124,8 @@ class _TrophiesPageState extends State<TrophiesPage>
             child: Column(
               children: [
                 ListTile(
-                  leading: Image.network(
-                    trophy.imageUrl,
+                  leading: Image(
+                    image: AssetImage(trophy.imageUrl),
                     width: 80,
                     height: 80,
                   ),
