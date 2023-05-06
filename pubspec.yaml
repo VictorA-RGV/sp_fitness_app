@@ -61,6 +61,8 @@ dependencies:
   flutter_riverpod: ^2.3.5
   firebase_storage: ^11.1.0
   image_picker: ^0.8.7+2
+  uuid: ^3.0.7
+  flutter_chat_types: ^3.6.0
 
 
 dev_dependencies:

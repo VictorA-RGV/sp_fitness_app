@@ -16,31 +16,28 @@ class ExerciseTile extends StatefulWidget {
   final String reps;
   final String sets;
   void Function(bool?)? onCheckboxChanged;
+   final Function(bool?)? onCheckboxChangedWhenSetsComplete;
   void Function(BuildContext)? onDeletePressed;
   ExerciseTile({
-    super.key,
-    required this.onTap,
-    required this.isCompleted,
     required this.exerciseName,
     required this.weight,
     required this.reps,
     required this.sets,
     required this.onCheckboxChanged,
     required this.onDeletePressed,
+    this.onCheckboxChangedWhenSetsComplete,
+    required this.isCompleted,
   });
+
 
   @override
   State<ExerciseTile> createState() => _ExerciseTileState();
 }
 
 class _ExerciseTileState extends State<ExerciseTile> {
-  bool buttonState = false;
-  bool buttonState2 = false;
-  bool buttonState3 = false;
-  bool buttonState4 = false;
-  bool buttonState5 = false;
+  List<bool> buttonStates = [false, false, false, false, false];
 
-  bool istapped = false;
+  bool get areAllButtonsTrue => buttonStates.every((element) => element == true);
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +49,6 @@ class _ExerciseTileState extends State<ExerciseTile> {
           endActionPane: ActionPane(
             motion: const StretchMotion(),
             children: [
-              // delete option
               SlidableAction(
                 onPressed: widget.onDeletePressed,
                 backgroundColor: Colors.red.shade400,
@@ -62,180 +58,112 @@ class _ExerciseTileState extends State<ExerciseTile> {
             ],
           ),
           child: Container(
-            padding: const EdgeInsets.only(top: 20, bottom: 15, left: 10),
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
             decoration: BoxDecoration(
-              color: widget.isCompleted ? Colors.greenAccent : Colors.grey[200],
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(15),
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: <Color>[
+      widget.isCompleted ? Theme.of(context).primaryColor : Colors.grey[300]!,
+      widget.isCompleted ? Theme.of(context).accentColor : Colors.grey[400]!,
+    ],
+              ),
             ),
-            child: Container(
-              child: Column(
-                children:[ Padding(
-                padding: const EdgeInsets.only(bottom: 10.0),
+            child: Column(children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 15.0),
                 child: Text(
                   widget.exerciseName.toUpperCase(),
                   style: TextStyle(
-                    color: widget.isCompleted ? Colors.white : Colors.grey[900],
+                    color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 18,
+                    fontSize: 22,
                   ),
                 ),
               ),
-             
-               Row(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   // weight
                   Chip(
                     label: Text(
                       '${widget.weight}lb',
-                      style: const TextStyle(color: Colors.white),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16),
                     ),
-                    backgroundColor:
-                        widget.isCompleted ? Colors.purple : Colors.grey[700],
+                    backgroundColor: Colors.purple,
                   ),
-
-                  const SizedBox(width: 4),
-
                   // reps
                   Chip(
                     label: Text(
                       '${widget.reps} reps',
-                      style: const TextStyle(color: Colors.white),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16),
                     ),
-                    backgroundColor:
-                        widget.isCompleted ? Colors.pink : Colors.grey[700],
+                    backgroundColor: Colors.pink,
                   ),
-
-                  const SizedBox(width: 4),
-
                   // sets
                   Chip(
                     label: Text(
                       '${widget.sets} sets',
-                      style: const TextStyle(color: Colors.white),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16),
                     ),
-                    backgroundColor:
-                        widget.isCompleted ? Colors.lightBlue : Colors.grey[700],
+                    backgroundColor: Colors.lightBlue,
                   )
                 ],
               ),
-
-              Row(children: [
-               // Text('line 215'),
-                       // AppSpacerH(16),
-                        Wrap(
-                          spacing: 5 ,
-                          children: [
-                            AppTextButton1(
-
-                            isTapped:  buttonState,
-                              
-                              onTap: (() {
-                                print('tapped');
-                               setState(() {
-                                buttonState = !buttonState;
-
-                                    
-                              });
-                              }),
-                              title: 'Set 1',
-                              
-                              
-                              width: 65 ,
-                              borderRadius: 25,
-                            ),
-                            AppTextButton1(
-
-                            isTapped:  buttonState2,
-                              
-                              onTap: (() {
-                                print('tapped');
-                               setState(() {
-                                buttonState2 = !buttonState2;
-
-                                    
-                              });
-                              }),
-                              title: 'Set 2',
-                              
-                              
-                              width: 65 ,
-                              borderRadius: 25,
-                            ),
-                            AppTextButton1(
-
-                            isTapped:  buttonState3,
-                              
-                              onTap: (() {
-                                print('tapped');
-                               setState(() {
-                                buttonState3 = !buttonState3;
-
-                                    
-                              });
-                              }),
-                              title: 'Set 3',
-                              
-                              
-                              width: 65 ,
-                              borderRadius: 25,
-                            ),
-                            AppTextButton1(
-
-                            isTapped:  buttonState4,
-                              
-                              onTap: (() {
-                                print('tapped');
-                               setState(() {
-                                buttonState4 = !buttonState4;
-
-                              });
-                              }),
-                              title: 'Set 4',
-                              
-                              
-                              width: 65 ,
-                              borderRadius: 25,
-                            ),
-                            AppTextButton1(
-
-                            isTapped:  buttonState5,
-                              
-                              onTap: (() {
-                                print('tapped');
-                               setState(() {
-                                buttonState5 = !buttonState5;
-
-                                    
-                              });
-                              }),
-                              title: 'Set 5',
-                              
-                              
-                              width: 65 ,
-                              borderRadius: 25,
-                            ),
-                          ],
-                        ),
-                        
-
-
-              ],),
-              
-              
-               Checkbox(
-                value: widget.isCompleted,
-                onChanged: (val) {
-                  widget.onCheckboxChanged!(val);
-                },
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: List.generate(
+                  5,
+                  (index) => Padding(
+                    padding: EdgeInsets.only(right: 5),
+                    child: AppTextButton1(
+                      isTapped: buttonStates[index],
+                      onTap: () {
+                        setState(() {
+                          buttonStates[index] = !buttonStates[index];
+                          if (!areAllButtonsTrue && widget.isCompleted) {
+                            widget.onCheckboxChanged!(false);
+                          }
+                        });
+                      },
+                      title: 'Set ${index + 1}',
+                      width: 65,
+                      borderRadius: 25,
+                    ),
+                  ),
+                ),
               ),
-            
-          ])),
-          
-        
-
+              SizedBox(height: 20),
+             Checkbox(
+  value: widget.isCompleted,
+  onChanged: (val) {
+    if (areAllButtonsTrue) {
+      widget.onCheckboxChangedWhenSetsComplete?.call(val);
+    } else if (!areAllButtonsTrue && widget.isCompleted) {
+      widget.onCheckboxChanged!(false);
+    }
+  },
+  activeColor: widget.isCompleted ? Colors.green : Colors.grey[700],
+  checkColor: Colors.white,
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(5),
+  ),
+),
+            ]),
+          ),
         ),
-       
       ),
-    ));;
+    );
   }
 }

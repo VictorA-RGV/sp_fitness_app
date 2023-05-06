@@ -47,7 +47,7 @@ class WorkoutData extends ChangeNotifier {
 
   ];
 
-  /*List<String> suggestWorkouts(int frequency) {
+  List<String> suggestWorkouts(int frequency) {
   List<String> workouts = [];
 
   if (frequency == 1) {
@@ -75,7 +75,7 @@ class WorkoutData extends ChangeNotifier {
   }
 
   return workouts;
-} */
+} 
 
 
  // if there is workouts already in database, then make _workouts list that, otherwise it remains as default
@@ -88,6 +88,30 @@ class WorkoutData extends ChangeNotifier {
 
     // load heat map
     loadHeatMap();
+  }
+
+  void completeWorkout(String workoutName) {
+    Workout workout = getRelevantWorkout(workoutName);
+    workout.exercises.forEach((exercise) {
+      int currentWeight = int.parse(exercise.weight);
+      int newWeight = currentWeight + 5;
+      exercise.weight = newWeight.toString();
+    });
+
+    void uncheckExercise(String workoutName, String exerciseName) {
+  // find the relevant exercise in the workout
+    Exercise relevantExercise = getRelevantExercise(workoutName, exerciseName);
+
+  // Set the isCompleted boolean to false
+    relevantExercise.isCompleted = false;
+
+   notifyListeners();
+  // save in database
+   db.saveToDatabase(_workouts);
+  }
+
+    notifyListeners();
+    db.saveToDatabase(_workouts);
   }
 
   String getStartDate() {
@@ -242,4 +266,6 @@ class WorkoutData extends ChangeNotifier {
       print(heatMapDataSet);
     }
   }
+
+  void uncheckExercise(String workoutName, String name) {}
 }

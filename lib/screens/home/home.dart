@@ -44,9 +44,18 @@ class _HomePageState extends State<HomePage> {
         bottom: 16.0,
       ),
       child: Scaffold(
-        body: Padding(
-            padding: const EdgeInsets.all(0.0),
-            child: Column(children: [
+    backgroundColor: Colors.transparent,
+    body: Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Colors.grey.shade100, Colors.grey.shade200],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(0.0),
+        child: Column(children: [
               Stack(
                 alignment: Alignment.center,
                 children: [
@@ -54,14 +63,18 @@ class _HomePageState extends State<HomePage> {
                   Container(
                     height: 70,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      gradient: LinearGradient(
+                        colors: [Colors.pink, Colors.blueGrey],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
                       borderRadius: BorderRadius.circular(10),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey.withOpacity(0.03),
+                          color: Colors.grey.withOpacity(0.1),
                           spreadRadius: 4,
-                          blurRadius: 3,
-                          // changes position of shadow
+                          blurRadius: 6,
+                          offset: Offset(0, 3),
                         ),
                       ],
                     ),
@@ -80,7 +93,8 @@ class _HomePageState extends State<HomePage> {
                                     vertical: 5, horizontal: 0),
                                 child: Text(
                                   'Let\'s check your activity',
-                                  style: TextStyle(fontSize: 18),
+                                  style: TextStyle(
+                                      fontSize: 18, color: Colors.white),
                                 ),
                               ),
                             ],
@@ -106,14 +120,20 @@ class _HomePageState extends State<HomePage> {
                       Expanded(
                         child: Container(
                           height: 100,
+                          margin: EdgeInsets.all(8.0),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            gradient: LinearGradient(
+                              colors: [Colors.deepPurple, Colors.purple],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
                             borderRadius: BorderRadius.circular(10),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.grey.withOpacity(0.03),
+                                color: Colors.grey.withOpacity(0.1),
                                 spreadRadius: 4,
-                                blurRadius: 3,
+                                blurRadius: 6,
+                                offset: Offset(0, 3),
                               ),
                             ],
                           ),
@@ -125,6 +145,7 @@ class _HomePageState extends State<HomePage> {
                                 style: TextStyle(
                                   fontSize: 30,
                                   fontWeight: FontWeight.bold,
+                                  color: Colors.white,
                                 ),
                                 textAlign: TextAlign.center,
                               ),
@@ -133,7 +154,7 @@ class _HomePageState extends State<HomePage> {
                                 "Workouts Completed",
                                 style: TextStyle(
                                   fontSize: 16,
-                                  color: Colors.grey,
+                                  color: Colors.white70,
                                 ),
                                 textAlign: TextAlign.center,
                               ),
@@ -145,14 +166,20 @@ class _HomePageState extends State<HomePage> {
                       Expanded(
                         child: Container(
                           height: 100,
+                          margin: EdgeInsets.all(8.0),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            gradient: LinearGradient(
+                              colors: [Colors.orange, Colors.deepOrange],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
                             borderRadius: BorderRadius.circular(10),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.grey.withOpacity(0.03),
+                                color: Colors.grey.withOpacity(0.1),
                                 spreadRadius: 4,
-                                blurRadius: 3,
+                                blurRadius: 6,
+                                offset: Offset(0, 3),
                               ),
                             ],
                           ),
@@ -167,6 +194,7 @@ class _HomePageState extends State<HomePage> {
                                     style: TextStyle(
                                       fontSize: 30,
                                       fontWeight: FontWeight.bold,
+                                      color: Colors.white,
                                     ),
                                     textAlign: TextAlign.center,
                                   ),
@@ -175,7 +203,7 @@ class _HomePageState extends State<HomePage> {
                                     "",
                                     style: TextStyle(
                                       fontSize: 16,
-                                      color: Colors.grey,
+                                      color: Colors.white70,
                                     ),
                                     textAlign: TextAlign.center,
                                   ),
@@ -186,7 +214,7 @@ class _HomePageState extends State<HomePage> {
                                 "Workouts In-Progress",
                                 style: TextStyle(
                                   fontSize: 16,
-                                  color: Colors.grey,
+                                  color: Colors.white70,
                                 ),
                                 textAlign: TextAlign.center,
                               ),
@@ -219,13 +247,21 @@ class _HomePageState extends State<HomePage> {
                           width: 175,
                           height: 150,
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.teal.shade200,
+                                Colors.purpleAccent
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
                             borderRadius: BorderRadius.circular(10),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.grey.withOpacity(0.03),
+                                color: Colors.grey.withOpacity(0.1),
                                 spreadRadius: 4,
-                                blurRadius: 3,
+                                blurRadius: 6,
+                                offset: Offset(0, 3),
                               ),
                             ],
                           ),
@@ -237,7 +273,9 @@ class _HomePageState extends State<HomePage> {
                               Text(
                                 "Achievements",
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    color: Colors.white),
                                 textAlign: TextAlign.center,
                               ),
                             ],
@@ -260,13 +298,21 @@ class _HomePageState extends State<HomePage> {
                           width: 175,
                           height: 150,
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.green.shade700,
+                                Colors.lightGreenAccent.shade200
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
                             borderRadius: BorderRadius.circular(10),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.grey.withOpacity(0.03),
+                                color: Colors.grey.withOpacity(0.1),
                                 spreadRadius: 4,
-                                blurRadius: 3,
+                                blurRadius: 6,
+                                offset: Offset(0, 3),
                               ),
                             ],
                           ),
@@ -281,7 +327,9 @@ class _HomePageState extends State<HomePage> {
                               Text(
                                 "Workout",
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    color: Colors.white),
                                 textAlign: TextAlign.center,
                               ),
                             ],
@@ -295,7 +343,7 @@ class _HomePageState extends State<HomePage> {
 
               /// SECOND ROW OF STUFF
               Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-                // Achivements Button
+                // Achievements Button
                 Stack(
                   alignment: Alignment.bottomCenter,
                   children: [
@@ -303,16 +351,22 @@ class _HomePageState extends State<HomePage> {
                       width: 175,
                       height: 150,
                       decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.03),
-                              spreadRadius: 4,
-                              blurRadius: 3,
-                              // changes position of shadow
-                            ),
-                          ]),
+                        gradient: LinearGradient(
+                          colors: [Colors.yellowAccent, Colors.cyan],
+                          
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.1),
+                            spreadRadius: 4,
+                            blurRadius: 6,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                      ),
                       child: Column(
                         children: [
                           Stack(
@@ -321,8 +375,10 @@ class _HomePageState extends State<HomePage> {
                               IconButton(
                                 onPressed: () {
                                   // Takes us to Achievements Page
-                                  Navigator.push(context,
-                                      SlideUpRoute(page: SummaryScreen()));
+                                  Navigator.push(
+                                    context,
+                                    SlideUpRoute(page: SummaryScreen()),
+                                  );
                                 },
                                 icon: Image.asset('images/chart.png'),
                                 iconSize: 100,
@@ -332,11 +388,14 @@ class _HomePageState extends State<HomePage> {
                           ),
                           Stack(
                             alignment: Alignment.center,
-                            children: const [
-                              Text("Statistics",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16))
+                            children: [
+                              Text(
+                                "Statistics",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    color: Colors.white),
+                              ),
                             ],
                           ),
                         ],
@@ -349,55 +408,62 @@ class _HomePageState extends State<HomePage> {
                 ),
                 //  Workout Button
                 Stack(
-                  alignment: Alignment.bottomCenter,
-                  children: [
-                    Container(
-                      width: 175,
-                      height: 150,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.03),
-                              spreadRadius: 4,
-                              blurRadius: 3,
-                              // changes position of shadow
-                            ),
-                          ]),
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 16,
-                          ),
-                          Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              IconButton(
-                                onPressed: () {
-                                  // Takes us to  Worrkout Page
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ActivityScreen(),
-                                    ),
-                                  );
-                                },
-                                icon: Image.asset('images/heart.png'),
-                                iconSize: 80,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 6,
-                          ),
-                          Stack(
-                            alignment: Alignment.center,
-                            children: const [
-                              Text(
-                                "Activity",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
+  alignment: Alignment.bottomCenter,
+  children: [
+    Container(
+      width: 175,
+      height: 150,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Colors.brown.shade300, Colors.lightBlueAccent],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 4,
+            blurRadius: 6,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          const SizedBox(
+            height: 16,
+          ),
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              IconButton(
+                onPressed: () {
+                  // Takes us to Workout Page
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ActivityScreen(),
+                    ),
+                  );
+                },
+                icon: Image.asset('images/heart.png'),
+                iconSize: 80,
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 6,
+          ),
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              Text(
+                "Activity",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    color: Colors.white),
                               )
                             ],
                           ),
@@ -409,7 +475,7 @@ class _HomePageState extends State<HomePage> {
               ]),
             ])),
       ),
-    );
+    ));
   }
 }
 
@@ -702,7 +768,8 @@ class _ProfilePage extends State<ProfilePage> {
                   ],
                 ),
                 Padding(padding: EdgeInsets.only(bottom: 25)),
-                StreamBuilder<QuerySnapshot>( // start of badges
+                StreamBuilder<QuerySnapshot>(
+                    // start of badges
                     stream: userData2,
                     builder: (
                       BuildContext context,
@@ -759,7 +826,8 @@ class _ProfilePage extends State<ProfilePage> {
                               const SizedBox(height: 5),
                               SizedBox(
                                 height: 80,
-                                child: ListView.builder( // creates the badges!
+                                child: ListView.builder(
+                                  // creates the badges!
                                   scrollDirection: Axis.horizontal,
                                   itemCount: _trophies.length,
                                   itemBuilder: (context, index) {
