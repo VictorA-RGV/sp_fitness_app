@@ -352,7 +352,7 @@ class _HomePageState extends State<HomePage> {
                       height: 150,
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [Colors.yellowAccent, Colors.cyan],
+                          colors: [Colors.yellowAccent, Colors.lightBlueAccent.shade200],
                           
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
@@ -415,7 +415,7 @@ class _HomePageState extends State<HomePage> {
       height: 150,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [Colors.brown.shade300, Colors.lightBlueAccent],
+          colors: [Colors.red.shade300, Colors.lightBlueAccent],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -669,100 +669,96 @@ class _ProfilePage extends State<ProfilePage> {
                         // Get User Data
                         final data = snapshot.requireData;
                         return Stack(
-                          children: [
-                            Container(
-                                width: 375,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(25),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.07),
-                                      spreadRadius: 6,
-                                      blurRadius: 3,
-                                      // changes position of shadow
-                                    )
-                                  ],
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Padding(
-                                        padding: EdgeInsets.only(
-                                      top: 20,
-                                    )),
-                                    const Text(
-                                      "  Username",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
-                                      textAlign: TextAlign.left,
-                                    ),
-                                    // Container for Username. Will display the username
-                                    const Text("  Username placeholder",
-                                        style: TextStyle(
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20,
-                                        )),
-                                    const Text("  Email",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20)),
-                                    Text("  ${data.docs[0]['email']}",
-                                        style: const TextStyle(
-                                            color: Colors.grey,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20)),
-                                    const Text("  Age",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20)),
-                                    Text("  ${data.docs[0]['age']}",
-                                        style: const TextStyle(
-                                            color: Colors.grey,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20)),
-                                    const Text("  Gender",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20)),
-                                    Text("  ${data.docs[0]['gender']}",
-                                        style: const TextStyle(
-                                            color: Colors.grey,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20)),
-                                    const Text("  Fitness Level",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20)),
-                                    Text(
-                                      data.docs[0]['selection'] == 1
-                                          ? "  Beginner"
-                                          : data.docs[0]['selection'] == 2
-                                              ? "  Intermediate"
-                                              : "  Advanced",
-                                      style: const TextStyle(
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
-                                    ),
-
-                                    const Text("  Initial Weight",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20)),
-                                    Text("  ${data.docs[0]['weight']}",
-                                        style: const TextStyle(
-                                            color: Colors.grey,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20)),
-                                    const Padding(
-                                        padding: EdgeInsets.only(top: 20))
-                                  ],
-                                )),
-                          ],
-                        );
+  children: [
+    Container(
+      width: 375,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(25),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.07),
+            spreadRadius: 6,
+            blurRadius: 3,
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 4),
+            const Text(
+              "Username",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            const SizedBox(height: 4),
+            const Text(
+              "Username placeholder",
+              style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            const SizedBox(height: 12),
+            const Text(
+              "Email",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              "${data.docs[0]['email']}",
+              style: const TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            const SizedBox(height: 12),
+            const Text(
+              "Age",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              "${data.docs[0]['age']}",
+              style: const TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            const SizedBox(height: 12),
+            const Text(
+              "Gender",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              "${data.docs[0]['gender']}",
+              style: const TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            const SizedBox(height: 12),
+            const Text(
+              "Fitness Level",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              data.docs[0]['selection'] == 1
+                  ? "Beginner"
+                  : data.docs[0]['selection'] == 2
+                      ? "Intermediate"
+                      : "Advanced",
+              style: const TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            const SizedBox(height: 12),
+            const Text(
+              "Initial Weight",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              "${data.docs[0]['weight']}",
+              style: const TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            const SizedBox(height: 20),
+          ],
+        ),
+      ),
+    ),
+  ],
+);
                       },
                     ),
                   ],

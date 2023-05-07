@@ -22,6 +22,8 @@ void main() async {
   if (!isTesting) {
     await initHive();
   }
+  
+
 
   runApp(const MyApp());
 }
@@ -34,7 +36,7 @@ class MyApp extends StatelessWidget {
       initialData: UserModel(uid: ''),
       value: AuthService().user,
       child: ChangeNotifierProvider(
-        create: (context) => WorkoutData(),
+        create: (context) => WorkoutData(frequency: 1, userLevel: 1),
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           home: Wrapper(),

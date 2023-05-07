@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sp_fitness_app/services/auth.dart';
 import 'package:sp_fitness_app/screens/Authenticate/register.dart';
+import 'package:sp_fitness_app/shared/workoutdata.dart';
 
 class Strength extends StatefulWidget {
   int age;
@@ -9,7 +10,9 @@ class Strength extends StatefulWidget {
   double weight;
   String height;
   int frequency;
+  
   Strength(this.age, this.gender, this.weight, this.height, this.frequency);
+  
 
   
 
@@ -17,11 +20,14 @@ class Strength extends StatefulWidget {
   _Strength createState() => _Strength();
 }
 
+
+
 // landing page for a longed in user
 class _Strength extends State<Strength> {
   final AuthService _auth = AuthService();
  // final int days = getFrequency()
   // User choice
+  
   int selection = 0;
 
   bool showSignIn = true;
@@ -81,21 +87,18 @@ class _Strength extends State<Strength> {
               height: 50, // height of button
               width: 250,
               child: ElevatedButton(
-                onPressed: () {
-                  selection = 1;
+                onPressed: ()  {
+                  selection = 2;
                   print(widget.age);
                   print(widget.gender);
                   print(widget.height);
                   print(widget.weight);
-                  print(widget.frequency);
                   print(selection);
-                  // wanted to bypass Authenticate and go directly register
                   // Brings us to Registration Screen with all our data
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Register(widget.age, widget.gender,
-                          widget.weight, widget.height, selection),
+                       builder: (context) => Register(widget.age, widget.gender, widget.weight, widget.height, widget.frequency, selection),
                     ),
                   );
                 },
@@ -131,8 +134,7 @@ class _Strength extends State<Strength> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Register(widget.age, widget.gender,
-                          widget.weight, widget.height, selection),
+                      builder: (context) => Register(widget.age, widget.gender, widget.weight, widget.height, widget.frequency, selection),
                     ),
                   );
                 },
@@ -168,8 +170,7 @@ class _Strength extends State<Strength> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Register(widget.age, widget.gender,
-                          widget.weight, widget.height, selection),
+                      builder: (context) => Register(widget.age, widget.gender, widget.weight, widget.height, widget.frequency, selection),
                     ),
                   );
                 },
