@@ -1,6 +1,6 @@
 class Exercise {
   final String name;
-  final String weight;
+   String weight;
   final String reps;
   final String sets;
   bool isCompleted;

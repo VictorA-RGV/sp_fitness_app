@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:sp_fitness_app/screens/wrapper.dart';
 import 'package:sp_fitness_app/services/auth.dart';
 import 'package:sp_fitness_app/shared/loading.dart';
+import 'package:sp_fitness_app/shared/workoutdata.dart';
+
+import '../../shared/HiveInitializer.dart';
 
 class Register extends StatefulWidget {
   // === This would be the variables register would be taking in ===
@@ -10,7 +13,9 @@ class Register extends StatefulWidget {
   String gender;
   double weight;
   String height;
-  int selection;
+  
+  int frequency;
+  int userLevel;
 
   // Fake comment to trigger git
 
@@ -20,7 +25,8 @@ class Register extends StatefulWidget {
 
   // === This is how I was thinking of calling the constructor for the Register page ===========
   //
-  Register(this.age, this.gender, this.weight, this.height, this.selection);
+  Register(this.age, this.gender, this.weight, this.height,
+      this.frequency, this.userLevel);
   //
   // ===========================================================================================
 
@@ -33,6 +39,18 @@ class _RegisterState extends State<Register> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
+
+  // Additional properties
+  late WorkoutData workoutData;
+
+  @override
+  void initState() {
+    super.initState();
+    workoutData =
+        WorkoutData(frequency: widget.frequency, userLevel: widget.userLevel);
+   
+  }
+
   //txt field state
   String email = '';
   String password = '';
@@ -42,6 +60,7 @@ class _RegisterState extends State<Register> {
   CollectionReference user = FirebaseFirestore.instance.collection('Users');
   @override
   Widget build(BuildContext context) {
+    String uid = " ";
     // print('age: ${widget.age}');
     return loading
         ? const Loading()
@@ -160,23 +179,24 @@ class _RegisterState extends State<Register> {
                             });
                             dynamic result = await _auth
                                 .registerWithEmailAndPassword(email, password);
+                                await initHive();
 
 // gender, this.weight, this.height, this.selection
-                          user.add({
-                            'uid': result.uid,
-                            'username':
-                                "username", // added this in case we ever want to add a username
-                            'ProfilePic': "", // Added this for the profile pic
-                            'email': email,
-                            'age': widget.age,
-                            'gender': widget.gender,
-                            'weight': widget.weight,
-                            'height': widget.height,
-                            'selection': widget.selection,
-                            'requests': [],
-                            'friends': [],
-                            'badges': []
-                          }).then((value) => print('user added'));
+                            user.add({
+                              'uid': result.uid,
+                              'username': "username",
+                              'ProfilePic': "",
+                              'email': email,
+                              'age': widget.age,
+                              'gender': widget.gender,
+                              'weight': widget.weight,
+                              'height': widget.height,
+                              'frequency': widget.frequency,
+                              'userLevel': widget.userLevel,
+                              'requests': [],
+                              'friends': [],
+                              'badges': []
+                            }).then((value) => print('user added'));
 
                             if (result == null) {
                               setState(() {
@@ -186,7 +206,10 @@ class _RegisterState extends State<Register> {
                             } else
                               Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
+                                   // Replace this with the actual uid
+                                    
                                   builder: (context) => Wrapper(),
+                                  
                                 ),
                               );
                           }

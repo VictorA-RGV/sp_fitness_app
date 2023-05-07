@@ -40,40 +40,44 @@ class _SecondHomePage extends State<SecondHomePage> {
   final _newWorkoutNameController = TextEditingController();
 
   // add a new workout
-  void createNewWorkout() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: Colors.grey[900],
-        content: MyTextField(
-          controller: _newWorkoutNameController,
-          hintText: "New workout second",
-        ),
-        actions: [
-          // save
-          MaterialButton(
-            onPressed: save,
-            color: Colors.black,
-            child: const Text(
-              "Save",
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-
-          // cancel
-          MaterialButton(
-            onPressed: cancel,
-            color: Colors.black,
-            child: const Text(
-              "Cancel",
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-        ],
+void createNewWorkout() {
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+      title: Text(
+        "Create New Workout",
+        style: Theme.of(context).textTheme.headline6,
       ),
-    );
-  }
+      backgroundColor: Theme.of(context).backgroundColor,
+      content: MyTextField(
+        controller: _newWorkoutNameController,
+        hintText: "Enter workout name",
+      ),
+      actions: [
+        // save
+        MaterialButton(
+          onPressed: save,
+          color: Theme.of(context).buttonColor,
+          child: const Text(
+            "Save",
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
 
+        // cancel
+        MaterialButton(
+          onPressed: cancel,
+          color: Theme.of(context).buttonColor,
+          child: const Text(
+            "Cancel",
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+      ],
+    ),
+  );
+}
   // save workout
   void save() {
     Provider.of<WorkoutData>(context, listen: false)
@@ -85,47 +89,51 @@ class _SecondHomePage extends State<SecondHomePage> {
     goToWorkoutPage(_newWorkoutNameController.text);
   }
 
-  // edit workout name
-  void editWorkoutName(String currentWorkoutName) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: Colors.grey[900],
-        content: MyTextField(
-          controller: _newWorkoutNameController,
-          hintText: "Edit workout name",
-        ),
-        actions: [
-          // save
-          MaterialButton(
-            onPressed: () {
-              String newWorkoutName = _newWorkoutNameController.text;
-              Provider.of<WorkoutData>(context, listen: false).editWorkoutName(
-                currentWorkoutName,
-                newWorkoutName,
-              );
-              cancel();
-            },
-            color: Colors.black,
-            child: const Text(
-              "Save",
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-
-          // cancel
-          MaterialButton(
-            onPressed: cancel,
-            color: Colors.black,
-            child: const Text(
-              "Cancel",
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-        ],
+void editWorkoutName(String currentWorkoutName) {
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+      title: Text(
+        "Edit Workout Name",
+        style: Theme.of(context).textTheme.headline6,
       ),
-    );
-  }
+      backgroundColor: Theme.of(context).backgroundColor,
+      content: MyTextField(
+        controller: _newWorkoutNameController,
+        hintText: "Enter new workout name",
+      ),
+      actions: [
+        // save
+        MaterialButton(
+          onPressed: () {
+            String newWorkoutName = _newWorkoutNameController.text;
+            Provider.of<WorkoutData>(context, listen: false).editWorkoutName(
+              currentWorkoutName,
+              newWorkoutName,
+            );
+            cancel();
+          },
+          color: Theme.of(context).buttonColor,
+          child: const Text(
+            "Save",
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+
+        // cancel
+        MaterialButton(
+          onPressed: cancel,
+          color: Theme.of(context).buttonColor,
+          child: const Text(
+            "Cancel",
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+      ],
+    ),
+  );
+}
 
   // delete workout
   void deleteWorkout(String workoutName) {
@@ -145,53 +153,59 @@ class _SecondHomePage extends State<SecondHomePage> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<WorkoutData>(
-      builder: (context, value, child) => Scaffold(
-        backgroundColor: Colors.grey[300],
-        floatingActionButton: FloatingActionButton(
-          onPressed: createNewWorkout,
-          backgroundColor: Colors.black,
-          child: const Icon(Icons.add),
+ @override
+Widget build(BuildContext context) {
+  return Consumer<WorkoutData>(
+    builder: (context, value, child) => Scaffold(
+      backgroundColor: Colors.grey[300],
+      appBar: AppBar(
+        title: Text("Workout List"),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
         ),
-        body: ListView(
-          children: [
-            // HEAT MAP
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: createNewWorkout,
+        backgroundColor: Colors.black,
+        child: const Icon(Icons.add),
+      ),
+      body: ListView(
+        children: [
+          // HEAT MAP
             
 
             // WORKOUT LIST
-            value.getWorkoutList().isEmpty
-                ? Center(
-                    child: Text(
-                      "Create a new workout!",
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.grey[700],
-                      ),
-                    ),
-                  )
-                : ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: value.getWorkoutList().length,
-                    itemBuilder: (context, index) => GestureDetector(
-                      onTap: () =>
-                          goToWorkoutPage(value.getWorkoutList()[index].name),
-                      child: WorkoutTile(
-                        workoutName: value.getWorkoutList()[index].name,
-                        onPressed: () =>
-                            goToWorkoutPage(value.getWorkoutList()[index].name),
-                        onEditTapped: (context) =>
-                            editWorkoutName(value.getWorkoutList()[index].name),
-                        onDeleteTapped: (context) =>
-                            deleteWorkout(value.getWorkoutList()[index].name),
-                      ),
+          value.getWorkoutList().isEmpty
+              ? Center(
+                  child: Text(
+                    "Create a new workout!",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.grey[700],
                     ),
                   ),
-          ],
-        ),
+                )
+              : ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: value.getWorkoutList().length,
+                  itemBuilder: (context, index) => GestureDetector(
+                    onTap: () =>
+                        goToWorkoutPage(value.getWorkoutList()[index].name),
+                    child: WorkoutTile(
+                      workoutName: value.getWorkoutList()[index].name,
+                      onPressed: () =>
+                          goToWorkoutPage(value.getWorkoutList()[index].name),
+                      onEditTapped: (context) =>
+                          editWorkoutName(value.getWorkoutList()[index].name),
+                      onDeleteTapped: (context) =>
+                          deleteWorkout(value.getWorkoutList()[index].name),
+                    ),
+                  ),
+                ),
+        ],
       ),
-    );
-  }
-}
+    ),
+  );
+}}

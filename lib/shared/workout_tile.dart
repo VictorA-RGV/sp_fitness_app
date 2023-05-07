@@ -42,20 +42,33 @@ class WorkoutTile extends StatelessWidget {
         ),
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.teal[900],
             borderRadius: BorderRadius.circular(8),
+            gradient: LinearGradient(
+              colors: [
+                Theme.of(context).primaryColor.withOpacity(0.8),
+                Theme.of(context).primaryColor.withOpacity(0.6),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.15),
+                blurRadius: 8,
+                offset: Offset(0, 2),
+              ),
+            ],
           ),
           padding: const EdgeInsets.only(top: 10, left: 10, bottom: 10),
           child: ListTile(
             title: Text(
               workoutName.toUpperCase(),
-              style: const TextStyle(
+              style: TextStyle(
                 color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                fontSize: 22,
               ),
             ),
-           // leading: Image.asset('lib/images/barbell.png', height: 36),
             trailing: IconButton(
               onPressed: onPressed,
               icon: const Icon(

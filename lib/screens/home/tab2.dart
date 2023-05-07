@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sp_fitness_app/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:sp_fitness_app/screens/home/chat.dart';
 
 String initData() {
   final AuthService auth = AuthService();
@@ -18,36 +19,39 @@ class Tab2 extends StatelessWidget {
       .snapshots();
 
   void acceptFriendRequest(String currentUserId, String friendEmail) async {
-    final currentUserDocRef =
-        FirebaseFirestore.instance.collection('Users').doc(currentUserId);
+  final currentUserDocRef =
+      FirebaseFirestore.instance.collection('Users').doc(currentUserId);
 
-    final friendDocRef = FirebaseFirestore.instance
-        .collection('Users')
-        .where('email', isEqualTo: friendEmail);
+  final friendDocRef = FirebaseFirestore.instance
+      .collection('Users')
+      .where('email', isEqualTo: friendEmail);
 
-    // Remove the friend's email from the current user's requests list
-    currentUserDocRef.update({
-      'requests': FieldValue.arrayRemove([friendEmail]),
-    });
+  // Remove the friend's email from the current user's requests list
+  currentUserDocRef.update({
+    'requests': FieldValue.arrayRemove([friendEmail]),
+  });
 
-    // Add the friend's email to the current user's friends list
-    currentUserDocRef.update({
-      'friends': FieldValue.arrayUnion([friendEmail]),
-    });
+  // Add the friend's email to the current user's friends list
+  currentUserDocRef.update({
+    'friends': FieldValue.arrayUnion([friendEmail]),
+  });
 
-    // Get the friend's document reference
-    final friendQuerySnapshot = await friendDocRef.get();
-    final friendDoc = friendQuerySnapshot.docs.first;
+  // Get the friend's document reference
+  final friendQuerySnapshot = await friendDocRef.get();
+  final friendDoc = friendQuerySnapshot.docs.first;
 
-    // Get the current user's email
-    final currentUser = FirebaseAuth.instance.currentUser!;
-    final currentUserEmail = currentUser.email;
+  // Get the current user's email
+  final currentUser = FirebaseAuth.instance.currentUser!;
+  final currentUserEmail = currentUser.email;
 
-    // Add the current user's email to the friend's friends list
-    friendDoc.reference.update({
-      'friends': FieldValue.arrayUnion([currentUserEmail]),
-    });
-  }
+  // Add the current user's email to the friend's friends list
+  friendDoc.reference.update({
+    'friends': FieldValue.arrayUnion([currentUserEmail]),
+  });
+
+  // Create a chatroom for the new friends
+  await createChatroom(currentUserId, friendDoc.id);
+}
 
   void rejectFriendRequest(String currentUserId, String friendEmail) async {
     final currentUserDocRef =
@@ -163,4 +167,22 @@ class Tab2 extends StatelessWidget {
       ),
     );
   }
+}
+
+ Future<void> createChatroom(String user1Uid, String user2Uid) async {
+  // Create a new chatroom document in the 'Chatrooms' collection
+  DocumentReference chatroomDoc = await FirebaseFirestore.instance
+      .collection('Chatrooms')
+      .add({'user1': user1Uid, 'user2': user2Uid});
+
+  // Update the user documents in the 'Users' collection to store the chatroom ID
+  await FirebaseFirestore.instance
+      .collection('Users')
+      .doc(user1Uid)
+      .update({'chatrooms': FieldValue.arrayUnion([chatroomDoc.id])});
+
+  await FirebaseFirestore.instance
+      .collection('Users')
+      .doc(user2Uid)
+      .update({'chatrooms': FieldValue.arrayUnion([chatroomDoc.id])});
 }

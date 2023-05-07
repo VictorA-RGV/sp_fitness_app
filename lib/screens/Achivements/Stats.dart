@@ -586,152 +586,107 @@ class SummaryScreen extends StatelessWidget {
                           ),
                         ),
                       ),
+
+
+
+                     Align(
+  alignment: Alignment.center,
+  child: Container(
+    width: double.infinity,
+    margin: getMargin(left: 15, top: 23, right: 15),
+    decoration: BoxDecoration(
+      color: ColorConstant.whiteA700,
+      borderRadius: BorderRadius.circular(getHorizontalSize(7.70)),
+      boxShadow: [
+        BoxShadow(
+          color: ColorConstant.bluegray5099,
+          spreadRadius: getHorizontalSize(2.00),
+          blurRadius: getHorizontalSize(2.00),
+          offset: Offset(0, 4),
+        ),
+      ],
+    ),
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Padding(
+          padding: getPadding(left: 23, top: 27, right: 23),
+          child: Text(
+            "Heart Rate",
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.start,
+            style: TextStyle(
+              color: ColorConstant.black900,
+              fontSize: getFontSize(15),
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w500,
+              height: 1.00,
+            ),
+          ),
+        ),
+        Align(
+          alignment: Alignment.center,
+          child: Padding(
+            padding: getPadding(left: 22, top: 19, right: 22, bottom: 22),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Container(
+                  margin: getMargin(left: 7, top: 2, bottom: 1),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
                       Align(
                         alignment: Alignment.center,
-                        child: Container(
-                          width: double.infinity,
-                          margin: getMargin(
-                            left: 15,
-                            top: 23,
-                            right: 15,
+                        child: Text(
+                          "180",
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                            color: ColorConstant.bluegray800,
+                            fontSize: getFontSize(13),
+                            fontFamily: 'Open Sans',
+                            fontWeight: FontWeight.w400,
+                            height: 1.00,
                           ),
-                          decoration: BoxDecoration(
-                            color: ColorConstant.whiteA700,
-                            borderRadius: BorderRadius.circular(
-                              getHorizontalSize(
-                                7.70,
-                              ),
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: ColorConstant.bluegray5099,
-                                spreadRadius: getHorizontalSize(
-                                  2.00,
-                                ),
-                                blurRadius: getHorizontalSize(
-                                  2.00,
-                                ),
-                                offset: Offset(
-                                  0,
-                                  4,
-                                ),
-                              ),
-                            ],
+                        ),
+                      ),
+                      Padding(
+                        padding: getPadding(top: 94, right: 7),
+                        child: Text(
+                          "50",
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                            color: ColorConstant.bluegray800,
+                            fontSize: getFontSize(13),
+                            fontFamily: 'Open Sans',
+                            fontWeight: FontWeight.w400,
+                            height: 1.00,
                           ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: getPadding(
-                                  left: 23,
-                                  top: 27,
-                                  right: 23,
-                                ),
-                                child: Text(
-                                  "Heart Rate",
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    color: ColorConstant.black900,
-                                    fontSize: getFontSize(
-                                      15,
-                                    ),
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w500,
-                                    height: 1.00,
-                                  ),
-                                ),
-                              ),
-                              Align(
-                                alignment: Alignment.center,
-                                child: Padding(
-                                  padding: getPadding(
-                                    left: 22,
-                                    top: 19,
-                                    right: 22,
-                                    bottom: 22,
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Container(
-                                        margin: getMargin(
-                                          left: 7,
-                                          top: 2,
-                                          bottom: 1,
-                                        ),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Align(
-                                              alignment: Alignment.center,
-                                              child: Text(
-                                                "180",
-                                                overflow: TextOverflow.ellipsis,
-                                                textAlign: TextAlign.start,
-                                                style: TextStyle(
-                                                  color:
-                                                      ColorConstant.bluegray800,
-                                                  fontSize: getFontSize(
-                                                    13,
-                                                  ),
-                                                  fontFamily: 'Open Sans',
-                                                  fontWeight: FontWeight.w400,
-                                                  height: 1.00,
-                                                ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: getPadding(
-                                                top: 94,
-                                                right: 7,
-                                              ),
-                                              child: Text(
-                                                "50",
-                                                overflow: TextOverflow.ellipsis,
-                                                textAlign: TextAlign.start,
-                                                style: TextStyle(
-                                                  color:
-                                                      ColorConstant.bluegray800,
-                                                  fontSize: getFontSize(
-                                                    13,
-                                                  ),
-                                                  fontFamily: 'Open Sans',
-                                                  fontWeight: FontWeight.w400,
-                                                  height: 1.00,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        height: getVerticalSize(
-                                          124.00,
-                                        ),
-                                        width: getHorizontalSize(
-                                          238.00,
-                                        ),
-                                        margin: getMargin(
-                                            left:  0 ,
-                                            right:  8),
-                                        child: Stack(
-                                          alignment: Alignment.topRight,
-                                          children: [
-                                            Align(
-                                              alignment: Alignment.center,
-                                              child: Padding(
-                                                padding: getPadding(left: 10),
-                                                child: IconButton(
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  height: getVerticalSize(124.00),
+                  width: getHorizontalSize(238.00),
+                  margin: getMargin(left: 0, right: 8),
+                  child: Stack(
+                    alignment: Alignment.topRight,
+                    children: [
+                      Align(
+                        alignment: Alignment.center,
+                        child: Padding(
+                          padding: getPadding(left: 10),
+                          child: IconButton(
                             onPressed: () {
                               // Takes us to Achievements Page
                               Navigator.push(
@@ -742,7 +697,7 @@ class SummaryScreen extends StatelessWidget {
                               );
                             },
                             icon: Image.asset('images/Trophy1.png'),
-                            iconSize: 150,
+                            iconSize:150,
                           ),
                                             ),)
                                             

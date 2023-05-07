@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sp_fitness_app/services/auth.dart';
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:sp_fitness_app/screens/home/chat.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:collection/collection.dart';
 
 String initData() {
   final AuthService auth = AuthService();
@@ -23,7 +26,7 @@ class Tab1 extends StatelessWidget {
     await pokeFunction.call({'friendId': friendId});
   }
 
-  @override
+ @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
@@ -130,45 +133,112 @@ class Tab1 extends StatelessWidget {
                                       // fontWeight: FontWeight.bold,
                                       ),
                                 ),
-                                subtitle: const Text(
-                                  'Joined on 01/01/2023',
-                                  style: TextStyle(
-                                      color: Colors.grey, fontFamily: 'Averta'),
-                                ),
-                                trailing: SizedBox(
-                                  width: 60,
-                                  child: ElevatedButton.icon(
-                                    // onPressed: () =>
-                                    //     _pokeFriend(friendsList[index]),
-                                    onPressed: () {},
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color.fromARGB(
-                                          255, 255, 93, 81),
-                                      padding: const EdgeInsets.all(8.0),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15),
+                                      subtitle: const Text(
+                                        'Joined on 01/01/2023',
+                                        style: TextStyle(
+                                            color: Colors.grey, fontFamily: 'Averta'),
+                                      ),
+                                      trailing: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          IconButton(
+                                            icon: Icon(Icons.chat, color: Theme.of(context).primaryColor),
+                                            onPressed: () async {
+                                              print('Friend UID: ${friendsList[index]}');
+
+                                              QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
+                                                  .collection('Users')
+                                                  .where('email', isEqualTo: friendsList[index])
+                                                  .get();
+
+                                              if (querySnapshot.docs.isNotEmpty) {
+                                                QueryDocumentSnapshot<Map<String, dynamic>> userDoc = querySnapshot.docs.first;
+                                                print('Chatrooms: ${userDoc['chatrooms']}');
+                                                // Get the current user's UID
+                                                final currentUser = FirebaseAuth.instance.currentUser!;
+                                                final currentUserEmail = currentUser.email!;
+
+                                                String? chatroomId = await getChatroomId(currentUserEmail, friendsList[index]);
+
+                                                if (chatroomId != null) {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) => ChatPage(
+                                                        chatroomId: chatroomId,
+                                                        currentUserUid: currentUser.uid,
+                                                      ),
+                                                    ),
+                                                  );
+                                                } else {
+                                                  // Handle the case when no chatroom is found
+                                                  ScaffoldMessenger.of(context).showSnackBar(
+                                                    SnackBar(
+                                                      content: Text('Chatroom not found'),
+                                                    ),
+                                                  );
+                                                }
+                                              } else {
+                                                // Show an error message or handle the case when no user document is found
+                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                  SnackBar(
+                                                    content: Text('User not found'),
+                                                  ),
+                                                );
+                                              }
+                                            },
+                                          ),
+                                          SizedBox(width: 8),
+                                          IconButton(
+                                            icon: Icon(Icons.swipe_down, color: Theme.of(context).primaryColor),
+                                            onPressed: () {
+                                              _pokeFriend(friendsList[index]);
+                                            },
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                    icon: const Icon(
-                                      Icons.swipe_down,
-                                      color: Colors.white,
-                                      size: 20,
-                                    ),
-                                    label: const Text(""),
                                   ),
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                  }
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+                                );
+                              },
+                            );
+                        }
+                      },
+                    ),
+                  
+                
+              
+            
+          
+        
+      
+    
+  ]))));}}
+
+Future<String?> getChatroomId(String currentUserEmail, String friendEmail) async {
+  final currentUserDocSnapshot = await FirebaseFirestore.instance
+      .collection('Users')
+      .where('email', isEqualTo: currentUserEmail)
+      .get();
+  final friendDocSnapshot = await FirebaseFirestore.instance
+      .collection('Users')
+      .where('email', isEqualTo: friendEmail)
+      .get();
+
+  if (currentUserDocSnapshot.docs.isNotEmpty && friendDocSnapshot.docs.isNotEmpty) {
+    DocumentSnapshot<Map<String, dynamic>> currentUserDoc = currentUserDocSnapshot.docs.first;
+    DocumentSnapshot<Map<String, dynamic>> friendDoc = friendDocSnapshot.docs.first;
+
+    List<String> currentUserChatrooms = List<String>.from(currentUserDoc['chatrooms']);
+    List<String> friendChatrooms = List<String>.from(friendDoc['chatrooms']);
+
+    for (final chatroom in currentUserChatrooms) {
+      if (friendChatrooms.contains(chatroom)) {
+        return chatroom;
+      }
+    }
+  } else {
+    print("User document(s) not found.");
   }
+  return null;
 }

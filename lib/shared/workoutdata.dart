@@ -12,71 +12,93 @@ import 'package:sp_fitness_app/screens/home/home.dart';
 
 
 
-// Get the user data for the current user
+
 //Stream<QuerySnapshot> userData = getUserData('currentUserId');
 
 class WorkoutData extends ChangeNotifier {
-
   final db = HiveDatabase();
-  
-  List<Workout> _workouts = [
-    
-    Workout(
-      name: "Day 1",
-      exercises: [
-        Exercise(
-          name: "Squat",
-          weight: "45",
-          reps: "5",
-          sets: "5",
-        ),
-        Exercise(
-          name: "Overhead Press",
-          weight: "45",
-          reps: "5",
-          sets: "5",
-        ),
-        Exercise(
-          name: "Bench Press",
-          weight: "65",
-          reps: "5",
-          sets: "5",
-        )
-      ],
-    ),
 
-  ];
+  List<Workout> _workouts = [];
 
-  /*List<String> suggestWorkouts(int frequency) {
-  List<String> workouts = [];
-
-  if (frequency == 1) {
-    workouts.add('Day 1: Squat, Bench Press, Barbell Row');
-  } else if (frequency == 2) {
-    workouts.add('Day 1: Squat, Bench Press, Barbell Row');
-    workouts.add('Day 2: Squat, Overhead Press, Deadlift');
-  } else if (frequency == 3) {
-    workouts.add('Day 1: Squat, Bench Press, Barbell Row');
-    workouts.add('Day 2: Squat, Overhead Press, Deadlift');
-    workouts.add('Day 3: Squat, Bench Press, Barbell Row');
-  } else if (frequency == 4) {
-    workouts.add('Day 1: Squat, Bench Press, Barbell Row');
-    workouts.add('Day 2: Overhead Press, Deadlift');
-    workouts.add('Day 3: Squat, Bench Press, Barbell Row');
-    workouts.add('Day 4: Overhead Press, Deadlift');
-  } else if (frequency == 5) {
-    workouts.add('Day 1: Squat, Bench Press, Barbell Row');
-    workouts.add('Day 2: Overhead Press, Deadlift');
-    workouts.add('Day 3: Squat, Bench Press, Barbell Row');
-    workouts.add('Day 4: Overhead Press, Deadlift');
-    workouts.add('Day 5: Squat, Bench Press, Barbell Row');
-  } else {
-    workouts.add('Invalid frequency. Please choose a value between 1 and 5.');
+  WorkoutData({required int frequency, required int userLevel}) {
+    _initializeWorkouts(frequency, userLevel);
   }
 
-  return workouts;
-} */
+  void _initializeWorkouts(int frequency, int userLevel) {
+    Map<int, Map<String, String>> levelStartingWeights = {
+      1: {'Squat': '45', 'Bench Press': '65', 'Barbell Row': '65', 'Overhead Press': '45', 'Deadlift': '95'},
+      2: {'Squat': '95', 'Bench Press': '135', 'Barbell Row': '135', 'Overhead Press': '95', 'Deadlift': '185'},
+      3: {'Squat': '135', 'Bench Press': '185', 'Barbell Row': '185', 'Overhead Press': '135', 'Deadlift': '225'},
+    };
 
+    Map<String, String> startingWeights = levelStartingWeights[userLevel]!;
+
+    _workouts = [
+      Workout(
+        name: "Day 1",
+        exercises: [
+          Exercise(
+            name: "Squat",
+            weight: startingWeights['Squat']!,
+            reps: "5",
+            sets: "5",
+          ),
+          Exercise(
+            name: "Bench Press",
+            weight: startingWeights['Bench Press']!,
+            reps: "5",
+            sets: "5",
+          ),
+          Exercise(
+            name: "Barbell Row",
+            weight: startingWeights['Barbell Row']!,
+            reps: "5",
+            sets: "5",
+          ),
+        ],
+      ),
+    ];
+
+    if (frequency >= 2) {
+      _workouts.add(
+        Workout(
+          name: "Day 2",
+          exercises: [
+            Exercise(
+              name: "Squat",
+              weight: startingWeights['Squat']!,
+              reps: "5",
+              sets: "5",
+            ),
+            Exercise(
+              name: "Overhead Press",
+              weight: startingWeights['Overhead Press']!,
+              reps: "5",
+              sets: "5",
+            ),
+            Exercise(
+              name: "Deadlift",
+              weight: startingWeights['Deadlift']!,
+              reps: "5",
+              sets: "5",
+            ),
+          ],
+        ),
+      );
+    }
+
+    if (frequency >= 3) {
+      _workouts.add(_workouts[0]);
+    }
+
+    if (frequency >= 4) {
+      _workouts.add(_workouts[1]);
+    }
+
+    if (frequency == 5) {
+      _workouts.add(_workouts[0]);
+    }
+  }
 
  // if there is workouts already in database, then make _workouts list that, otherwise it remains as default
   void initializeWorkoutList() {
@@ -88,6 +110,30 @@ class WorkoutData extends ChangeNotifier {
 
     // load heat map
     loadHeatMap();
+  }
+
+  void completeWorkout(String workoutName) {
+    Workout workout = getRelevantWorkout(workoutName);
+    workout.exercises.forEach((exercise) {
+      int currentWeight = int.parse(exercise.weight);
+      int newWeight = currentWeight + 5;
+      exercise.weight = newWeight.toString();
+    });
+
+    void uncheckExercise(String workoutName, String exerciseName) {
+  // find the relevant exercise in the workout
+    Exercise relevantExercise = getRelevantExercise(workoutName, exerciseName);
+
+  // Set the isCompleted boolean to false
+    relevantExercise.isCompleted = false;
+
+   notifyListeners();
+  // save in database
+   db.saveToDatabase(_workouts);
+  }
+
+    notifyListeners();
+    db.saveToDatabase(_workouts);
   }
 
   String getStartDate() {
@@ -242,4 +288,6 @@ class WorkoutData extends ChangeNotifier {
       print(heatMapDataSet);
     }
   }
+
+  void uncheckExercise(String workoutName, String name) {}
 }
