@@ -382,11 +382,12 @@ packages:
   flutter_form_builder:
     dependency: "direct main"
     description:
-      name: flutter_form_builder
-      sha256: "9551c7379adc01a3a3a1100057396407c9534ea8adc937d14a0edd96fcd9e1dc"
-      url: "https://pub.dev"
-    source: hosted
-    version: "7.8.0"
+      path: "."
+      ref: HEAD
+      resolved-ref: "4ec51a9b799a449748d4332ab20e4f40a38edaf4"
+      url: "https://github.com/Sportner/flutter_form_builder.git"
+    source: git
+    version: "5.0.0"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -1133,5 +1134,5 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">2.19.0 <3.0.0"
-  flutter: ">=3.7.0"
+  dart: ">=2.19.0 <3.0.0"
+  flutter: ">=3.7.0-0"
