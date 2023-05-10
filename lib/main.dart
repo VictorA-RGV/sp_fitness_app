@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
       initialData: UserModel(uid: ''),
       value: AuthService().user,
       child: ChangeNotifierProvider(
-        create: (context) => WorkoutData(frequency: 1, userLevel: 1),
+        create: (context) => WorkoutData(frequency: 5, userLevel: 1),
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           home: Wrapper(),

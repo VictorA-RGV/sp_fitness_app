@@ -52,8 +52,10 @@ class _Gender extends State<Gender> {
                 height: 40.0,
               ),
               // Creates a Button to select
+            
               CustomButton1(
                 keyValue: Key('male'),
+                
                 // Displays the choice
                 // text: 'Male' ,
                 text: 'Male',
