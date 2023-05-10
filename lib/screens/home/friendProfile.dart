@@ -17,43 +17,45 @@ class friendProfile extends StatefulWidget {
   @override
   _friendProfile createState() => _friendProfile();
 }
+
 final List<Trophy> _trophies = [
-    Trophy(
-      name: 'Completed Tutorial',
-      description: 'Finished the app tutorial',
-      imageUrl: 'images/earn_asset.png',
-    ),
-    Trophy(
-      name: 'Daily Login',
-      description: 'Logged in to the app every day for a week',
-      imageUrl: 'images/task_asset.png',
-    ),
-    Trophy(
-      name: 'Feedback Pro',
-      description: 'Submitted 10 feedback reports',
-      imageUrl: 'images/feedback_asset.png',
-    ),
-    Trophy(
-      name: 'VIP User',
-      description: 'Purchased a premium subscription',
-      imageUrl: 'images/vip_asset.png',
-    ),
-    Trophy(
-      name: 'Social Media Guru',
-      description: 'Shared the app on social media',
-      imageUrl: 'images/share_asset.png',
-    ),
-    Trophy(
-      name: 'Progress Pal',
-      description: 'friend someone',
-      imageUrl: 'images/friend_asset.png',
-    ),
-    Trophy(
-      name: 'Motivator',
-      description: 'Poke your friends to get them moving 15 times',
-      imageUrl: 'images/poke_asset.png',
-    ),
-  ];
+  Trophy(
+    name: 'Completed Tutorial',
+    description: 'Finished the app tutorial',
+    imageUrl: 'images/earn_asset.png',
+  ),
+  Trophy(
+    name: 'Daily Login',
+    description: 'Logged in to the app every day for a week',
+    imageUrl: 'images/task_asset.png',
+  ),
+  Trophy(
+    name: 'Feedback Pro',
+    description: 'Submitted 10 feedback reports',
+    imageUrl: 'images/feedback_asset.png',
+  ),
+  Trophy(
+    name: 'VIP User',
+    description: 'Purchased a premium subscription',
+    imageUrl: 'images/vip_asset.png',
+  ),
+  Trophy(
+    name: 'Social Media Guru',
+    description: 'Shared the app on social media',
+    imageUrl: 'images/share_asset.png',
+  ),
+  Trophy(
+    name: 'Progress Pal',
+    description: 'friend someone',
+    imageUrl: 'images/friend_asset.png',
+  ),
+  Trophy(
+    name: 'Motivator',
+    description: 'Poke your friends to get them moving 15 times',
+    imageUrl: 'images/poke_asset.png',
+  ),
+];
+
 class _friendProfile extends State<friendProfile> {
   final AuthService _auth = AuthService();
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -192,8 +194,8 @@ class _friendProfile extends State<friendProfile> {
                                       textAlign: TextAlign.left,
                                     ),
                                     // Container for Username. Will display the username
-                                    const Text("  Username placeholder",
-                                        style: TextStyle(
+                                    Text("  ${data.docs[0]['username']}",
+                                        style: const TextStyle(
                                           color: Colors.grey,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 20,
@@ -260,7 +262,8 @@ class _friendProfile extends State<friendProfile> {
                   ],
                 ),
                 Padding(padding: EdgeInsets.only(bottom: 25)),
-                StreamBuilder<QuerySnapshot>( // start of badges
+                StreamBuilder<QuerySnapshot>(
+                    // start of badges
                     stream: userData2,
                     builder: (
                       BuildContext context,
@@ -317,7 +320,8 @@ class _friendProfile extends State<friendProfile> {
                               const SizedBox(height: 5),
                               SizedBox(
                                 height: 80,
-                                child: ListView.builder( // creates the badges!
+                                child: ListView.builder(
+                                  // creates the badges!
                                   scrollDirection: Axis.horizontal,
                                   itemCount: _trophies.length,
                                   itemBuilder: (context, index) {
