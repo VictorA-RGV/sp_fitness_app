@@ -735,9 +735,9 @@ class _ProfilePage extends State<ProfilePage> {
             ),
             const SizedBox(height: 4),
             Text(
-              data.docs[0]['selection'] == 1
+              data.docs[0]['userLevel'] == 1
                   ? "Beginner"
-                  : data.docs[0]['selection'] == 2
+                  : data.docs[0]['userLevel'] == 2
                       ? "Intermediate"
                       : "Advanced",
               style: const TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 20),
