@@ -7,6 +7,7 @@ import 'package:sp_fitness_app/screens/Startup/get_started.dart';
 //depending if the user is logged in or not will be moved to either authenticate or home page
 class Wrapper extends StatelessWidget {
   const Wrapper({super.key});
+  
 
   @override
   Widget build(BuildContext context) {
