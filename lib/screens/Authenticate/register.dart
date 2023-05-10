@@ -13,7 +13,7 @@ class Register extends StatefulWidget {
   String gender;
   double weight;
   String height;
-  
+
   int frequency;
   int userLevel;
 
@@ -25,8 +25,8 @@ class Register extends StatefulWidget {
 
   // === This is how I was thinking of calling the constructor for the Register page ===========
   //
-  Register(this.age, this.gender, this.weight, this.height,
-      this.frequency, this.userLevel);
+  Register(this.age, this.gender, this.weight, this.height, this.frequency,
+      this.userLevel);
   //
   // ===========================================================================================
 
@@ -48,11 +48,11 @@ class _RegisterState extends State<Register> {
     super.initState();
     workoutData =
         WorkoutData(frequency: widget.frequency, userLevel: widget.userLevel);
-   
   }
 
   //txt field state
   String email = '';
+  String username = '';
   String password = '';
   String confirmPassword = '';
   String error = '';
@@ -75,165 +75,184 @@ class _RegisterState extends State<Register> {
                 key: Key('register-back-button'),
               ),
             ),
-            body: SingleChildScrollView(
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 20.0, horizontal: 50.0),
-                child: Form(
-                  // will be used to validate the form
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      const Text(
-                        'Register',
-                        key: Key('register-screen'),
-                        style: TextStyle(
-                          fontFamily: 'Roboto',
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
+            body: Container(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
+              child: Form(
+                // will be used to validate the form
+                key: _formKey,
+                child: Column(
+                  children: [
+                    const Text(
+                      'Register',
+                      key: Key('register-screen'),
+                      style: TextStyle(
+                        fontFamily: 'Roboto',
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20.0,
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
                         ),
+                        hintText: 'Username',
+                        hintStyle: TextStyle(color: Colors.grey),
                       ),
-                      const SizedBox(
-                        height: 20.0,
-                      ),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                          hintText: 'Email',
-                          hintStyle: TextStyle(color: Colors.grey),
+                      validator: (value) =>
+                          value!.isEmpty ? 'Enter username' : null,
+                      onChanged: (value) {
+                        setState(
+                          () {
+                            username = value;
+                          },
+                        );
+                      },
+                    ),
+                    const SizedBox(
+                      height: 20.0,
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
                         ),
-                        validator: (value) =>
-                            value!.isEmpty ? 'Enter an email' : null,
-                        onChanged: (value) {
-                          setState(
-                            () {
-                              email = value;
-                            },
-                          );
-                        },
+                        hintText: 'Email',
+                        hintStyle: TextStyle(color: Colors.grey),
                       ),
-                      const SizedBox(
-                        height: 20.0,
-                      ),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                          hintText: 'Password',
-                          hintStyle: TextStyle(color: Colors.grey),
+                      validator: (value) =>
+                          value!.isEmpty ? 'Enter an email' : null,
+                      onChanged: (value) {
+                        setState(
+                          () {
+                            email = value;
+                          },
+                        );
+                      },
+                    ),
+                    const SizedBox(
+                      height: 20.0,
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
                         ),
-                        obscureText: true,
-                        validator: (value) => value!.length < 6
-                            ? 'Enter a password with 6+ chars long'
-                            : null,
-                        onChanged: (value) {
+                        hintText: 'Password',
+                        hintStyle: TextStyle(color: Colors.grey),
+                      ),
+                      obscureText: true,
+                      validator: (value) => value!.length < 6
+                          ? 'Enter a password with 6+ chars long'
+                          : null,
+                      onChanged: (value) {
+                        setState(() {
+                          password = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(
+                      height: 20.0,
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        hintText: 'Confirm Password',
+                        hintStyle: TextStyle(color: Colors.grey),
+                      ),
+                      obscureText: true,
+                      validator: (value) {
+                        if (value != password) {
+                          return 'Passwords do not match';
+                        }
+                        if (value!.length < 6) {
+                          return 'Enter a password with 6+ chars long';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        setState(
+                          () {
+                            confirmPassword = value;
+                          },
+                        );
+                      },
+                    ),
+                    const SizedBox(
+                      height: 20.0,
+                    ),
+                    Expanded(
+                      child:
+                          Container(), // puts our elevatedButton at the bottom.
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
                           setState(() {
-                            password = value;
+                            loading = true;
                           });
-                        },
-                      ),
-                      const SizedBox(
-                        height: 20.0,
-                      ),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                          hintText: 'Confirm Password',
-                          hintStyle: TextStyle(color: Colors.grey),
-                        ),
-                        obscureText: true,
-                        validator: (value) {
-                          if (value != password) {
-                            return 'Passwords do not match';
-                          }
-                          if (value!.length < 6) {
-                            return 'Enter a password with 6+ chars long';
-                          }
-                          return null;
-                        },
-                        onChanged: (value) {
-                          setState(
-                            () {
-                              confirmPassword = value;
-                            },
-                          );
-                        },
-                      ),
-                      const SizedBox(
-                        height: 20.0,
-                      ),
-                      Expanded(
-                        child:
-                            Container(), // puts our elevatedButton at the bottom.
-                      ),
-                      ElevatedButton(
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            setState(() {
-                              loading = true;
-                            });
-                            dynamic result = await _auth
-                                .registerWithEmailAndPassword(email, password);
-                                await initHive();
+                          dynamic result = await _auth
+                              .registerWithEmailAndPassword(email, password);
+                          await initHive();
 
 // gender, this.weight, this.height, this.selection
-                            user.add({
-                              'uid': result.uid,
-                              'username': "username",
-                              'ProfilePic': "",
-                              'email': email,
-                              'age': widget.age,
-                              'gender': widget.gender,
-                              'weight': widget.weight,
-                              'height': widget.height,
-                              'frequency': widget.frequency,
-                              'userLevel': widget.userLevel,
-                              'requests': [],
-                              'friends': [],
-                              'badges': []
-                            }).then((value) => print('user added'));
+                          user.add({
+                            'uid': result.uid,
+                            username: "username",
+                            'ProfilePic': "",
+                            'email': email,
+                            'age': widget.age,
+                            'gender': widget.gender,
+                            'weight': widget.weight,
+                            'height': widget.height,
+                            'frequency': widget.frequency,
+                            'userLevel': widget.userLevel,
+                            'requests': [],
+                            'friends': [],
+                            'badges': []
+                          }).then((value) => print('user added'));
 
-                            if (result == null) {
-                              setState(() {
-                                error = 'please supply a valid email';
-                                loading = false;
-                              });
-                            } else
-                              Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                   // Replace this with the actual uid
-                                    
-                                  builder: (context) => Wrapper(),
-                                  
-                                ),
-                              );
-                          }
-                        },
-                        child: const Text('Register'),
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: Size(327, 50),
-                          elevation: 0,
-                          backgroundColor: Color.fromARGB(255, 255, 93, 81),
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(50),
-                            ),
+                          if (result == null) {
+                            setState(() {
+                              error = 'please supply a valid email';
+                              loading = false;
+                            });
+                          } else
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                // Replace this with the actual uid
+
+                                builder: (context) => Wrapper(),
+                              ),
+                            );
+                        }
+                      },
+                      child: const Text('Register'),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(327, 50),
+                        elevation: 0,
+                        backgroundColor: Color.fromARGB(255, 255, 93, 81),
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(50),
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 15.0,
-                        child: Text(error),
-                      )
-                    ],
-                  ),
+                    ),
+                    SizedBox(
+                      height: 15.0,
+                      child: Text(error),
+                    )
+                  ],
                 ),
               ),
-            ));
+            ),
+          );
   }
 }
