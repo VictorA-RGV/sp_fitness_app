@@ -38,159 +38,111 @@ class _HomePageState extends State<HomePage> {
     // Collects User Specific Data
 
     return Padding(
-      padding: const EdgeInsets.only(
-        left: 16.0,
-        right: 16.0,
-        bottom: 16.0,
-      ),
-      child: Scaffold(
-    backgroundColor: Colors.transparent,
-    body: Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Colors.grey.shade100, Colors.grey.shade200],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+        padding: const EdgeInsets.only(
+          left: 16.0,
+          right: 16.0,
+          bottom: 16.0,
         ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(0.0),
-        child: Column(children: [
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  // Box used to make things look nice
-                  Container(
-                    height: 70,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [Colors.pink, Colors.blueGrey],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.1),
-                          spreadRadius: 4,
-                          blurRadius: 6,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              _buildUserInformation(),
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 5, horizontal: 0),
-                                child: Text(
-                                  'Let\'s check your activity',
-                                  style: TextStyle(
-                                      fontSize: 18, color: Colors.white),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            width: 50,
-                            height: 50,
-                            child: _buildUserProfilePic(),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.grey.shade100, Colors.grey.shade200],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
-              const Padding(padding: EdgeInsets.all(8.0)),
-
-              Stack(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            ),
+            child: Padding(
+                padding: const EdgeInsets.all(0.0),
+                child: Column(children: [
+                  Stack(
+                    alignment: Alignment.center,
                     children: [
-                      Expanded(
-                        child: Container(
-                          height: 100,
-                          margin: EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [Colors.deepPurple, Colors.purple],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.1),
-                                spreadRadius: 4,
-                                blurRadius: 6,
-                                offset: Offset(0, 3),
-                              ),
-                            ],
+                      // Box used to make things look nice
+                      Container(
+                        height: 70,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [Colors.pink, Colors.blueGrey],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
                           ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.1),
+                              spreadRadius: 4,
+                              blurRadius: 6,
+                              offset: Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.only(left: 16.0, right: 16.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                passCompletedWorkouts(),
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                                textAlign: TextAlign.center,
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  _buildUserInformation(),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 5, horizontal: 0),
+                                    child: Text(
+                                      'Let\'s check your activity',
+                                      style: TextStyle(
+                                          fontSize: 18, color: Colors.white),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              SizedBox(height: 4),
-                              Text(
-                                "Workouts Completed",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.white70,
-                                ),
-                                textAlign: TextAlign.center,
+                              SizedBox(
+                                width: 50,
+                                height: 50,
+                                child: _buildUserProfilePic(),
                               ),
                             ],
                           ),
                         ),
                       ),
-                      SizedBox(width: 15),
-                      Expanded(
-                        child: Container(
-                          height: 100,
-                          margin: EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [Colors.orange, Colors.deepOrange],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.1),
-                                spreadRadius: 4,
-                                blurRadius: 6,
-                                offset: Offset(0, 3),
+                    ],
+                  ),
+                  const Padding(padding: EdgeInsets.all(8.0)),
+
+                  Stack(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            child: Container(
+                              height: 100,
+                              margin: EdgeInsets.all(8.0),
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [Colors.deepPurple, Colors.purple],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.1),
+                                    spreadRadius: 4,
+                                    blurRadius: 6,
+                                    offset: Offset(0, 3),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
+                              child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    "0",
+                                    passCompletedWorkouts(),
                                     style: TextStyle(
                                       fontSize: 30,
                                       fontWeight: FontWeight.bold,
@@ -198,9 +150,9 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                     textAlign: TextAlign.center,
                                   ),
-                                  SizedBox(width: 8),
+                                  SizedBox(height: 4),
                                   Text(
-                                    "",
+                                    "Workouts Completed",
                                     style: TextStyle(
                                       fontSize: 16,
                                       color: Colors.white70,
@@ -209,273 +161,330 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 4),
-                              Text(
-                                "Workouts In-Progress",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.white70,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
+                          SizedBox(width: 15),
+                          Expanded(
+                            child: Container(
+                              height: 100,
+                              margin: EdgeInsets.all(8.0),
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [Colors.orange, Colors.deepOrange],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.1),
+                                    spreadRadius: 4,
+                                    blurRadius: 6,
+                                    offset: Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "0",
+                                        style: TextStyle(
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      SizedBox(width: 8),
+                                      Text(
+                                        "",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.white70,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 4),
+                                  Text(
+                                    "Workouts In-Progress",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.white70,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
-              ),
 
-              // Where the buttons are
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // Achievements Button
-                    Flexible(
-                      child: InkWell(
-                        onTap: () {
-                          // Takes us to Achievements Page
-                          Navigator.push(
-                            context,
-                            SlideRightRoute(page: CurrencyScreen()),
-                          );
-                        },
-                        child: Container(
-                          width: 175,
-                          height: 150,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.teal.shade200,
-                                Colors.purpleAccent
-                              ],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
+                  // Where the buttons are
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Achievements Button
+                        Flexible(
+                          child: InkWell(
+                            onTap: () {
+                              // Takes us to Achievements Page
+                              Navigator.push(
+                                context,
+                                SlideRightRoute(page: CurrencyScreen()),
+                              );
+                            },
+                            child: Container(
+                              width: 175,
+                              height: 150,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Colors.teal.shade200,
+                                    Colors.purpleAccent
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.1),
+                                    spreadRadius: 4,
+                                    blurRadius: 6,
+                                    offset: Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset('images/Trophy1.png', height: 90),
+                                  SizedBox(height: 10),
+                                  Text(
+                                    "Achievements",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                        color: Colors.white),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
                             ),
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.1),
-                                spreadRadius: 4,
-                                blurRadius: 6,
-                                offset: Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset('images/Trophy1.png', height: 90),
-                              SizedBox(height: 10),
-                              Text(
-                                "Achievements",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    color: Colors.white),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
                           ),
                         ),
-                      ),
-                    ),
-                    const SizedBox(width: 15.0),
-                    // Workout Button
-                    Flexible(
-                      child: InkWell(
-                        onTap: () {
-                          // Takes us to  Worrkout Page
-                          Navigator.push(
-                            context,
-                            SlideLeftRoute(page: SecondHomePage()),
-                          );
-                        },
-                        child: Container(
-                          width: 175,
-                          height: 150,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.green.shade700,
-                                Colors.lightGreenAccent.shade200
-                              ],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
+                        const SizedBox(width: 15.0),
+                        // Workout Button
+                        Flexible(
+                          child: InkWell(
+                            onTap: () {
+                              // Takes us to  Worrkout Page
+                              Navigator.push(
+                                context,
+                                SlideLeftRoute(page: SecondHomePage()),
+                              );
+                            },
+                            child: Container(
+                              width: 175,
+                              height: 150,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Colors.green.shade700,
+                                    Colors.lightGreenAccent.shade200
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.1),
+                                    spreadRadius: 4,
+                                    blurRadius: 6,
+                                    offset: Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  Image.asset('images/gym1.png', height: 80),
+                                  const SizedBox(height: 16),
+                                  Text(
+                                    "Workout",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                        color: Colors.white),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
                             ),
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.1),
-                                spreadRadius: 4,
-                                blurRadius: 6,
-                                offset: Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const SizedBox(
-                                height: 8,
-                              ),
-                              Image.asset('images/gym1.png', height: 80),
-                              const SizedBox(height: 16),
-                              Text(
-                                "Workout",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    color: Colors.white),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
                           ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
+                  ),
 
-              /// SECOND ROW OF STUFF
-              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-                // Achievements Button
-                Stack(
-                  alignment: Alignment.bottomCenter,
-                  children: [
-                    Container(
-                      width: 175,
-                      height: 150,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [Colors.yellowAccent, Colors.lightBlueAccent.shade200],
-                          
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
+                  /// SECOND ROW OF STUFF
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        // Achievements Button
+                        Stack(
+                          alignment: Alignment.bottomCenter,
+                          children: [
+                            Container(
+                              width: 175,
+                              height: 150,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Colors.yellowAccent,
+                                    Colors.lightBlueAccent.shade200
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.1),
+                                    spreadRadius: 4,
+                                    blurRadius: 6,
+                                    offset: Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: Column(
+                                children: [
+                                  Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      IconButton(
+                                        onPressed: () {
+                                          // Takes us to Achievements Page
+                                          Navigator.push(
+                                            context,
+                                            SlideUpRoute(page: SummaryScreen()),
+                                          );
+                                        },
+                                        icon: Image.asset('images/chart.png'),
+                                        iconSize: 100,
+                                        color: Colors.grey,
+                                      ),
+                                    ],
+                                  ),
+                                  Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      Text(
+                                        "Statistics",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
+                                            color: Colors.white),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.1),
-                            spreadRadius: 4,
-                            blurRadius: 6,
-                            offset: Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        children: [
-                          Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              IconButton(
-                                onPressed: () {
-                                  // Takes us to Achievements Page
-                                  Navigator.push(
-                                    context,
-                                    SlideUpRoute(page: SummaryScreen()),
-                                  );
-                                },
-                                icon: Image.asset('images/chart.png'),
-                                iconSize: 100,
-                                color: Colors.grey,
+                        const SizedBox(
+                          width: 10.0,
+                        ),
+                        //  Workout Button
+                        Stack(
+                          alignment: Alignment.bottomCenter,
+                          children: [
+                            Container(
+                              width: 175,
+                              height: 150,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Colors.red.shade300,
+                                    Colors.lightBlueAccent
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.1),
+                                    spreadRadius: 4,
+                                    blurRadius: 6,
+                                    offset: Offset(0, 3),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                          Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Text(
-                                "Statistics",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    color: Colors.white),
+                              child: Column(
+                                children: [
+                                  const SizedBox(
+                                    height: 16,
+                                  ),
+                                  Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      IconButton(
+                                        onPressed: () {
+                                          // Takes us to Workout Page
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ActivityScreen(),
+                                            ),
+                                          );
+                                        },
+                                        icon: Image.asset('images/heart.png'),
+                                        iconSize: 80,
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 6,
+                                  ),
+                                  Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      Text(
+                                        "Activity",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
+                                            color: Colors.white),
+                                      )
+                                    ],
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  width: 10.0,
-                ),
-                //  Workout Button
-                Stack(
-  alignment: Alignment.bottomCenter,
-  children: [
-    Container(
-      width: 175,
-      height: 150,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Colors.red.shade300, Colors.lightBlueAccent],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 4,
-            blurRadius: 6,
-            offset: Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                      ]),
+                ])),
           ),
-        ],
-      ),
-      child: Column(
-        children: [
-          const SizedBox(
-            height: 16,
-          ),
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              IconButton(
-                onPressed: () {
-                  // Takes us to Workout Page
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ActivityScreen(),
-                    ),
-                  );
-                },
-                icon: Image.asset('images/heart.png'),
-                iconSize: 80,
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 6,
-          ),
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              Text(
-                "Activity",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: Colors.white),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ]),
-            ])),
-      ),
-    ));
+        ));
   }
 }
 
@@ -669,96 +678,127 @@ class _ProfilePage extends State<ProfilePage> {
                         // Get User Data
                         final data = snapshot.requireData;
                         return Stack(
-  children: [
-    Container(
-      width: 375,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(25),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.07),
-            spreadRadius: 6,
-            blurRadius: 3,
-          ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 4),
-            const Text(
-              "Username",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-            const SizedBox(height: 4),
-            const Text(
-              "Username placeholder",
-              style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-            const SizedBox(height: 12),
-            const Text(
-              "Email",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              "${data.docs[0]['email']}",
-              style: const TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-            const SizedBox(height: 12),
-            const Text(
-              "Age",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              "${data.docs[0]['age']}",
-              style: const TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-            const SizedBox(height: 12),
-            const Text(
-              "Gender",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              "${data.docs[0]['gender']}",
-              style: const TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-            const SizedBox(height: 12),
-            const Text(
-              "Fitness Level",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              data.docs[0]['userLevel'] == 1
-                  ? "Beginner"
-                  : data.docs[0]['userLevel'] == 2
-                      ? "Intermediate"
-                      : "Advanced",
-              style: const TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-            const SizedBox(height: 12),
-            const Text(
-              "Initial Weight",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              "${data.docs[0]['weight']}",
-              style: const TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-            const SizedBox(height: 20),
-          ],
-        ),
-      ),
-    ),
-  ],
-);
+                          children: [
+                            Container(
+                              width: 375,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(25),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.07),
+                                    spreadRadius: 6,
+                                    blurRadius: 3,
+                                  ),
+                                ],
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 20),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(height: 4),
+                                    const Text(
+                                      "Username",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      "${data.docs[0]['username']}",
+                                      style: TextStyle(
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
+                                    const SizedBox(height: 12),
+                                    const Text(
+                                      "Email",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      "${data.docs[0]['email']}",
+                                      style: const TextStyle(
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
+                                    const SizedBox(height: 12),
+                                    const Text(
+                                      "Age",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      "${data.docs[0]['age']}",
+                                      style: const TextStyle(
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
+                                    const SizedBox(height: 12),
+                                    const Text(
+                                      "Gender",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      "${data.docs[0]['gender']}",
+                                      style: const TextStyle(
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
+                                    const SizedBox(height: 12),
+                                    const Text(
+                                      "Fitness Level",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      data.docs[0]['userLevel'] == 1
+                                          ? "Beginner"
+                                          : data.docs[0]['userLevel'] == 2
+                                              ? "Intermediate"
+                                              : "Advanced",
+                                      style: const TextStyle(
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
+                                    const SizedBox(height: 12),
+                                    const Text(
+                                      "Initial Weight",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      "${data.docs[0]['weight']}",
+                                      style: const TextStyle(
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
+                                    const SizedBox(height: 20),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
                       },
                     ),
                   ],
