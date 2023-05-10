@@ -126,7 +126,7 @@ class _ExerciseTileState extends State<ExerciseTile> {
                 children: List.generate(
                   5,
                   (index) => Padding(
-                    padding: EdgeInsets.only(right: 5),
+                    padding: EdgeInsets.only(right: 3),
                     child: AppTextButton1(
                       isTapped: buttonStates[index],
                       onTap: () {

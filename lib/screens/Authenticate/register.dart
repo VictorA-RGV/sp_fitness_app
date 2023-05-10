@@ -77,7 +77,7 @@ class _RegisterState extends State<Register> {
             ),
             body: Container(
               padding:
-                  const EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
+                  const EdgeInsets.symmetric(vertical: 5.0, horizontal: 50.0),
               child: Form(
                 // will be used to validate the form
                 key: _formKey,
@@ -93,7 +93,7 @@ class _RegisterState extends State<Register> {
                       ),
                     ),
                     const SizedBox(
-                      height: 20.0,
+                      height: 15.0,
                     ),
                     TextFormField(
                       decoration: InputDecoration(
@@ -246,7 +246,7 @@ class _RegisterState extends State<Register> {
                       ),
                     ),
                     SizedBox(
-                      height: 15.0,
+                      height: 4.0,
                       child: Text(error),
                     )
                   ],
