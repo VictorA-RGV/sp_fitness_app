@@ -33,72 +33,59 @@ class WorkoutData extends ChangeNotifier {
 
     Map<String, String> startingWeights = levelStartingWeights[userLevel]!;
 
-    _workouts = [
-      Workout(
-        name: "Day 1",
-        exercises: [
-          Exercise(
-            name: "Squat",
-            weight: startingWeights['Squat']!,
-            reps: "5",
-            sets: "5",
-          ),
-          Exercise(
-            name: "Bench Press",
-            weight: startingWeights['Bench Press']!,
-            reps: "5",
-            sets: "5",
-          ),
-          Exercise(
-            name: "Barbell Row",
-            weight: startingWeights['Barbell Row']!,
-            reps: "5",
-            sets: "5",
-          ),
-        ],
-      ),
-    ];
-
-    if (frequency >= 2) {
-      _workouts.add(
-        Workout(
-          name: "Day 2",
-          exercises: [
-            Exercise(
-              name: "Squat",
-              weight: startingWeights['Squat']!,
-              reps: "5",
-              sets: "5",
-            ),
-            Exercise(
-              name: "Overhead Press",
-              weight: startingWeights['Overhead Press']!,
-              reps: "5",
-              sets: "5",
-            ),
-            Exercise(
-              name: "Deadlift",
-              weight: startingWeights['Deadlift']!,
-              reps: "5",
-              sets: "5",
-            ),
-          ],
+    for (int i = 1; i <= frequency; i++) {
+  Workout workout;
+  if (i % 2 == 1) {
+    workout = Workout(
+      name: "Day $i",
+      exercises: [
+        Exercise(
+          name: "Squat",
+          weight: startingWeights['Squat']!,
+          reps: "5",
+          sets: "5",
         ),
-      );
-    }
-
-    if (frequency >= 3) {
-      _workouts.add(_workouts[0]);
-    }
-
-    if (frequency >= 4) {
-      _workouts.add(_workouts[1]);
-    }
-
-    if (frequency == 5) {
-      _workouts.add(_workouts[0]);
-    }
+        Exercise(
+          name: "Bench Press",
+          weight: startingWeights['Bench Press']!,
+          reps: "5",
+          sets: "5",
+        ),
+        Exercise(
+          name: "Barbell Row",
+          weight: startingWeights['Barbell Row']!,
+          reps: "5",
+          sets: "5",
+        ),
+      ],
+    );
+  } else {
+    workout = Workout(
+      name: "Day $i",
+      exercises: [
+        Exercise(
+          name: "Squat",
+          weight: startingWeights['Squat']!,
+          reps: "5",
+          sets: "5",
+        ),
+        Exercise(
+          name: "Overhead Press",
+          weight: startingWeights['Overhead Press']!,
+          reps: "5",
+          sets: "5",
+        ),
+        Exercise(
+          name: "Deadlift",
+          weight: startingWeights['Deadlift']!,
+          reps: "5",
+          sets: "5",
+        ),
+      ],
+    );
   }
+  _workouts.add(workout);
+}}
 
  // if there is workouts already in database, then make _workouts list that, otherwise it remains as default
   void initializeWorkoutList() {
