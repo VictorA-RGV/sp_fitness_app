@@ -43,7 +43,7 @@ class _Height extends State<Height> {
               const Text(
                 'Height',
                 style: TextStyle(
-                  fontFamily: 'Roboto',
+                  fontFamily: 'Averta',
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                 ),
@@ -132,14 +132,11 @@ class _Height extends State<Height> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Frequency
-                      (
+                      builder: (context) => Frequency(
                           widget.age, widget.gender, widget.weight, height),
                     ),
                   );
                 },
-                // Text to inform user the purpose of the button
-                child: const Text('Next'),
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(327, 50),
                   elevation: 0,
@@ -149,6 +146,11 @@ class _Height extends State<Height> {
                       Radius.circular(50),
                     ),
                   ),
+                ),
+                // Text to inform user the purpose of the button
+                child: const Text(
+                  'Next',
+                  style: TextStyle(fontFamily: 'Averta'),
                 ),
               ),
             ],
