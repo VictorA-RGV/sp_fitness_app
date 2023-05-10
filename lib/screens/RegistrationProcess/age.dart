@@ -42,7 +42,7 @@ class _Age extends State<Age> {
               const Text(
                 'Age',
                 style: TextStyle(
-                  fontFamily: 'Roboto',
+                  fontFamily: 'Averta',
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                 ),
@@ -100,7 +100,7 @@ class _Age extends State<Age> {
                 // Text of button
                 child: const Text(
                   'Next',
-                  style: TextStyle(fontSize: 15),
+                  style: TextStyle(fontSize: 15, fontFamily: 'Averta'),
                 ),
                 // Changes the apperance of the button
                 style: ElevatedButton.styleFrom(

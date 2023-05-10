@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sp_fitness_app/core/app_export.dart';
 
-
 class CustomButton1 extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
@@ -15,7 +14,7 @@ class CustomButton1 extends StatelessWidget {
     return ElevatedButton(
       key: keyValue,
       onPressed: onPressed,
-      child: Text(text),
+      child: Text(text, style: TextStyle(fontFamily: 'Averta')),
       style: ElevatedButton.styleFrom(
         minimumSize: Size(327, 50),
         elevation: 0,
@@ -29,7 +28,6 @@ class CustomButton1 extends StatelessWidget {
     );
   }
 }
-
 
 // ignore: must_be_immutable
 class CustomButton extends StatelessWidget {
@@ -74,12 +72,11 @@ class CustomButton extends StatelessWidget {
 
   _buildButtonWidget() {
     return Container(
-       margin: margin,
+      margin: margin,
       child: InkWell(
         onTap: onTap,
         child: Container(
           width: getHorizontalSize(width ?? 0),
-         
           padding: _setPadding(),
           decoration: _buildDecoration(),
           child: Text(
@@ -501,12 +498,14 @@ enum ButtonShape {
   CircleBorder15,
   RoundedBorder19,
 }
+
 enum ButtonPadding {
   PaddingAll18,
   PaddingAll14,
   PaddingAll9,
   PaddingAll5,
 }
+
 enum ButtonVariant {
   OutlineDeeporange50033,
   FillWhiteA700,
@@ -523,6 +522,7 @@ enum ButtonVariant {
   OutlineDeeporange5011_2,
   OutlineBlack9000a1_2,
 }
+
 enum ButtonFontStyle {
   PoppinsMedium1636,
   RobotoRegular2502,

@@ -457,7 +457,7 @@ class CustomButton extends StatelessWidget {
           fontSize: getFontSize(
             16.36,
           ),
-          fontFamily: 'Poppins',
+          fontFamily: 'Averta',
           fontWeight: FontWeight.w500,
         );
     }

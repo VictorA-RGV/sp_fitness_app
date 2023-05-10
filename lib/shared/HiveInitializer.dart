@@ -7,6 +7,7 @@ Future<void> initHive() async {
     await Hive.initFlutter();
      Hive.registerAdapter(AchievementAdapter());
     final box = await Hive.openBox("workout_database");
+    await box.clear();
     
    //final dataList = box.values.toList();
    for (var key in box.keys) {

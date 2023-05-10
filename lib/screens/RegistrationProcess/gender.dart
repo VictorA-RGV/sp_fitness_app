@@ -42,7 +42,7 @@ class _Gender extends State<Gender> {
               const Text(
                 'Gender',
                 style: TextStyle(
-                  fontFamily: 'Roboto',
+                  fontFamily: 'Averta',
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                 ),
@@ -52,10 +52,14 @@ class _Gender extends State<Gender> {
                 height: 40.0,
               ),
               // Creates a Button to select
+            
               CustomButton1(
                 keyValue: Key('male'),
+                
                 // Displays the choice
+                // text: 'Male' ,
                 text: 'Male',
+
                 // Upon tapping the button. Transfer choice to variable and move to the next screen.
                 onPressed: () async {
                   gender = "Male";

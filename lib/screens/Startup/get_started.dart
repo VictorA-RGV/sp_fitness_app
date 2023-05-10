@@ -14,23 +14,36 @@ class _GetStarted extends State<GetStarted> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       // appBar: AppBar(
       //   title: Text("Get Started Screen"),
       // ),
       body: Column(
         children: [
           const SizedBox(height: 50),
+          // Container(
+          //   padding: EdgeInsets.all(32.0),
+          //   // Displays a logo at the top
+          //   child: SvgPicture.asset(
+          //     "images/logoipsum.svg",
+          //     height: 50,
+          //     width: 50,
+          //   ),
+          // ),
           Container(
-            padding: EdgeInsets.all(32.0),
-            // Displays a logo at the top
-            child: SvgPicture.asset(
-              "images/logoipsum.svg",
-              height: 50,
-              width: 50,
+            height: 180,
+            width: 230,
+            child: const Image(
+              image: AssetImage('images/newlogo.png'),
+              fit: BoxFit.contain,
             ),
           ),
           Container(
-            padding: EdgeInsets.all(32.0),
+            // padding: EdgeInsets.all(32.0),
+            padding: const EdgeInsets.only(
+              left: 32.0,
+              right: 32.0,
+            ),
             // Gets the gif from online. Note: Don't search it. It makes no fucking sense
             child: Lottie.network(
                 'https://assets3.lottiefiles.com/private_files/lf30_i5o0xxk6.json'),
@@ -66,7 +79,7 @@ class _GetStarted extends State<GetStarted> {
               // Text of the button
               child: const Text(
                 "Get Started",
-                style: TextStyle(fontSize: 15),
+                style: TextStyle(fontSize: 15, fontFamily: 'Averta'),
               ),
             ),
           ),
@@ -77,11 +90,11 @@ class _GetStarted extends State<GetStarted> {
                 const Text(
                   'Already have an account? ',
                   style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 15,
                       color: Colors.black,
                       fontWeight: FontWeight.w600,
                       decoration: TextDecoration.none,
-                      fontFamily: 'Roboto'),
+                      fontFamily: 'Averta'),
                 ),
                 GestureDetector(
                   onTap: () {
@@ -97,11 +110,11 @@ class _GetStarted extends State<GetStarted> {
                     'Sign in',
                     key: Key('sign-in'),
                     style: TextStyle(
-                        fontSize: 14,
+                        fontSize: 15,
                         color: Color.fromARGB(255, 255, 93, 81),
                         fontWeight: FontWeight.w600,
                         decoration: TextDecoration.none,
-                        fontFamily: 'Roboto'),
+                        fontFamily: 'Averta'),
                   ),
                 ),
               ],
