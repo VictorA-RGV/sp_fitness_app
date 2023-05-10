@@ -984,10 +984,13 @@ class _FriendsPageState extends State<FriendsPage>
       ),
       child: ListTile(
         onTap: () {
+          print(_searchController.text);
           Navigator.push(
             context,
             MaterialPageRoute(
+              
               builder: (context) => friendProfile(_searchController.text),
+              
             ),
           );
         },
