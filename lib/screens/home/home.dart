@@ -678,127 +678,97 @@ class _ProfilePage extends State<ProfilePage> {
                         // Get User Data
                         final data = snapshot.requireData;
                         return Stack(
-                          children: [
-                            Container(
-                              width: 375,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(25),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.07),
-                                    spreadRadius: 6,
-                                    blurRadius: 3,
-                                  ),
-                                ],
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 20),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const SizedBox(height: 4),
-                                    const Text(
-                                      "Username",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      "${data.docs[0]['username']}",
-                                      style: const TextStyle(
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
-                                    ),
-                                    const SizedBox(height: 12),
-                                    const Text(
-                                      "Email",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      "${data.docs[0]['email']}",
-                                      style: const TextStyle(
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
-                                    ),
-                                    const SizedBox(height: 12),
-                                    const Text(
-                                      "Age",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      "${data.docs[0]['age']}",
-                                      style: const TextStyle(
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
-                                    ),
-                                    const SizedBox(height: 12),
-                                    const Text(
-                                      "Gender",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      "${data.docs[0]['gender']}",
-                                      style: const TextStyle(
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
-                                    ),
-                                    const SizedBox(height: 12),
-                                    const Text(
-                                      "Fitness Level",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      data.docs[0]['selection'] == 1
-                                          ? "Beginner"
-                                          : data.docs[0]['selection'] == 2
-                                              ? "Intermediate"
-                                              : "Advanced",
-                                      style: const TextStyle(
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
-                                    ),
-                                    const SizedBox(height: 12),
-                                    const Text(
-                                      "Initial Weight",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      "${data.docs[0]['weight']}",
-                                      style: const TextStyle(
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
-                                    ),
-                                    const SizedBox(height: 20),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        );
+  children: [
+    Container(
+      width: 375,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(25),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.07),
+            spreadRadius: 6,
+            blurRadius: 3,
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 4),
+            const Text(
+              "Username",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              "${data.docs[0]['username']}",
+              const style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            const SizedBox(height: 12),
+            const Text(
+              "Email",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              "${data.docs[0]['email']}",
+              style: const TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            const SizedBox(height: 12),
+            const Text(
+              "Age",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              "${data.docs[0]['age']}",
+              style: const TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            const SizedBox(height: 12),
+            const Text(
+              "Gender",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              "${data.docs[0]['gender']}",
+              style: const TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            const SizedBox(height: 12),
+            const Text(
+              "Fitness Level",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              data.docs[0]['userLevel'] == 1
+                  ? "Beginner"
+                  : data.docs[0]['userLevel'] == 2
+                      ? "Intermediate"
+                      : "Advanced",
+              style: const TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            const SizedBox(height: 12),
+            const Text(
+              "Initial Weight",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              "${data.docs[0]['weight']}",
+              style: const TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            const SizedBox(height: 20),
+          ],
+        ),
+      ),
+    ),
+  ],
+);
+
                       },
                     ),
                   ],

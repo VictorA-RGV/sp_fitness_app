@@ -232,9 +232,9 @@ class _friendProfile extends State<friendProfile> {
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20)),
                                     Text(
-                                      data.docs[0]['selection'] == 1
+                                      data.docs[0]['userLevel'] == 1
                                           ? "  Beginner"
-                                          : data.docs[0]['selection'] == 2
+                                          : data.docs[0]['userLevel'] == 2
                                               ? "  Intermediate"
                                               : "  Advanced",
                                       style: const TextStyle(
