@@ -11,8 +11,12 @@ class Frequency extends StatefulWidget {
   double weight;
   String height;
 
-
- Frequency(this.age, this.gender, this.weight, this.height, );
+  Frequency(
+    this.age,
+    this.gender,
+    this.weight,
+    this.height,
+  );
 
   @override
   _Frequency createState() => _Frequency();
@@ -24,27 +28,27 @@ class _Frequency extends State<Frequency> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _frequencyController = TextEditingController();
 
- int frequency = 0;
+  int frequency = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        // Turns the App Bar invisible
-        elevation: 0.0,
-        // Button used to go to the previous screen
-        leading: const BackButton(
-          color: Colors.blueGrey,
-          key: Key('frequency-back-button'),
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          // Turns the App Bar invisible
+          elevation: 0.0,
+          // Button used to go to the previous screen
+          leading: const BackButton(
+            color: Colors.blueGrey,
+            key: Key('frequency-back-button'),
+          ),
         ),
-      ),
-      body: Container(
-        alignment: Alignment.center,
-        padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
-        child: Form(
-          child: Column(
-            children: [
+        body: Container(
+            alignment: Alignment.center,
+            padding:
+                const EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
+            child: Form(
+                child: Column(children: [
               const SizedBox(
                 height: 20.0,
               ),
@@ -53,9 +57,9 @@ class _Frequency extends State<Frequency> {
                 'How many times a week would you prefer to work out?',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontFamily: 'Roboto',
+                  fontFamily: 'Averta',
                   fontSize: 30,
-                  fontWeight: FontWeight.bold,
+                  // fontWeight: FontWeight.bold,
                 ),
               ),
               // Padding
@@ -73,7 +77,8 @@ class _Frequency extends State<Frequency> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Strength(widget.age, widget.gender, widget.weight, widget.height,frequency),
+                      builder: (context) => Strength(widget.age, widget.gender,
+                          widget.weight, widget.height, frequency),
                     ),
                   );
                 },
@@ -92,7 +97,8 @@ class _Frequency extends State<Frequency> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Strength(widget.age, widget.gender, widget.weight, widget.height,frequency),
+                      builder: (context) => Strength(widget.age, widget.gender,
+                          widget.weight, widget.height, frequency),
                     ),
                   );
                 },
@@ -111,7 +117,8 @@ class _Frequency extends State<Frequency> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Strength(widget.age, widget.gender, widget.weight, widget.height,frequency),
+                      builder: (context) => Strength(widget.age, widget.gender,
+                          widget.weight, widget.height, frequency),
                     ),
                   );
                 },
@@ -130,11 +137,13 @@ class _Frequency extends State<Frequency> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Strength(widget.age, widget.gender, widget.weight, widget.height,frequency),
+                      builder: (context) => Strength(widget.age, widget.gender,
+                          widget.weight, widget.height, frequency),
                     ),
                   );
                 },
-              ),const SizedBox(
+              ),
+              const SizedBox(
                 height: 20.0,
               ),
               CustomButton1(
@@ -147,7 +156,8 @@ class _Frequency extends State<Frequency> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Strength(widget.age, widget.gender, widget.weight, widget.height,frequency),
+                      builder: (context) => Strength(widget.age, widget.gender,
+                          widget.weight, widget.height, frequency),
                     ),
                   );
                 },
@@ -155,8 +165,9 @@ class _Frequency extends State<Frequency> {
               // Padding
               const SizedBox(
                 height: 20.0,
-              ),]))));
-              
-              //CustomButton
-  }}
-  
+              ),
+            ]))));
+
+    //CustomButton
+  }
+}

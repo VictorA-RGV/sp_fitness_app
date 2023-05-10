@@ -40,7 +40,7 @@ class _Weight extends State<Weight> {
               const Text(
                 'Weight',
                 style: TextStyle(
-                  fontFamily: 'Roboto',
+                  fontFamily: 'Averta',
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                 ),
@@ -90,8 +90,6 @@ class _Weight extends State<Weight> {
                     ),
                   );
                 },
-                // Text to inform user of the purpose of the button
-                child: const Text('Next'),
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(327, 50),
                   elevation: 0,
@@ -101,6 +99,11 @@ class _Weight extends State<Weight> {
                       Radius.circular(50),
                     ),
                   ),
+                ),
+                // Text to inform user of the purpose of the button
+                child: const Text(
+                  'Next',
+                  style: TextStyle(fontFamily: 'Averta'),
                 ),
               ),
             ],

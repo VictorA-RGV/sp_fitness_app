@@ -10,24 +10,19 @@ class Strength extends StatefulWidget {
   double weight;
   String height;
   int frequency;
-  
-  Strength(this.age, this.gender, this.weight, this.height, this.frequency);
-  
 
-  
+  Strength(this.age, this.gender, this.weight, this.height, this.frequency);
 
   @override
   _Strength createState() => _Strength();
 }
 
-
-
 // landing page for a longed in user
 class _Strength extends State<Strength> {
   final AuthService _auth = AuthService();
- // final int days = getFrequency()
+  // final int days = getFrequency()
   // User choice
-  
+
   int selection = 0;
 
   bool showSignIn = true;
@@ -68,7 +63,7 @@ class _Strength extends State<Strength> {
                     "Strength Level",
                     key: Key("Strength-Title"),
                     style: TextStyle(
-                        fontFamily: 'Roboto',
+                        fontFamily: 'Averta',
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
                         color: Colors.blueGrey[900]),
@@ -87,7 +82,7 @@ class _Strength extends State<Strength> {
               height: 50, // height of button
               width: 250,
               child: ElevatedButton(
-                onPressed: ()  {
+                onPressed: () {
                   selection = 2;
                   print(widget.age);
                   print(widget.gender);
@@ -98,12 +93,21 @@ class _Strength extends State<Strength> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                       builder: (context) => Register(widget.age, widget.gender, widget.weight, widget.height, widget.frequency, selection),
+                      builder: (context) => Register(
+                          widget.age,
+                          widget.gender,
+                          widget.weight,
+                          widget.height,
+                          widget.frequency,
+                          selection),
                     ),
                   );
                 },
                 key: Key('beginner-button'),
-                child: Text('Beginner'), // text inside button
+                child: Text(
+                  'Beginner',
+                  style: TextStyle(fontFamily: 'Averta'),
+                ), // text inside button
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(327, 50),
                   elevation: 0,
@@ -134,12 +138,17 @@ class _Strength extends State<Strength> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Register(widget.age, widget.gender, widget.weight, widget.height, widget.frequency, selection),
+                      builder: (context) => Register(
+                          widget.age,
+                          widget.gender,
+                          widget.weight,
+                          widget.height,
+                          widget.frequency,
+                          selection),
                     ),
                   );
                 },
-                key: Key('intermediate-button'),
-                child: Text('Intermediate'), // text inside button
+                key: Key('intermediate-button'), // text inside button
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(327, 50),
                   elevation: 0,
@@ -149,6 +158,10 @@ class _Strength extends State<Strength> {
                       Radius.circular(50),
                     ),
                   ),
+                ),
+                child: const Text(
+                  'Intermediate',
+                  style: TextStyle(fontFamily: 'Averta'),
                 ),
               ),
             ),
@@ -170,12 +183,19 @@ class _Strength extends State<Strength> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Register(widget.age, widget.gender, widget.weight, widget.height, widget.frequency, selection),
+                      builder: (context) => Register(
+                          widget.age,
+                          widget.gender,
+                          widget.weight,
+                          widget.height,
+                          widget.frequency,
+                          selection),
                     ),
                   );
                 },
-                key: Key('advanced-button'),
-                child: Text('Advanced'), // text inside button
+                key: const Key(
+                  'advanced-button',
+                ), // text inside button
 
                 // style: ButtonStyle(
                 //   backgroundColor: MaterialStateProperty.all(Colors.blueGrey),
@@ -197,6 +217,10 @@ class _Strength extends State<Strength> {
                       Radius.circular(50),
                     ),
                   ),
+                ),
+                child: const Text(
+                  'Advanced',
+                  style: TextStyle(fontFamily: 'Averta'),
                 ),
               ),
             ),

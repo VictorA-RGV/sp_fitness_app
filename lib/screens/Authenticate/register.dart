@@ -87,7 +87,7 @@ class _RegisterState extends State<Register> {
                       'Register',
                       key: Key('register-screen'),
                       style: TextStyle(
-                        fontFamily: 'Roboto',
+                        fontFamily: 'Averta',
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
                       ),
@@ -101,7 +101,8 @@ class _RegisterState extends State<Register> {
                           borderRadius: BorderRadius.circular(15.0),
                         ),
                         hintText: 'Username',
-                        hintStyle: TextStyle(color: Colors.grey),
+                        hintStyle: const TextStyle(
+                            color: Colors.grey, fontFamily: 'Averta'),
                       ),
                       validator: (value) =>
                           value!.isEmpty ? 'Enter username' : null,
@@ -122,7 +123,8 @@ class _RegisterState extends State<Register> {
                           borderRadius: BorderRadius.circular(15.0),
                         ),
                         hintText: 'Email',
-                        hintStyle: TextStyle(color: Colors.grey),
+                        hintStyle:
+                            TextStyle(color: Colors.grey, fontFamily: 'Averta'),
                       ),
                       validator: (value) =>
                           value!.isEmpty ? 'Enter an email' : null,
@@ -143,7 +145,8 @@ class _RegisterState extends State<Register> {
                           borderRadius: BorderRadius.circular(15.0),
                         ),
                         hintText: 'Password',
-                        hintStyle: TextStyle(color: Colors.grey),
+                        hintStyle: const TextStyle(
+                            color: Colors.grey, fontFamily: 'Averta'),
                       ),
                       obscureText: true,
                       validator: (value) => value!.length < 6
@@ -164,7 +167,8 @@ class _RegisterState extends State<Register> {
                           borderRadius: BorderRadius.circular(15.0),
                         ),
                         hintText: 'Confirm Password',
-                        hintStyle: TextStyle(color: Colors.grey),
+                        hintStyle: const TextStyle(
+                            color: Colors.grey, fontFamily: 'Averta'),
                       ),
                       obscureText: true,
                       validator: (value) {
@@ -233,7 +237,6 @@ class _RegisterState extends State<Register> {
                             );
                         }
                       },
-                      child: const Text('Register'),
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size(327, 50),
                         elevation: 0,
@@ -243,6 +246,10 @@ class _RegisterState extends State<Register> {
                             Radius.circular(50),
                           ),
                         ),
+                      ),
+                      child: const Text(
+                        'Register',
+                        style: TextStyle(fontFamily: 'Averta'),
                       ),
                     ),
                     SizedBox(

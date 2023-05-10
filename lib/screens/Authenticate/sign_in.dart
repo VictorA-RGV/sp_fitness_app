@@ -50,7 +50,7 @@ class _SignInState extends State<SignIn> {
                       const Text(
                         'Sign in',
                         style: TextStyle(
-                          fontFamily: 'Roboto',
+                          fontFamily: 'Averta',
                           fontSize: 30,
                           fontWeight: FontWeight.bold,
                         ),
@@ -67,7 +67,8 @@ class _SignInState extends State<SignIn> {
                             borderRadius: BorderRadius.circular(15.0),
                           ),
                           hintText: 'Email',
-                          hintStyle: TextStyle(color: Colors.grey),
+                          hintStyle: const TextStyle(
+                              color: Colors.grey, fontFamily: 'Averta'),
                         ),
                         // Makes sure the textfield is not empty.
                         validator: (value) =>
@@ -91,7 +92,8 @@ class _SignInState extends State<SignIn> {
                             borderRadius: BorderRadius.circular(15.0),
                           ),
                           hintText: 'Password',
-                          hintStyle: TextStyle(color: Colors.grey),
+                          hintStyle: const TextStyle(
+                              color: Colors.grey, fontFamily: 'Averta'),
                         ),
                         // Hides password for user
                         obscureText: true,
@@ -137,8 +139,6 @@ class _SignInState extends State<SignIn> {
                               );
                           }
                         },
-                        // Informs user the purpose of the button
-                        child: const Text('Sign in'),
                         style: ElevatedButton.styleFrom(
                           minimumSize: Size(327, 50),
                           elevation: 0,
@@ -148,6 +148,11 @@ class _SignInState extends State<SignIn> {
                               Radius.circular(50),
                             ),
                           ),
+                        ),
+                        // Informs user the purpose of the button
+                        child: const Text(
+                          'Sign in',
+                          style: TextStyle(fontFamily: 'Averta'),
                         ),
                       ),
                       // Where the Error will be dispalyed
