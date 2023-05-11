@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:sp_fitness_app/models/date_time.dart';
+//import 'package:sp_fitness_app/models/date_time.dart';
 import 'package:sp_fitness_app/screens/RegistrationProcess/frequency.dart';
 import 'package:sp_fitness_app/screens/RegistrationProcess/strength.dart';
 import 'package:sp_fitness_app/shared/exercise.dart';
@@ -95,8 +95,6 @@ class WorkoutData extends ChangeNotifier {
       db.saveToDatabase(_workouts);
     }
 
-    // load heat map
-    loadHeatMap();
   }
 
   void completeWorkout(String workoutName) {
@@ -200,8 +198,6 @@ class WorkoutData extends ChangeNotifier {
     // save in database
     db.saveToDatabase(_workouts);
 
-    // load heat map
-    loadHeatMap();
   }
 
   // get length of a given workout
@@ -229,51 +225,6 @@ class WorkoutData extends ChangeNotifier {
     Exercise relevantExercise = relevantWorkout.exercises
         .firstWhere((exercise) => exercise.name == exerciseName);
     return relevantExercise;
-  }
-
-  /*
-
-    HEAT MAP
-
-  */
-
-  Map<DateTime, int> heatMapDataSet = {};
-
-  // load heat map
-  void loadHeatMap() {
-    DateTime startDate = createDateTimeObject(db.getStartDate());
-
-    // count the number of days to load
-    int daysInBetween = DateTime.now().difference(startDate).inDays;
-
-    // go from start date to today and add each completion status to the dataset
-    // "COMPLETION_STATUS_yyyymmdd" will be the key in the database
-    for (int i = 0; i < daysInBetween + 1; i++) {
-      String yyyymmdd = convertDateTimeToYYYYMMDD(
-        startDate.add(Duration(days: i)),
-      );
-
-      // completion status = 0 or 1
-      int completionStatus = db.getCompletionStatus(yyyymmdd);
-
-      // split the datetime up like below so it doesn't worry about hours/mins/secs etc.
-
-      // year
-      int year = startDate.add(Duration(days: i)).year;
-
-      // month
-      int month = startDate.add(Duration(days: i)).month;
-
-      // day
-      int day = startDate.add(Duration(days: i)).day;
-
-      final percentForEachDay = <DateTime, int>{
-        DateTime(year, month, day): completionStatus,
-      };
-
-      heatMapDataSet.addEntries(percentForEachDay.entries);
-      print(heatMapDataSet);
-    }
   }
 
   void uncheckExercise(String workoutName, String name) {}
