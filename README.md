@@ -47,11 +47,11 @@ flutter run
 
 ProgressPals provides a user-friendly interface to track workouts, earn rewards, and maintain consistency. Here's a brief overview of the app's functionality:
 
-- Upon launching the app, users will be prompted to log in or sign up using their preferred authentication method.
+- Upon launching the app, users will be prompted to log in or sign up.
 
-- Once logged in, users will see their dashboard, which displays their badges, current consistency progress, and a list of daily exercise tiles.
+- Once logged in, users will see their dashboard, which displays 4 tiles, 4 clickable navigation bar. main features is workouts, achievements, profile, and friends (can see their profiles)
 
-- The daily exercise tiles are generated based on a predefined exercise set or exercises added by the user. Each tile represents a specific exercise to be performed on that day.
+- Workouts: The daily exercise tiles are generated based on a predefined exercise set or exercises added by the user. Each tile represents a specific exercise to be performed on that day.
 
 - Users can tap on a daily exercise tile to view detailed instructions and perform the exercise. If the exercise is completed, the app will update the user's consistency progress and, if applicable, increase the weight by 5 lbs.
 
